@@ -8,6 +8,48 @@
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="collection.css">
     <link rel="stylesheet" href="preloader.css?v=3.0">
+    <link rel="stylesheet" href="scroll-reveal.css">
+    <style>
+        /* ==========================================================================
+           Hero chair scroll transition (inlined so it can never be missed by
+           forgetting to upload a separate file). Slides the hero chair image
+           in from the right when its section scrolls into view, and back out
+           to the right when it scrolls out of view — both scroll directions.
+           !important is required because index.css already runs a one-time
+           "chicChairEntrance" animation with animation-fill-mode: forwards on
+           .hero-floating-chair; animation-level values otherwise beat plain
+           CSS rules, so this has to explicitly out-rank it.
+           ========================================================================== */
+        .hero-floating-chair.js-chair-reveal {
+            transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+                        opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1) !important;
+        }
+        .hero-floating-chair.js-chair-reveal.js-chair-hidden {
+            opacity: 0 !important;
+            transform: translate(95%, 4%) !important;
+        }
+        .hero-floating-chair.js-chair-reveal.js-chair-visible {
+            opacity: 1 !important;
+            transform: translate(16%, 4%) !important;
+        }
+        @media (max-width: 900px) {
+            .hero-floating-chair.js-chair-reveal.js-chair-visible {
+                opacity: 0.95 !important;
+                transform: translate(16%, 4%) !important;
+            }
+        }
+        @media (max-width: 600px) {
+            .hero-floating-chair.js-chair-reveal.js-chair-visible {
+                opacity: 0.35 !important;
+                transform: translate(22%, 4%) !important;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hero-floating-chair.js-chair-reveal {
+                transition: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -502,6 +544,65 @@
                 resetAutoplay();
             }, { passive: true });
         });
+    </script>
+    <script src="scroll-reveal.js"></script>
+    <script>
+        /* Hero chair scroll transition (inlined — see matching <style> block
+           in <head>). Toggles the chair between a hidden (slid off to the
+           right) state and a visible state as its section scrolls in/out of
+           view, both directions. */
+        (function () {
+            function init() {
+                var chair = document.querySelector('.hero-floating-chair');
+                if (!chair) return;
+
+                var section = chair.closest('.hero-orange-block') || chair.parentElement;
+
+                chair.classList.add('js-chair-reveal');
+                chair.classList.add('js-chair-hidden');
+
+                if (!('IntersectionObserver' in window)) {
+                    chair.classList.remove('js-chair-hidden');
+                    chair.classList.add('js-chair-visible');
+                    return;
+                }
+
+                // Force the browser to actually paint the "hidden" (slid-right)
+                // state before we start observing. Without this, when the hero
+                // is already in view on page load, the observer's first
+                // callback can fire before the hidden state is ever rendered,
+                // so the browser jumps straight to "visible" with no transition.
+                // eslint-disable-next-line no-unused-expressions
+                chair.offsetHeight;
+
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        var observer = new IntersectionObserver(function (entries) {
+                            entries.forEach(function (entry) {
+                                if (entry.isIntersecting) {
+                                    chair.classList.remove('js-chair-hidden');
+                                    chair.classList.add('js-chair-visible');
+                                } else {
+                                    chair.classList.remove('js-chair-visible');
+                                    chair.classList.add('js-chair-hidden');
+                                }
+                            });
+                        }, {
+                            threshold: 0.25,
+                            rootMargin: '0px 0px -10% 0px'
+                        });
+
+                        observer.observe(section);
+                    });
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
     </script>
 </body>
 </html>
