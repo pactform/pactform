@@ -1,8 +1,5 @@
 /* ==========================================================================
    Site Preloader — logo icon appears first, then the wordmark letters reveal
-   Include on every page:
-     <link rel="stylesheet" href="preloader.css"> (in <head>, after other css)
-     markup right after <body>, script before </body>
    ========================================================================== */
 
 html.preloader-active,
@@ -17,16 +14,18 @@ html.preloader-active body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #ffffff; /* Sesuaikan warna background preloader */
+    background-color: #ffffff;
     z-index: 99999;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
-.site-preloader.is-hiding {
+.site-preloader.is-hiding,
+.site-preloader.hidden {
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
 }
 
@@ -36,47 +35,53 @@ html.preloader-active body {
 
 .preloader-logo-wrap {
     position: relative;
-    width: 260px;
-    max-width: 60vw;
+    width: 220px;
+    max-width: 70vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.preloader-logo-wrap img {
-    display: block;
-    width: 100%;
-    height: auto;
-}
-
-/* Icon (the "P" mark) — fades/scales in first.
-   Clipped to just the icon portion of the logo file so only the mark shows. */
 .preloader-logo-icon {
-    position: relative;
-    clip-path: inset(0 74.4% 0 0);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) scale(0.85);
+    width: 55px;
+    height: auto;
     opacity: 0;
-    transform: scale(0.85);
-    transform-origin: left center;
     animation: preloader-icon-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Full logo (icon + wordmark) — clipped to just the icon's width at first,
-   then the clip widens left-to-right so the letters appear to "type on" */
 .preloader-logo-full {
-    max-width: 180px; /* Batasi lebar maksimal logo */
+    position: relative;
     width: 100%;
-    height: auto;     /* Menjaga proporsi gambar agar tidak gepeng */
+    height: auto;
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    animation: preloader-text-reveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.45s forwards;
 }
 
 @keyframes preloader-icon-in {
-    from { opacity: 0; transform: scale(0.85); }
-    to   { opacity: 1; transform: scale(1); }
-}
-
-@keyframes preloader-text-fade-in {
-    to { opacity: 1; }
+    from { 
+        opacity: 0; 
+        transform: translateY(-50%) scale(0.85); 
+    }
+    to   { 
+        opacity: 1; 
+        transform: translateY(-50%) scale(1); 
+    }
 }
 
 @keyframes preloader-text-reveal {
-    from { clip-path: inset(0 74.4% 0 0); }
-    to   { clip-path: inset(0 0% 0 0); }
+    0% {
+        opacity: 1;
+        clip-path: inset(0 100% 0 0);
+    }
+    100% {
+        opacity: 1;
+        clip-path: inset(0 0% 0 0);
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -86,10 +91,4 @@ html.preloader-active body {
         opacity: 1 !important;
         clip-path: inset(0 0% 0 0) !important;
     }
-}
-.site-preloader.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
 }
