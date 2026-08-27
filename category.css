@@ -122,3 +122,39 @@
     .thumbnail { flex-basis: 150px; }
     .thumbnail-photo { height: 110px; }
 }
+
+/* ==========================================================================
+   Interactive transitions (added — hover/focus feedback only)
+   ========================================================================== */
+.category-carousel-container .carousel-arrow {
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.category-carousel-container .carousel-arrow:hover {
+    background-color: var(--white);
+    transform: scale(1.08);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.thumbnail {
+    transition: transform 0.2s ease;
+}
+.thumbnail-photo {
+    transition: border-color 0.2s ease;
+}
+.thumbnail:hover {
+    transform: translateY(-3px);
+}
+
+.link-btn {
+    transition: color 0.2s ease;
+}
+.link-btn:hover {
+    color: var(--accent);
+}
+
+.spec-row {
+    transition: background-color 0.2s ease;
+}
+.spec-row:hover {
+    background-color: var(--grey-light);
+}

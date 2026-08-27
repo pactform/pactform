@@ -330,3 +330,28 @@
     .upload-project-block { padding: 2.5rem 1.25rem; margin: 2.5rem 0; }
     .upload-project-buttons .btn { width: 100%; text-align: center; }
 }
+/* ==========================================================================
+   Interactive transitions (added — hover/focus feedback only)
+   ========================================================================== */
+.pillar-box {
+    transition: background-color 0.25s ease, transform 0.25s ease;
+}
+.pillar-box:hover {
+    background-color: #fffcf9;
+    transform: translateY(-4px);
+}
+
+.spec-step-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.spec-step-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.step-item {
+    transition: background-color 0.25s ease;
+}
+.step-item:hover {
+    background-color: #fffcf9;
+}

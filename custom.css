@@ -347,3 +347,21 @@
         height: 180px;
     }
 }
+/* ==========================================================================
+   Interactive transitions (added — hover/focus feedback only)
+   ========================================================================== */
+.custom-photo {
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.custom-photo:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+}
+
+.result-item {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.result-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}

@@ -740,3 +740,29 @@
 body {
     overflow-x: hidden; /* Wajib ditambahkan agar layar tidak tembus/scroll ke samping */
 }
+/* ==========================================================================
+   Interactive transitions (added — hover/focus feedback only)
+   ========================================================================== */
+.carousel-link {
+    transition: color 0.2s ease, letter-spacing 0.2s ease;
+}
+.carousel-link:hover {
+    color: var(--white);
+    letter-spacing: 0.02em;
+}
+
+.why-photo {
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.why-photo:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+}
+
+.custom-furniture-photo {
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.custom-furniture-photo:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+}

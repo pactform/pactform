@@ -219,3 +219,20 @@
         padding: 28px 24px;
     }
 }
+/* ==========================================================================
+   Interactive transitions (added — hover/focus feedback only)
+   ========================================================================== */
+.logistics-card {
+    transition: background-color 0.25s ease, transform 0.25s ease;
+}
+.logistics-card:hover {
+    background-color: #fffcf9;
+    transform: translateY(-4px);
+}
+
+.time-row {
+    transition: background-color 0.2s ease;
+}
+.time-row:hover {
+    background-color: var(--grey-light);
+}

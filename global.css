@@ -347,3 +347,47 @@ footer { border-top: 1px solid var(--border-color); padding-top: 60px; margin-to
 header:has(nav#main-nav.open) {
     z-index: 200 !important;
 }
+
+/* ==========================================================================
+   Interactive transitions (added — hover/focus feedback only)
+   ========================================================================== */
+.btn-primary:hover,
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+.btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.logo a {
+    transition: color 0.2s ease;
+}
+.logo a:hover {
+    color: var(--accent);
+}
+
+.footer-logo-img,
+.logo-img {
+    transition: transform 0.25s ease;
+}
+.footer-logo-img:hover,
+.logo-img:hover {
+    transform: scale(1.04);
+}
+
+.nav-toggle {
+    transition: border-color 0.2s ease;
+}
+.nav-toggle:hover {
+    border-color: var(--accent);
+}
+
+.remove-item-btn svg,
+.close-btn {
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+.remove-item-btn:hover svg {
+    transform: scale(1.15);
+}
