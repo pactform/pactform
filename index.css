@@ -15,20 +15,16 @@
     margin-bottom: 60px;
 }
 
-/* Force full viewport width regardless of parent container, and pull the
-   image up under the header so it reads as a true edge-to-edge banner */
 .carousel-container {
     position: relative;
     overflow: hidden;
     background-color: var(--black);
-
     width: 100vw;
     left: 50%;
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
     margin-top: -60px;
-
     height: 90vh;
     min-height: 560px;
     max-height: 820px;
@@ -77,20 +73,18 @@
 }
 .carousel-buttons {
     display: flex;
-    justify-content: center; /* This perfectly centers the buttons */
+    justify-content: center;
     align-items: center;
     gap: 16px;
     margin-top: 24px;
-    margin-bottom: 32px; /* Adds breathing room before the slider dots */
+    margin-bottom: 32px;
 }
 
-/* Mobile Responsiveness for Carousel Buttons */
 @media (max-width: 600px) {
     .carousel-buttons {
         flex-direction: column;
         gap: 12px;
     }
-
     .carousel-buttons .btn {
         width: 100%;
         text-align: center;
@@ -98,7 +92,7 @@
 }
 
 /* ==========================================================================
-   Hero — dot slider (centered at the bottom of the hero)
+   Hero — dot slider
    ========================================================================== */
 
 .carousel-dots {
@@ -134,7 +128,6 @@
     border-radius: 5px;
 }
 
-
 /* ==========================================================================
    Hero — carousel arrows
    ========================================================================== */
@@ -160,13 +153,8 @@
     transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
-#prev-slide {
-    left: 24px;
-}
-
-#next-slide {
-    right: 24px;
-}
+#prev-slide { left: 24px; }
+#next-slide { right: 24px; }
 
 .carousel-arrow svg {
     width: 18px;
@@ -186,198 +174,294 @@
 }
 
 .hero-text-relocated {
-    text-align: left; /* Sebelumnya: center */
+    text-align: left;
     padding-top: 48px;
     margin-bottom: 60px;
 }
 
 .hero-text-relocated .intro-text {
     max-width: 640px;
-    margin: 16px 0 28px 0; /* Sebelumnya: 16px auto 28px */
+    margin: 16px 0 28px 0;
     color: var(--grey-dark);
 }
 
 .hero-buttons {
     display: flex;
-    justify-content: flex-start; /* Sebelumnya: center */
+    justify-content: flex-start;
     gap: 16px;
 }
 
-.hero-orange-block {
+/* ===================================================================
+   SCROLL-PINNED HERO ANIMATION (DESKTOP, TABLET, & MOBILE RESPONSIVE)
+   =================================================================== */
+
+.hero-scroll-pin {
     position: relative;
-    isolation: isolate;
-    z-index: 1;
-    padding-top: 130px; 
-    padding-bottom: 130px;
+    height: 250vh; 
     margin-bottom: 80px;
+}
+
+.hero-scroll-sticky {
+    position: sticky;
+    top: 0;
     width: 100vw;
+    height: 100vh;
     left: 50%;
-    right: 50%;
     margin-left: -50vw;
-    margin-right: -50vw;
-    background: linear-gradient(110deg, #651a00 0%, var(--hero-orange-deep) 35%, var(--accent) 75%, var(--hero-orange-vivid) 100%);
     overflow: hidden;
+    background-color: #ffffff;
+    z-index: 1;
+    --scroll-progress: 0;
 }
 
-/* CAHAYA / FLARE */
-.hero-orange-block::before {
-    content: '';
+.scroll-bg-white {
     position: absolute;
-    top: 50%;
-    right: 0;
-    width: 900px;
-    height: 900px;
-    /* Cahaya dikembalikan ke tengah agar pas dengan kursi baru */
-    transform: translate(30%, -50%);
-    background: radial-gradient(circle closest-side, rgba(255, 255, 255, 0.95) 0%, rgba(255, 215, 100, 0.8) 15%, rgba(255, 106, 51, 0.5) 45%, transparent 100%);
-    pointer-events: none;
-    z-index: 0;
+    inset: 0;
+    background: #ffffff;
+    z-index: 1;
 }
 
-/* TYPOGRAPHY (Teks Putih) */
-.hero-orange-block h1 {
+/* 1. Kursi: Diturunkan posisinya agar ada jarak dari navbar */
+.scroll-floating-chair {
+    position: absolute;
+    top: 22%;      /* Sebelumnya 10%, dinaikkan angkanya agar turun ke bawah */
+    right: 5%;
+    height: 72%;   /* Disesuaikan sedikit agar ukurannya tetap pas */
+    width: auto;
+    object-fit: contain;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* 2. Teks Original (CONTRACT FURNITURE): Ikut diturunkan agar sejajar dengan kursi */
+.scroll-default-content {
+    position: absolute;
+    top: 22%;      /* Sebelumnya 15%, disamakan agar ada jarak dari atas */
+    left: 0;
+    right: 0;
+    z-index: 5;
+    transform: translateY(calc(var(--scroll-progress, 0) * -100vh));
+    opacity: calc(1 - (var(--scroll-progress, 0) * 2)); 
+}
+
+.scroll-default-content h1 {
     max-width: 650px;
-    font-size: clamp(2.4rem, 4.5vw, 3.6rem);
-    line-height: 1.15;
     margin-bottom: 24px;
-    color: #ffffff !important;
-    position: relative;
-    z-index: 2;
+    color: #111;
+    font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+    line-height: 1.15;
     letter-spacing: -0.02em;
 }
-
-.hero-orange-block .hero-subtitle {
+.scroll-default-content .hero-subtitle {
     max-width: 580px;
-    font-size: 1.35rem !important;
+    margin-bottom: 20px;
+    color: #111;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
     font-weight: 500;
     line-height: 1.4;
-    margin-bottom: 24px !important;
-    color: #ffffff !important;
-    position: relative;
-    z-index: 2;
 }
-
-.hero-orange-block .intro-text {
+.scroll-default-content .intro-text {
     max-width: 540px;
+    margin-bottom: 28px;
+    color: var(--grey-dark, #554545);
     font-size: 0.95rem;
     line-height: 1.6;
-    margin-bottom: 32px !important;
-    color: #ffffff !important;
-    position: relative;
-    z-index: 2;
 }
 
-/* POSISI KURSI (Di-zoom & rata-atas agar kaki terpotong frame, sesuai referensi) */
-.hero-floating-chair {
+/* 3. Latar Belakang Ruangan dengan Gradient Lebih Halus dan Panjang (*Smoother*) */
+.scroll-bg-room {
     position: absolute;
-    top: 0;
+    inset: 0;
+    z-index: 2;
+    background-size: cover;
+    background-position: center;
+    transform: translateY(calc((1 - var(--scroll-progress, 0)) * 100vh));
+    
+    /* Gradient mask yang sangat halus dari transparan ke hitam penuh */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.15) 20%, rgba(0,0,0,0.6) 50%, black 85%);
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.15) 20%, rgba(0,0,0,0.6) 50%, black 85%);
+}
+
+.scroll-bg-room::before {
+    display: none; 
+}
+
+.scroll-bg-room::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 65%);
+    z-index: 4;
+}
+
+/* 4. Teks Baru (Model Kursi) */
+.scroll-new-content {
+    position: absolute;
+    bottom: 8%;
+    left: 0;
     right: 0;
-    
-    /* Kursi baru adalah foto depan penuh (sandaran s.d. kaki menyentuh lantai, tanpa spasi kosong).
-       Diperbesar melebihi tinggi frame lalu digeser turun sedikit, sehingga sandaran tidak
-       menempel persis di tepi atas dan kaki bagian bawah tetap terpotong overflow:hidden */
-    height: 140% !important; 
-    
-    min-height: 0 !important; 
-    max-height: 140% !important; 
-    
-    width: auto !important;
-    max-width: none !important;
-    z-index: 1; 
-    pointer-events: none;
-    opacity: 0;
-    
-    /* Digeser turun sedikit (4%) dari atas, dan ke kanan (16%) agar sebagian kursi bleed keluar tepi kanan frame */
-    transform: translate(16%, 4%); 
-    animation: chicChairEntrance 1.5s cubic-bezier(0.25, 1, 0.35, 1) 0.1s forwards;
+    z-index: 6;
+    transform: translateY(calc((1 - var(--scroll-progress, 0)) * 100vh));
 }
 
-@keyframes chicChairEntrance {
-    from {
-        opacity: 0;
-        transform: translate(24%, 2%);
+.scroll-chair-model {
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+    margin-bottom: 16px;
+}
+
+.scroll-chair-desc {
+    background-color: #c44a21;
+    color: #ffffff;
+    padding: 20px 28px;
+    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+    line-height: 1.5;
+    max-width: 480px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* ==========================================================================
+   MEDIA QUERIES UNTUK TABLET & MOBILE RESPONSIVENESS
+   ========================================================================== */
+
+/* Tablet Mode (Max-width: 1024px) */
+@media (max-width: 1024px) {
+    .scroll-default-content {
+        top: 10%;
+        padding: 0 20px;
     }
-    to {
-        opacity: 1;
-        transform: translate(16%, 4%); 
+    .scroll-floating-chair {
+        top: 25%;
+        right: -5%;
+        height: 65%;
+    }
+    .scroll-new-content {
+        padding: 0 20px;
+        bottom: 6%;
     }
 }
 
-/* CTA BUTTONS */
-.hero-orange-block .btn-primary {
-    background-color: #ffffff;
-    color: var(--hero-orange-deep);
-    border-color: #ffffff;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-size: 0.85rem;
-}
-.hero-orange-block .btn-primary:hover {
-    background-color: var(--black);
-    color: #ffffff;
-    border-color: var(--black);
-}
-.hero-orange-block .btn-secondary {
-    background-color: transparent;
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.7);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-size: 0.85rem;
-}
-.hero-orange-block .btn-secondary:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-color: #ffffff;
-}
+/* Tablet Kecil & Mobile Besar (Max-width: 900px) */
 @media (max-width: 900px) {
-    .hero-floating-chair {
-        height: 128% !important; 
-        max-height: 128% !important;
-        animation-name: chicChairEntranceTablet;
+    .hero-scroll-pin {
+        height: 220vh;
     }
-    @keyframes chicChairEntranceTablet {
-        from { opacity: 0; transform: translate(24%, 2%); }
-        to { opacity: 0.95; transform: translate(16%, 4%); } 
+    .scroll-default-content {
+        top: 6%;
+        max-width: 100%;
+    }
+    .scroll-default-content h1 {
+        font-size: 2rem;
+        margin-bottom: 14px;
+    }
+    .scroll-default-content .hero-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 14px;
+    }
+    .scroll-default-content .intro-text {
+        font-size: 0.85rem;
+        margin-bottom: 20px;
+        max-width: 100%;
+    }
+    .hero-buttons {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .scroll-floating-chair {
+        top: 38%;
+        right: -15%;
+        height: 52%;
+    }
+    .scroll-chair-model {
+        font-size: 1.7rem;
+        margin-bottom: 10px;
+    }
+    .scroll-chair-desc {
+        padding: 14px 18px;
+        font-size: 0.9rem;
+        max-width: 85%;
     }
 }
 
+/* Mobile Phone Mode (Max-width: 600px) */
 @media (max-width: 600px) {
-    .hero-floating-chair {
-        height: 116% !important; 
-        max-height: 116% !important;
-        animation-name: chicChairEntranceMobile;
+    .hero-scroll-pin {
+        height: 190vh;
+        margin-bottom: 50px;
     }
-    @keyframes chicChairEntranceMobile {
-        from { opacity: 0; transform: translate(30%, 2%); }
-        to { opacity: 0.35; transform: translate(22%, 4%); } 
+    .scroll-sticky {
+        min-height: 500px;
+    }
+    .scroll-default-content {
+        top: 3%;
+        padding: 0 24px;
+        box-sizing: border-box;
+        width: 100%;
+    }
+    .scroll-default-content h1 {
+        font-size: 1.5rem;
+        line-height: 1.15;
+        margin-bottom: 8px;
+    }
+    .scroll-default-content .hero-subtitle {
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+    }
+    .scroll-default-content .intro-text {
+        font-size: 0.75rem;
+        line-height: 1.4;
+        margin-bottom: 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .hero-buttons {
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+    }
+    .hero-buttons .btn {
+        width: 100%;
+        text-align: center;
+        padding: 8px 12px;
+        font-size: 0.75rem;
+    }
+    
+    /* === TAMBAHKAN JARAK DARI TOMBOL (TURUNKAN SEDIKIT) === */
+    .scroll-floating-chair {
+        top: 44%;              /* Sebelumnya 38%, dinaikkan angkanya agar posisinya turun ke bawah */
+        left: 50%;             
+        right: auto;
+        transform: translateX(-50%); 
+        height: 42%;           /* Tinggi disesuaikan sedikit agar tetap proporsional */
+    }
+
+    .scroll-new-content {
+        bottom: 4%;
+    }
+    .scroll-chair-model {
+        font-size: 1.25rem;
+        margin-bottom: 6px;
+    }
+    .scroll-chair-desc {
+        padding: 10px 12px;
+        font-size: 0.75rem;
+        max-width: 100%;
     }
 }
 
-/* Respect prefers-reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-    .hero-floating-chair {
-        animation: none !important;
-        opacity: 1;
-        transform: translate(16%, 4%);
-    }
-    @media (max-width: 900px) {
-        .hero-floating-chair { opacity: 0.95; transform: translate(16%, 4%); }
-    }
-    @media (max-width: 600px) {
-        .hero-floating-chair { opacity: 0.35; transform: translate(22%, 4%); }
-    }
-}
+/* ==========================================================================
+   KODE LAMA YANG UTUH (TIDAK BERUBAH)
+   ========================================================================== */
 .section-intro {
     color: var(--grey-dark);
     max-width: 700px;
     margin-bottom: 24px;
 }
-
-/* ==========================================================================
-   The Collection — orange full-bleed block (same treatment as the hero)
-   ========================================================================== */
 
 .collection-section-orange {
     position: relative;
@@ -408,7 +492,6 @@
     text-align: left;
 }
 
-/* Category name overlaid centered directly on top of the photo */
 .category-card {
     text-align: center;
 }
@@ -428,7 +511,6 @@
     display: block;
 }
 
-/* Even dark overlay behind the photo so the centered white label stays legible on any image */
 .category-card .category-photo::after {
     content: '';
     position: absolute;
@@ -460,7 +542,6 @@
     text-align: center;
 }
 
-/* Reusable placeholder image + centered label, layered on top of .placeholder's crosshatch */
 .img-box {
     position: relative;
     display: flex;
@@ -478,11 +559,6 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     z-index: 1;
 }
-
-
-/* ==========================================================================
-   Why Pactform
-   ========================================================================== */
 
 .why-section {
     margin-top: 80px;
@@ -516,11 +592,6 @@
         height: 200px;
     }
 }
-
-
-/* ==========================================================================
-   About (short version) — near the end of the homepage
-   ========================================================================== */
 
 .about-teaser-orange {
     position: relative;
@@ -566,11 +637,6 @@
     max-width: 800px;
     color: rgba(255, 255, 255, 0.85);
 }
-
-
-/* ==========================================================================
-   FF&E Projects — dark callout block (previously inline-styled, non-responsive)
-   ========================================================================== */
 
 .ffe-project-section {
     background-color: var(--black);
@@ -683,11 +749,6 @@
     .boq-dropzone { padding: 28px 16px; }
 }
 
-
-/* ==========================================================================
-   Custom Furniture block (previously inline-styled, non-responsive)
-   ========================================================================== */
-
 .custom-furniture-block {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -721,15 +782,13 @@
     .custom-furniture-text .eyebrow { font-size: 0.7rem; margin-bottom: 8px; }
     .custom-furniture-text p { font-size: 0.85rem; line-height: 1.5; margin-bottom: 16px; }
     .custom-furniture-text .btn { padding: 10px 14px; font-size: 0.7rem; }
-}
-@media (max-width: 600px) {
+    
     .carousel-buttons {
         flex-direction: column;
         gap: 12px;
         margin-top: 20px;
         margin-bottom: 24px;
     }
-
     .carousel-buttons .btn {
         width: 100%;
         max-width: 320px;
@@ -738,11 +797,8 @@
     }
 }
 body {
-    overflow-x: hidden; /* Wajib ditambahkan agar layar tidak tembus/scroll ke samping */
+    overflow-x: hidden; 
 }
-/* ==========================================================================
-   Interactive transitions (added — hover/focus feedback only)
-   ========================================================================== */
 .carousel-link {
     transition: color 0.2s ease, letter-spacing 0.2s ease;
 }
@@ -750,7 +806,6 @@ body {
     color: var(--white);
     letter-spacing: 0.02em;
 }
-
 .why-photo {
     transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
@@ -758,7 +813,6 @@ body {
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
     transform: translateY(-3px);
 }
-
 .custom-furniture-photo {
     transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
