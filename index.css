@@ -374,7 +374,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     .hero-buttons { gap: 12px; flex-wrap: wrap; }
     
     /* MODIFIED: Memposisikan kursi di bawah teks & tombol agar tidak menutupi apa pun */
-    .scroll-floating-chair { top: 52%; left: 50%; right: auto; transform: translateX(-50%); height: 40%; }
+    .scroll-floating-chair { top: 40%; left: 50%; right: auto; transform: translateX(-50%); height: 35%; }
     
     .scroll-new-content { display: flex; flex-direction: column; align-items: center; text-align: center; }
     .scroll-chair-model { font-size: 1.7rem; margin-bottom: 10px; }
