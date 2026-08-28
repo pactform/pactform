@@ -9,7 +9,8 @@
 .tag-pill-row { display: flex; flex-wrap: wrap; gap: 10px; }
 .filter-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color); }
 .filter-count { font-size: 0.85rem; color: var(--grey-dark); }
-.clear-filters { background: none; border: none; padding: 8px 0; font-size: 0.85rem; font-weight: 600; text-decoration: underline; cursor: pointer; color: var(--black); }
+.clear-filters { background: none; border: none; padding: 8px 0; font-size: 0.85rem; font-weight: 600; text-decoration: underline; cursor: pointer; color: var(--black); transition: color 0.2s ease; }
+.clear-filters:hover { color: var(--accent); }
 
 /* Tag pills — filter buttons + static product badges (previously missing / undefined) */
 .tag-pill {
@@ -66,7 +67,8 @@
 .category-carousel-container #next-slide { right: 24px; }
 .category-carousel-container .carousel-img-label { position: absolute; top: 20px; left: 20px; max-width: 260px; text-align: left; }
 .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 40px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background-color: var(--grey-mid); cursor: pointer; transition: background-color 0.2s; border: none; padding: 0; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background-color: var(--grey-mid); cursor: pointer; transition: background-color 0.2s ease, transform 0.2s ease; border: none; padding: 0; }
+.dot:hover { background-color: var(--accent); transform: scale(1.2); }
 .dot.active { background-color: var(--accent); }
 
 @media (max-width: 900px) {

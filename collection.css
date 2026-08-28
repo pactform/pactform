@@ -40,3 +40,194 @@
 .category-card:hover .category-photo {
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
 }
+/* ==========================================================================
+   Collection Toolbar (Filter & Search Keywords)
+   ========================================================================== */
+.collection-toolbar {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+    align-items: center;
+}
+
+.collection-filter-btn {
+    min-width: 140px;
+    text-align: center;
+    background-color: var(--white);
+    border: 1px solid var(--accent);
+    color: var(--black);
+    font-weight: 600;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.collection-filter-btn:hover {
+    background-color: var(--accent);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.collection-search-wrap {
+    flex-grow: 1;
+}
+
+.collection-search-input {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: var(--white);
+    border: 1px solid var(--accent);
+    color: var(--black);
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.collection-search-input:focus {
+    border-color: var(--black);
+    box-shadow: 0 0 0 3px rgba(197, 54, 2, 0.15);
+}
+
+.collection-search-input::placeholder {
+    color: var(--black);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+@media (max-width: 600px) {
+    .collection-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+/* ==========================================================================
+   Floating Filter Menu Styling
+   ========================================================================== */
+.filter-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.filter-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.floating-filter-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    background-color: var(--white);
+    width: 90%;
+    max-width: 680px;
+    max-height: 85vh;
+    overflow-y: auto;
+    z-index: 999;
+    padding: 32px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 0; /* Menjaga konsistensi gaya tajam */
+}
+
+.floating-filter-modal:not(.hidden) {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.filter-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 12px;
+}
+.filter-modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.filter-group {
+    margin-bottom: 20px;
+}
+.filter-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--grey-dark);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filter-chips .chip {
+    background-color: var(--white);
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.filter-chips .chip:hover,
+.filter-chips .chip.active {
+    background-color: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+}
+
+/* ==========================================================================
+   Filter modal footer (Clear all / Show results) + empty state for the
+   category grid when active filters match nothing
+   ========================================================================== */
+.filter-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.category-grid .category-card.hidden {
+    display: none !important;
+}
+
+.category-grid + .empty-state {
+    margin-top: 32px;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    text-decoration: underline;
+    font-weight: 600;
+    color: var(--black);
+    cursor: pointer;
+    font-size: inherit;
+    transition: color 0.2s ease;
+}
+.link-btn:hover {
+    color: var(--accent);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 0;
+}

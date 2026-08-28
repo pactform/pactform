@@ -73,28 +73,7 @@
 
 
     <main class="container">
-        <div class="page-header category-header">
-            <p class="subtext" id="cat-subtext">The piece your guest judges first and remembers least. It has to be right.</p>
-            <h1 id="cat-title">Dining chairs</h1>
-            <p style="max-width: 700px;" id="cat-intro">These are built for the sort of week that would finish an ordinary dining chair. Pick a look, pick a material, and we'll take it from there.</p>
-        </div>
-
-        <section class="filters-section">
-            <div class="filter-group">
-                <p class="filter-label">Materials</p>
-                <div class="tag-pill-row" id="materials-filters"></div>
-            </div>
-            <div class="filter-group">
-                <p class="filter-label">Interior style</p>
-                <div class="tag-pill-row" id="styles-filters"></div>
-            </div>
-            <div class="filter-meta">
-                <span class="filter-count" id="filter-count"></span>
-                <button class="clear-filters hidden" id="clear-filters">Clear all</button>
-            </div>
-        </section>
-
-        <section class="product-showcase">
+        <section class="product-showcase" style="margin-top: 40px;">
             <div class="placeholder category-carousel-container" id="big-carousel">
                 <button class="carousel-arrow" id="prev-slide" aria-label="Previous image">&lt;</button>
                 <span class="img-label carousel-img-label" id="carousel-img-label"></span>
@@ -233,13 +212,13 @@
         ];
 
         const CATEGORIES = {
-            'commercial': { name: 'Commercial', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order â€” pieces that hold up daily and match perfectly if you need more." },
+            'commercial': { name: 'Commercial', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order — pieces that hold up daily and match perfectly if you need more." },
             'outdoor': { name: 'Outdoor', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
             'office': { name: 'Office', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
             'dining-chairs': { name: 'Dining chairs', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair. Pick a look, pick a material, and we'll take it from there." },
             'bar-stools': { name: 'Bar stools', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards a bar service demands." },
             'booth-seating': { name: 'Booth seating', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order for your floor plan." },
-            'tables': { name: 'Tables', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables â€” plus legs and tops available separately." }
+            'tables': { name: 'Tables', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables — plus legs and tops available separately." }
         };
 
         const PRODUCTS = [
@@ -254,7 +233,7 @@
             { slug: 'lagoon-lounge-chair', category: 'outdoor', name: 'Lagoon Lounge Chair', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars. Weather-resistant weave over a hardwood frame.", dims: 'approx. W700 x D800 x H750 mm, seat height approx. 380 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies, outdoor lounges' },
             { slug: 'wren-lounge-chair', category: 'commercial', name: 'Wren Lounge Chair', materials: ['upholstered'], styles: ['mid-century'], badges: ['Upholstered', 'Mid-century'], desc: "A hotel-lobby classic, reupholstered in commercial-grade fabric on a steel base rated for daily use.", dims: 'approx. W720 x D780 x H720 mm, seat height approx. 400 mm', materialsText: 'Performance fabric upholstery, powder-coated steel base', goodFor: 'Hotel lobbies, bars, breakout lounges' },
 
-            { slug: 'pebble-coffee-table', category: 'tables', name: 'Pebble Coffee Table', materials: ['stone-top'], styles: ['minimal'], badges: ['Stone top', 'Minimal'], desc: "A honed stone top on a low steel base â€” heavy enough to stay put, simple enough to disappear into the room.", dims: 'approx. W900 x D500 x H360 mm', materialsText: 'Honed stone top, powder-coated steel base', goodFor: 'Lounges, lobbies, bar seating' },
+            { slug: 'pebble-coffee-table', category: 'tables', name: 'Pebble Coffee Table', materials: ['stone-top'], styles: ['minimal'], badges: ['Stone top', 'Minimal'], desc: "A honed stone top on a low steel base — heavy enough to stay put, simple enough to disappear into the room.", dims: 'approx. W900 x D500 x H360 mm', materialsText: 'Honed stone top, powder-coated steel base', goodFor: 'Lounges, lobbies, bar seating' },
             { slug: 'foundry-coffee-table', category: 'tables', name: 'Foundry Coffee Table', materials: ['steel'], styles: ['industrial'], badges: ['Steel', 'Industrial'], desc: "A stacked steel frame with a reinforced top, built to take feet, trays and the odd spilled drink.", dims: 'approx. W1000 x D550 x H380 mm', materialsText: 'Powder-coated steel frame and top', goodFor: 'Bars, breakout areas, waiting rooms' },
 
             { slug: 'camber-dining-table', category: 'tables', name: 'Camber Dining Table', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge, sized to order from two-tops through to long-form seating.", dims: 'approx. W1600 x D850 x H750 mm (custom sizing available)', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining, private dining rooms' },
@@ -280,13 +259,6 @@
         let currentSlides = [];
 
         // ---------- Elements ----------
-        const catTitle = document.getElementById('cat-title');
-        const catSubtext = document.getElementById('cat-subtext');
-        const catIntro = document.getElementById('cat-intro');
-        const materialsFilterEl = document.getElementById('materials-filters');
-        const stylesFilterEl = document.getElementById('styles-filters');
-        const filterCountEl = document.getElementById('filter-count');
-        const clearFiltersBtn = document.getElementById('clear-filters');
         const bigCarousel = document.getElementById('big-carousel');
         const carouselImgLabel = document.getElementById('carousel-img-label');
         const carouselProductName = document.getElementById('carousel-product-name');
@@ -304,51 +276,6 @@
         const productShowcase = document.querySelector('.product-showcase');
         const addToListBtn = document.getElementById('add-to-list-btn');
 
-        // ---------- Render: page header ----------
-        function renderHeader() {
-            const cat = CATEGORIES[currentCategory];
-            catTitle.textContent = cat.name;
-            catSubtext.textContent = cat.subtext;
-            catIntro.textContent = cat.intro;
-            document.title = 'Pactform - ' + cat.name;
-        }
-
-        // ---------- Render: filters ----------
-        function renderFilterGroup(container, options, activeSet) {
-            container.innerHTML = '';
-            options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = 'tag-pill';
-                btn.type = 'button';
-                btn.textContent = opt.label;
-                btn.dataset.id = opt.id;
-                const isActive = activeSet.has(opt.id);
-                btn.classList.toggle('active', isActive);
-                btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-                btn.addEventListener('click', () => {
-                    if (activeSet.has(opt.id)) { activeSet.delete(opt.id); } else { activeSet.add(opt.id); }
-                    renderFilterGroup(container, options, activeSet);
-                    onFiltersChanged();
-                });
-                container.appendChild(btn);
-            });
-        }
-
-        function updateFilterMeta() {
-            const count = activeMaterials.size + activeStyles.size;
-            filterCountEl.textContent = count > 0 ? (count + ' filter' + (count > 1 ? 's' : '') + ' active') : '';
-            clearFiltersBtn.classList.toggle('hidden', count === 0);
-        }
-
-        function clearAllFilters() {
-            activeMaterials.clear();
-            activeStyles.clear();
-            renderFilterGroup(materialsFilterEl, MATERIALS, activeMaterials);
-            renderFilterGroup(stylesFilterEl, STYLES, activeStyles);
-            onFiltersChanged();
-        }
-        clearFiltersBtn.addEventListener('click', clearAllFilters);
-
         // ---------- Product filtering ----------
         function getFilteredProducts() {
             return PRODUCTS.filter(p => {
@@ -359,8 +286,13 @@
             });
         }
 
+        function clearAllFilters() {
+            activeMaterials.clear();
+            activeStyles.clear();
+            onFiltersChanged();
+        }
+
         function onFiltersChanged() {
-            updateFilterMeta();
             const filtered = getFilteredProducts();
             renderThumbnails(filtered);
             if (filtered.length === 0) {
@@ -388,7 +320,7 @@
                 thumb.classList.toggle('selected', currentProduct && currentProduct.slug === p.slug);
                 thumb.innerHTML = '<div class="placeholder img-box thumbnail-photo"><span class="img-label">' + p.name + '</span></div>' +
                     '<h5>' + p.name + '</h5>' +
-                    '<p class="thumbnail-tags">' + p.badges.slice(0, 2).join(' Â· ') + '</p>';
+                    '<p class="thumbnail-tags">' + p.badges.slice(0, 2).join(' · ') + '</p>';
                 thumb.addEventListener('click', () => selectProduct(p.slug));
                 thumbnailRow.appendChild(thumb);
             });
@@ -399,8 +331,8 @@
             const shots = ['front', 'side', 'back', 'detail'];
             const settings = ['a restaurant', 'a cafe', 'a hotel lobby', 'an office'];
             const slides = [];
-            shots.forEach((shot, i) => slides.push({ label: 'PRODUCT PHOTO â€” ' + product.name + ' (' + (i + 1) + '/4)', caption: 'Product photography on plain ground â€” ' + shot + ' view.' }));
-            settings.forEach((setting, i) => slides.push({ label: 'INTERIOR â€” ' + product.name + ' (' + (i + 1) + '/4)', caption: 'Visualised in ' + setting + '.' }));
+            shots.forEach((shot, i) => slides.push({ label: 'PRODUCT PHOTO — ' + product.name + ' (' + (i + 1) + '/4)', caption: 'Product photography on plain ground — ' + shot + ' view.' }));
+            settings.forEach((setting, i) => slides.push({ label: 'INTERIOR — ' + product.name + ' (' + (i + 1) + '/4)', caption: 'Visualised in ' + setting + '.' }));
             return slides;
         }
 
@@ -476,9 +408,9 @@
 
         // ---------- Add to list ----------
         const listItems = [
-            { name: '[PRODUCT NAME] x24', meta: 'Rattan / natural â€” approx. W450 D520 H820' },
-            { name: '[PRODUCT NAME] x8', meta: 'Solid oak / black steel â€” approx. W1400 D700 H750' },
-            { name: '[PRODUCT NAME] x12', meta: 'Powder-coated steel â€” approx. W400 D400 H650' }
+            { name: '[PRODUCT NAME] x24', meta: 'Rattan / natural — approx. W450 D520 H820' },
+            { name: '[PRODUCT NAME] x8', meta: 'Solid oak / black steel — approx. W1400 D700 H750' },
+            { name: '[PRODUCT NAME] x12', meta: 'Powder-coated steel — approx. W400 D400 H650' }
         ];
         const trashIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
         const listItemsEl = document.getElementById('list-items');
@@ -510,7 +442,7 @@
             listItems.unshift({ name: currentProduct.name, meta: currentProduct.materialsText });
             renderListItems();
             const original = addToListBtn.textContent;
-            addToListBtn.textContent = 'Added âœ“';
+            addToListBtn.textContent = 'Added ✓';
             setTimeout(() => { addToListBtn.textContent = original; }, 1200);
             openDrawer();
         });
@@ -554,10 +486,6 @@
         });
 
         // ---------- Init ----------
-        renderHeader();
-        renderFilterGroup(materialsFilterEl, MATERIALS, activeMaterials);
-        renderFilterGroup(stylesFilterEl, STYLES, activeStyles);
-        updateFilterMeta();
         const initialFiltered = getFilteredProducts();
         renderThumbnails(initialFiltered);
         const urlProduct = params.get('product');

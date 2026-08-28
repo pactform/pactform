@@ -365,16 +365,20 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
 /* ==========================================================================
    RESPONSIVE MEDIA QUERIES (Desktop, Mobile, & Raster View Safe)
    ========================================================================== */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
     .hero-scroll-pin { height: 220vh; }
-    .scroll-default-content { top: 6%; max-width: 100%; }
-    .scroll-default-content h1 { font-size: 2rem; margin-bottom: 14px; }
-    .scroll-default-content .hero-subtitle { font-size: 1.1rem; margin-bottom: 14px; }
-    .scroll-default-content .intro-text { font-size: 0.85rem; margin-bottom: 20px; max-width: 100%; }
-    .hero-buttons { gap: 10px; flex-wrap: wrap; }
-    .scroll-floating-chair { top: 38%; right: -15%; height: 52%; }
+    .scroll-default-content { top: 4%; max-width: 100%; }
+    .scroll-default-content h1 { font-size: 2.2rem; margin-bottom: 14px; }
+    .scroll-default-content .hero-subtitle { font-size: 1.15rem; margin-bottom: 14px; }
+    .scroll-default-content .intro-text { font-size: 0.95rem; margin-bottom: 20px; max-width: 100%; }
+    .hero-buttons { gap: 12px; flex-wrap: wrap; }
+    
+    /* MODIFIED: Memposisikan kursi di bawah teks & tombol agar tidak menutupi apa pun */
+    .scroll-floating-chair { top: 52%; left: 50%; right: auto; transform: translateX(-50%); height: 40%; }
+    
+    .scroll-new-content { display: flex; flex-direction: column; align-items: center; text-align: center; }
     .scroll-chair-model { font-size: 1.7rem; margin-bottom: 10px; }
-    .scroll-chair-desc { padding: 14px 18px; font-size: 0.9rem; max-width: 85%; }
+    .scroll-chair-desc { padding: 14px 18px; font-size: 0.9rem; max-width: 85%; margin: 0 auto; }
     
     .ffe-project-section { grid-template-columns: 1fr; padding: 40px 28px; margin: 56px auto; gap: 28px; }
     .ffe-hero-materials { border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.15); padding-left: 0; padding-top: 24px; }
@@ -405,8 +409,9 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     .scroll-default-content .intro-text { font-size: 0.75rem; line-height: 1.4; margin-bottom: 12px; }
     .hero-buttons { flex-direction: column; gap: 6px; width: 100%; }
     .hero-buttons .btn { width: 100%; text-align: center; padding: 8px 12px; font-size: 0.75rem; }
-    .scroll-floating-chair { top: 44%; left: 50%; right: auto; transform: translateX(-50%); height: 42%; }
-    .scroll-new-content { bottom: 4%; }
+    
+    .scroll-floating-chair { top: 55%; left: 50%; right: auto; transform: translateX(-50%); height: 35%; }
+    .scroll-new-content { bottom: 4%; align-items: center; text-align: center; }
     .scroll-chair-model { font-size: 1.25rem; margin-bottom: 6px; }
     .scroll-chair-desc { padding: 10px 12px; font-size: 0.75rem; max-width: 100%; }
 

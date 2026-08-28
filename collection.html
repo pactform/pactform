@@ -78,6 +78,14 @@
             <h2>The collection</h2>
             <p class="section-intro">Seven categories, all built for commercial use. Have a look through.</p>
 
+            <!-- BARU: Tambahan Filter dan Search Keywords sesuai wireframe -->
+            <div class="collection-toolbar">
+                <button class="btn btn-secondary collection-filter-btn" type="button">FILTER</button>
+                <div class="collection-search-wrap">
+                    <input type="text" class="collection-search-input" placeholder="SEARCH KEYWORDS" aria-label="Search keywords">
+                </div>
+            </div>
+
             <!--
                 Taxonomy note: categories are now a mix of use-case (Commercial, Outdoor, Office) and
                 furniture-type (Dining chairs, Bar stools, Booth seating, Tables) tiles, per the latest
@@ -154,7 +162,19 @@
                     <p class="category-count">[N] designs</p>
                 </a>
             </div>
+            <p class="empty-state hidden" id="collection-empty-state">No categories match these filters. <button class="link-btn" id="collection-clear-link">Clear filters</button></p>
         </section>
+
+        <!-- Custom Work Teaser Section -->
+        <section class="custom-teaser-small" style="margin-top: 80px; margin-bottom: 80px;">
+            <h2 style="margin-bottom: 16px;">Sometimes the perfect piece doesn't exist yet</h2>
+            <p class="section-intro" style="margin-bottom: 24px;">Found a chair online? Saved an Instagram post? Spotted a hotel lobby while travelling? Take a screenshot and send it over.</p>
+            <div class="custom-buttons" style="display: flex; gap: 16px; flex-wrap: wrap;">
+                <a href="custom.html" class="btn btn-primary" style="text-transform: uppercase;">SHOW ME CUSTOM WORK</a>
+                <a href="projects.html" class="btn btn-secondary" style="text-transform: uppercase;">START A PROJECT</a>
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer -->
@@ -301,8 +321,218 @@
                     frames[current].classList.add('active');
                 }, 4000);
             });
+
+            // Floating Filter Menu Interactive Script (Fixed & Integrated)
+            const filterBtn = document.querySelector('.collection-filter-btn');
+            const filterModal = document.getElementById('filter-modal');
+            const filterOverlay = document.getElementById('filter-overlay');
+            const closeFilterBtn = document.getElementById('close-filter-btn');
+
+            function openFilter() {
+                if (filterModal && filterOverlay) {
+                    filterModal.classList.remove('hidden');
+                    filterOverlay.classList.remove('hidden');
+                    void filterOverlay.offsetWidth; 
+                    filterOverlay.classList.add('visible');
+                }
+            }
+
+            function closeFilter() {
+                if (filterModal && filterOverlay) {
+                    filterOverlay.classList.remove('visible');
+                    filterModal.classList.add('hidden');
+                    setTimeout(() => {
+                        filterOverlay.classList.add('hidden');
+                    }, 300);
+                }
+            }
+
+            if (filterBtn) {
+                filterBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openFilter();
+                });
+            }
+
+            if (closeFilterBtn) {
+                closeFilterBtn.addEventListener('click', closeFilter);
+            }
+
+            if (filterOverlay) {
+                filterOverlay.addEventListener('click', closeFilter);
+            }
+
+            if (filterModal) {
+                filterModal.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+
+            // ---------- Real filtering logic ----------
+            // Materials/styles per category tile, taken from the same product
+            // data used on category.html, so results here match what's actually
+            // inside each category. "Furniture types" and "Project types" chips
+            // stay toggleable (no such taxonomy exists elsewhere in the site yet
+            // to filter by), but Materials, Interior style, Indoor/Outdoor and
+            // the search box all genuinely filter the grid below.
+            const CATEGORY_DATA = {
+                'commercial': { materials: ['steel', 'upholstered'], styles: ['industrial', 'mid-century'], indoorOutdoor: 'indoor' },
+                'outdoor': { materials: ['rattan'], styles: ['tropical'], indoorOutdoor: 'outdoor' },
+                'office': { materials: ['solid-timber'], styles: ['scandinavian'], indoorOutdoor: 'indoor' },
+                'dining-chairs': { materials: ['rattan', 'steel', 'solid-timber', 'upholstered'], styles: ['industrial', 'scandinavian', 'tropical', 'mid-century', 'minimal'], indoorOutdoor: 'indoor' },
+                'bar-stools': { materials: ['steel', 'upholstered', 'rattan'], styles: ['industrial', 'tropical', 'minimal'], indoorOutdoor: 'indoor' },
+                'booth-seating': { materials: ['upholstered'], styles: ['mid-century', 'industrial'], indoorOutdoor: 'indoor' },
+                'tables': { materials: ['stone-top', 'steel', 'solid-timber', 'laminate'], styles: ['industrial', 'scandinavian', 'minimal'], indoorOutdoor: 'indoor' }
+            };
+            const MATERIAL_LABELS = { 'Rattan': 'rattan', 'Solid timber': 'solid-timber', 'Plywood': 'plywood', 'Steel': 'steel', 'Aluminium': 'aluminium', 'Upholstered': 'upholstered', 'Stone top': 'stone-top', 'Laminate': 'laminate' };
+            const STYLE_LABELS = { 'Scandinavian': 'scandinavian', 'Industrial': 'industrial', 'Mid-century': 'mid-century', 'Tropical': 'tropical', 'Minimal': 'minimal', 'Classic': 'classic' };
+
+            const categoryCards = Array.from(document.querySelectorAll('.category-grid .category-card'));
+            const collectionEmptyState = document.getElementById('collection-empty-state');
+            const collectionSearchInput = document.querySelector('.collection-search-input');
+            const filterCountLabel = document.querySelector('.collection-filter-btn');
+            const filterApplyBtn = document.getElementById('filter-apply-btn');
+            const filterClearAllBtn = document.getElementById('filter-clear-all');
+            const collectionClearLink = document.getElementById('collection-clear-link');
+
+            function activeChipValues(groupLabel, lookup) {
+                const group = Array.from(document.querySelectorAll('.filter-group')).find(g => g.querySelector('label').textContent.trim() === groupLabel);
+                if (!group) return [];
+                return Array.from(group.querySelectorAll('.chip.active')).map(c => lookup[c.textContent.trim()] || c.textContent.trim().toLowerCase());
+            }
+
+            function applyFilters() {
+                const query = (collectionSearchInput.value || '').trim().toLowerCase();
+                const activeMaterials = activeChipValues('MATERIALS', MATERIAL_LABELS);
+                const activeStyles = activeChipValues('INTERIOR STYLE', STYLE_LABELS);
+                const indoorOutdoorGroup = Array.from(document.querySelectorAll('.filter-group')).find(g => g.querySelector('label').textContent.trim() === 'INDOOR/OUTDOOR');
+                const activeIndoorOutdoor = indoorOutdoorGroup ? Array.from(indoorOutdoorGroup.querySelectorAll('.chip.active')).map(c => c.textContent.trim().toLowerCase()) : [];
+
+                let visibleCount = 0;
+                categoryCards.forEach(card => {
+                    const slugMatch = (card.getAttribute('href') || '').match(/category=([a-z-]+)/);
+                    const slug = slugMatch ? slugMatch[1] : '';
+                    const data = CATEGORY_DATA[slug] || { materials: [], styles: [], indoorOutdoor: 'indoor' };
+                    const name = (card.querySelector('h4') || {}).textContent || '';
+
+                    const matchesSearch = !query || name.toLowerCase().includes(query);
+                    const matchesMaterial = activeMaterials.length === 0 || activeMaterials.some(m => data.materials.includes(m));
+                    const matchesStyle = activeStyles.length === 0 || activeStyles.some(s => data.styles.includes(s));
+                    const matchesIndoorOutdoor = activeIndoorOutdoor.length === 0 || activeIndoorOutdoor.includes(data.indoorOutdoor);
+
+                    const visible = matchesSearch && matchesMaterial && matchesStyle && matchesIndoorOutdoor;
+                    card.classList.toggle('hidden', !visible);
+                    if (visible) visibleCount++;
+                });
+
+                if (collectionEmptyState) collectionEmptyState.classList.toggle('hidden', visibleCount !== 0);
+
+                const totalActive = activeMaterials.length + activeStyles.length + activeIndoorOutdoor.length;
+                if (filterCountLabel) filterCountLabel.textContent = totalActive > 0 ? 'FILTER (' + totalActive + ')' : 'FILTER';
+            }
+
+            document.querySelectorAll('.filter-chips .chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    chip.classList.toggle('active');
+                    applyFilters();
+                });
+            });
+
+            if (collectionSearchInput) {
+                collectionSearchInput.addEventListener('input', applyFilters);
+            }
+
+            if (filterApplyBtn) {
+                filterApplyBtn.addEventListener('click', () => {
+                    applyFilters();
+                    closeFilter();
+                });
+            }
+
+            function clearAllFilters() {
+                document.querySelectorAll('.filter-chips .chip.active').forEach(c => c.classList.remove('active'));
+                if (collectionSearchInput) collectionSearchInput.value = '';
+                applyFilters();
+            }
+
+            if (filterClearAllBtn) {
+                filterClearAllBtn.addEventListener('click', clearAllFilters);
+            }
+            if (collectionClearLink) {
+                collectionClearLink.addEventListener('click', clearAllFilters);
+            }
         });
     </script>
     <script src="scroll-reveal.js"></script>
+    
+    <!-- Floating Filter Menu Overlay & Box -->
+    <div class="filter-overlay hidden" id="filter-overlay"></div>
+    <div class="floating-filter-modal hidden" id="filter-modal">
+        <div class="filter-modal-header">
+            <h3>Filters</h3>
+            <button class="close-btn" id="close-filter-btn" aria-label="Close">&times;</button>
+        </div>
+        <div class="filter-modal-body">
+            <!-- Materials -->
+            <div class="filter-group">
+                <label>MATERIALS</label>
+                <div class="filter-chips">
+                    <button type="button" class="chip">Rattan</button>
+                    <button type="button" class="chip">Solid timber</button>
+                    <button type="button" class="chip">Plywood</button>
+                    <button type="button" class="chip">Steel</button>
+                    <button type="button" class="chip">Aluminium</button>
+                    <button type="button" class="chip">Upholstered</button>
+                    <button type="button" class="chip">Stone top</button>
+                    <button type="button" class="chip">Laminate</button>
+                </div>
+            </div>
+
+            <!-- Interior Style -->
+            <div class="filter-group">
+                <label>INTERIOR STYLE</label>
+                <div class="filter-chips">
+                    <button type="button" class="chip">Scandinavian</button>
+                    <button type="button" class="chip">Industrial</button>
+                    <button type="button" class="chip">Mid-century</button>
+                    <button type="button" class="chip">Tropical</button>
+                    <button type="button" class="chip">Minimal</button>
+                    <button type="button" class="chip">Classic</button>
+                </div>
+            </div>
+
+            <!-- Furniture Types -->
+            <div class="filter-group">
+                <label>FURNITURE TYPES</label>
+                <div class="filter-chips">
+                    <button type="button" class="chip">Type 1</button>
+                    <button type="button" class="chip">Type 2</button>
+                    <button type="button" class="chip">Type 3</button>
+                </div>
+            </div>
+
+            <!-- Project Types -->
+            <div class="filter-group">
+                <label>PROJECT TYPES</label>
+                <div class="filter-chips">
+                    <button type="button" class="chip">Project 1</button>
+                    <button type="button" class="chip">Project 2</button>
+                </div>
+            </div>
+
+            <!-- Indoor/Outdoor -->
+            <div class="filter-group">
+                <label>INDOOR/OUTDOOR</label>
+                <div class="filter-chips">
+                    <button type="button" class="chip">Indoor</button>
+                    <button type="button" class="chip">Outdoor</button>
+                </div>
+            </div>
+        </div>
+        <div class="filter-modal-footer">
+            <button type="button" class="link-btn" id="filter-clear-all">Clear all</button>
+            <button type="button" class="btn btn-primary" id="filter-apply-btn">Show results</button>
+        </div>
+    </div>
 </body>
 </html>
