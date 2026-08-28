@@ -54,8 +54,6 @@
     line-height: 1.6;
     color: var(--black);
 }
-
-/* Designed Around Projects (3-Column Pillars) */
 .designed-around-projects {
     margin-bottom: 80px;
 }
@@ -91,8 +89,6 @@
     color: var(--grey-dark);
     line-height: 1.6;
 }
-
-/* Custom Hero Block (Dark architectural callout banner) */
 .custom-hero-block {
     background-color: var(--black);
     color: var(--white);

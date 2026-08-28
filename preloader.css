@@ -1,7 +1,3 @@
-/* ==========================================================================
-   Site Preloader — logo icon appears first, then the wordmark letters reveal
-   ========================================================================== */
-
 html.preloader-active,
 html.preloader-active body {
     overflow: hidden;

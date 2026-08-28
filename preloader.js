@@ -8,9 +8,8 @@
             return;
         }
 
-        // Total time the icon+wordmark animation needs before we start hiding
-        var HOLD_MS = 1600;  // icon-in (450ms) + text-reveal (650ms) with slight overlap, plus a short hold
-        var FADE_MS = 500;   // matches the CSS transition on .site-preloader
+        var HOLD_MS = 1600;  
+        var FADE_MS = 500;   
 
         setTimeout(function () {
             preloader.classList.add('is-hiding');

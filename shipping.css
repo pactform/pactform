@@ -1,11 +1,3 @@
-/* shipping.css — Signal Line: minimal, editorial, one continuous
-   route running through the page. A single accent-colored line and
-   node motif ties the hero, the list, the lead-time rail and the CTA
-   together — creativity through restraint, not ornament. */
-
-/* ---------------------------------------------------------------------
-   Shared typography & eyebrow accents
-   --------------------------------------------------------------------- */
 .eyebrow {
     display: block;
     font-size: 0.75rem;
@@ -16,10 +8,6 @@
     margin-bottom: 10px;
 }
 
-/* ---------------------------------------------------------------------
-   Page Header — oversized ghost type behind a plain-spoken headline,
-   with a single hand-drawn transit line as the page's signature mark
-   --------------------------------------------------------------------- */
 .shipping-hero {
     position: relative;
     margin-bottom: 72px;

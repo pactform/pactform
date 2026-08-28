@@ -26,8 +26,7 @@
         var targets = root.querySelectorAll(selector);
         if (!targets.length) return;
 
-        // Beri stagger ringan untuk elemen-elemen yang bertetangga langsung
-        // (kartu grid, dsb.) supaya munculnya tidak serentak kaku.
+
         var siblingCounters = new WeakMap();
         targets.forEach(function (el) {
             el.classList.add('scroll-reveal');
