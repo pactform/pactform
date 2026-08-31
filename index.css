@@ -111,6 +111,29 @@
 .scroll-chair-desc { background-color: #c44a21; color: #ffffff; padding: 20px 28px; font-size: clamp(0.95rem, 1.5vw, 1.15rem); line-height: 1.5; max-width: 480px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
 
 
+/* ===================================================================
+   CONTRACT FURNITURE HERO — solid orange banner with floating chair
+   =================================================================== */
+.contract-hero {
+    position: relative; overflow: hidden;
+    width: 100vw; left: 50%; right: 50%;
+    margin-left: -50vw; margin-right: -50vw;
+    background: linear-gradient(110deg, #651a00 0%, var(--hero-orange-deep) 35%, var(--accent) 75%, var(--hero-orange-vivid) 100%);
+    min-height: 620px;
+    display: flex; align-items: center;
+    margin-bottom: 80px;
+}
+.contract-hero-inner { position: relative; z-index: 2; width: 100%; }
+.contract-hero-text { max-width: 600px; }
+.contract-hero-text h1 { max-width: 100%; margin-bottom: 24px; color: #ffffff; font-size: clamp(2.2rem, 4.5vw, 3.6rem); line-height: 1.15; letter-spacing: -0.02em; }
+.contract-hero-text .hero-subtitle { max-width: 100%; margin-bottom: 20px; color: #ffffff; font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 500; line-height: 1.4; }
+.contract-hero-text .intro-text { max-width: 520px; margin-bottom: 28px; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; line-height: 1.6; }
+.contract-hero-chair {
+    position: absolute; right: 1%; bottom: 0; height: 94%; width: auto; max-width: 52%;
+    object-fit: contain; z-index: 1; pointer-events: none;
+}
+
+
 /* ==========================================================================
    WHY SECTION & GENERAL IMAGES
    ========================================================================== */
@@ -130,7 +153,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
    ========================================================================== */
 .collection-section-orange {
     position: relative; isolation: isolate; z-index: 1;
-    padding-top: 96px; padding-bottom: 96px; margin-bottom: 80px;
+    padding-top: 32px; padding-bottom: 32px; margin-bottom: 32px;
     width: 100vw; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;
     background: linear-gradient(110deg, #651a00 0%, var(--hero-orange-deep) 35%, var(--accent) 75%, var(--hero-orange-vivid) 100%);
     overflow: visible; 
@@ -154,7 +177,6 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
 .bento-office     { grid-column: span 3; }
 .bento-outdoor    { grid-column: span 6; }
 .bento-small      { grid-column: span 2; }
-.bento-tables     { grid-column: span 6; }
 
 /* Styling Dasar Kotak Gambar (Rasterize & High-DPI Safe) */
 .feature-photo {
@@ -292,34 +314,43 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
 
 
 /* ==========================================================================
-   TABLES DROPDOWN BUTTON
+   "CLICK TO SEE MORE" — EXPANDABLE EXTRA CATEGORIES
    ========================================================================== */
-.dropdown-container { position: relative; width: 100%; }
-.bento-dropdown-btn {
-    width: 100%; background-color: #222; color: #ffffff;
-    border: none; border-radius: 0; padding: 24px 32px; display: flex;
-    justify-content: space-between; align-items: center; cursor: pointer;
-    font-size: 1.6rem; font-weight: 700; transition: background-color 0.3s ease;
+.collection-expand-wrap {
+    max-height: 0; overflow: hidden; transition: max-height 0.5s ease;
 }
-.bento-dropdown-btn:hover { background-color: #111; }
-.dropdown-arrow { transition: transform 0.3s ease; }
-.bento-dropdown-btn.active .dropdown-arrow { transform: rotate(180deg); }
+.collection-expand-wrap.show { max-height: 1200px; }
+.collection-expand-grid { margin-top: 16px; }
 
-.bento-dropdown-menu {
-    position: absolute; top: 100%; left: 0; width: 100%; background-color: #ffffff;
-    border: 1px solid #ddd; border-top: none; z-index: 20;
-    opacity: 0; visibility: hidden; transform: translateY(-10px);
-    transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+.collection-see-more {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    width: fit-content;
+    margin: 28px auto 0 auto;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
+    padding: 14px 40px 12px 40px;
+    color: #ffffff; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
-.bento-dropdown-menu.show { opacity: 1; visibility: visible; transform: translateY(0); }
-.bento-dropdown-menu a {
-    display: block; padding: 16px 32px; color: #333; font-size: 1.1rem;
-    font-weight: 500; text-decoration: none; border-bottom: 1px solid #eee;
-    transition: background-color 0.2s ease, padding-left 0.2s ease;
+.collection-see-more:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.9);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
 }
-.bento-dropdown-menu a:last-child { border-bottom: none; }
-.bento-dropdown-menu a:hover { background-color: #f9f9f9; padding-left: 40px; color: #c44a21; }
-.bento-dropdown-menu a.view-all { font-weight: 700; background-color: #f5f5f5; }
+.collection-see-more:active { transform: translateY(-1px); }
+.collection-see-more .see-more-arrow {
+    transition: transform 0.3s ease;
+    animation: seeMoreBounce 1.6s ease-in-out infinite;
+}
+.collection-see-more.active .see-more-arrow { transform: rotate(180deg); animation: none; }
+@keyframes seeMoreBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(3px); }
+}
 
 
 /* ==========================================================================
@@ -379,6 +410,13 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     .scroll-new-content { display: flex; flex-direction: column; align-items: center; text-align: center; }
     .scroll-chair-model { font-size: 1.7rem; margin-bottom: 10px; }
     .scroll-chair-desc { padding: 14px 18px; font-size: 0.9rem; max-width: 85%; margin: 0 auto; }
+
+    .contract-hero { min-height: 540px; padding-top: 32px; padding-bottom: 32px; }
+    .contract-hero-text { max-width: 52%; }
+    .contract-hero-text h1 { font-size: 2.2rem; margin-bottom: 14px; }
+    .contract-hero-text .hero-subtitle { font-size: 1.15rem; margin-bottom: 14px; }
+    .contract-hero-text .intro-text { font-size: 0.95rem; margin-bottom: 20px; max-width: 100%; }
+    .contract-hero-chair { max-width: 46%; }
     
     .ffe-project-section { grid-template-columns: 1fr; padding: 40px 28px; margin: 56px auto; gap: 28px; }
     .ffe-hero-materials { border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.15); padding-left: 0; padding-top: 24px; }
@@ -396,6 +434,11 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     .feature-photo::after { background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%); }
     .watermark { bottom: 50%; right: 50%; transform: translate(50%, 50%); color: rgba(255, 255, 255, 0.15); }
     .bento-commercial, .bento-office { grid-column: span 6; }
+
+    .contract-hero { flex-direction: column; align-items: stretch; min-height: auto; padding: 40px 0 0; margin-bottom: 0; }
+    .contract-hero-inner { padding: 0 24px; }
+    .contract-hero-text { max-width: 100%; }
+    .contract-hero-chair { position: static; display: block; margin: 24px auto 0; width: 65%; max-width: 320px; height: auto; }
 }
 
 @media (max-width: 600px) {
@@ -415,6 +458,13 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     .scroll-chair-model { font-size: 1.25rem; margin-bottom: 6px; }
     .scroll-chair-desc { padding: 10px 12px; font-size: 0.75rem; max-width: 100%; }
 
+    .contract-hero { padding-top: 24px; }
+    .contract-hero-inner { padding: 0 24px; }
+    .contract-hero-text h1 { font-size: 1.5rem; line-height: 1.15; margin-bottom: 8px; }
+    .contract-hero-text .hero-subtitle { font-size: 0.85rem; margin-bottom: 8px; }
+    .contract-hero-text .intro-text { font-size: 0.75rem; line-height: 1.4; margin-bottom: 12px; }
+    .contract-hero-chair { width: 75%; margin-top: 16px; }
+
     .why-photo { height: 200px; }
     .ffe-project-section { padding: 32px 20px; }
     .boq-upload-section { padding: 40px 20px; margin-bottom: 48px; }
@@ -425,7 +475,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     .custom-furniture-text h2 { font-size: 1.3rem; margin-bottom: 10px; }
     .custom-furniture-text p { font-size: 0.85rem; line-height: 1.5; margin-bottom: 16px; }
     
-    .bento-full-row, .bento-small, .bento-tables { grid-column: span 6; }
+    .bento-full-row, .bento-small { grid-column: span 6; }
     .category-bento-grid .category-photo, .bento-small .category-photo { min-height: 240px; }
     .card-content { bottom: 16px; left: 16px; }
 }

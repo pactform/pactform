@@ -231,3 +231,42 @@
     text-align: center;
     padding: 40px 0;
 }
+
+/* ==========================================================================
+   Custom Work CTA Section (added — sits before the footer)
+   ========================================================================== */
+.custom-cta-section {
+    padding-top: 48px;
+    border-top: 1px solid #eee;
+}
+
+.custom-cta-section h3 {
+    margin: 0 0 12px;
+}
+
+.custom-cta-text {
+    color: var(--grey-dark);
+    max-width: 700px;
+    margin: 0 0 24px;
+}
+
+.custom-cta-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.custom-cta-actions .btn {
+    text-decoration: none;
+    display: inline-block;
+}
+
+@media (max-width: 600px) {
+    .custom-cta-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .custom-cta-actions .btn {
+        text-align: center;
+    }
+}

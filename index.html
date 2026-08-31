@@ -90,19 +90,10 @@
             </div> 
         </section> 
 
-        <!-- === BAGIAN SCROLL REVEAL ANIMATION === -->
-        <section class="hero-scroll-pin" id="heroScrollPin">
-            <div class="hero-scroll-sticky" id="heroScrollSticky">
-                
-                <!-- 1. Background Putih Dasar -->
-                <div class="scroll-bg-white"></div>
-
-                <!-- 2. Latar Belakang Ruangan (Naik dari bawah saat discroll) -->
-                <!-- Ganti background_gradient.jpg di bawah dengan file gambar ruangan milikmu -->
-                <div class="scroll-bg-room" style="background-image: url('background_gradient.jpg');"></div>
-
-                <!-- 3. Konten Teks Original (Naik ke atas dan menghilang saat discroll) -->
-                <div class="container scroll-default-content">
+        <!-- === CONTRACT FURNITURE HERO (Orange Banner) === -->
+        <section class="contract-hero" id="heroScrollPin">
+            <div class="container contract-hero-inner">
+                <div class="contract-hero-text">
                     <h1>CONTRACT FURNITURE,<br>DIRECT FROM THE SOURCE</h1>
                     <p class="hero-subtitle">Contract furniture for hotels, restaurants, cafes, offices and commercial spaces.</p>
                     <p class="intro-text">Source contract furniture which covers chairs, tables, and custom furniture through Pactform. We coordinate specifications, production, quality control and shipping through selected manufacturing partners across Asia.</p>
@@ -111,20 +102,8 @@
                         <a href="projects.html" class="btn btn-secondary">SUBMIT YOUR PROJECT & BOQ</a>
                     </div>
                 </div>
-
-                <!-- 4. Konten Teks Baru (Naik dari bawah bersama background ruangan) -->
-                <div class="container scroll-new-content">
-                    <div class="new-content-inner">
-                        <h2 class="scroll-chair-model">Chair Model : XX-XXXX</h2>
-                        <div class="scroll-chair-desc">
-                            Suitable for hotels, restaurants, cafes, offices<br>and commercial spaces.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 5. Gambar Kursi (Diam di tempat, tidak ikut terscroll) -->
-                <img src="new_chair.png" alt="Pactform Premium Contract Furniture" class="scroll-floating-chair">
             </div>
+            <img src="chair_new.png" alt="Pactform Premium Contract Furniture" class="contract-hero-chair">
         </section>
 
         <!-- Why Pactform -->
@@ -240,22 +219,43 @@
                         </div>
                     </a>
 
-                    <!-- Baris 4: Tables Dropdown (Tetap Tajam Hitam) -->
-                    <div class="category-card bento-tables dropdown-container">
-                        <button class="bento-dropdown-btn" id="tablesToggleBtn" aria-expanded="false">
-                            <span class="btn-text">Tables</span>
-                            <svg class="dropdown-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                        </button>
-                        <div class="bento-dropdown-menu" id="tablesDropdownMenu">
-                            <a href="category.html?category=dining-tables">Dining Tables</a>
-                            <a href="category.html?category=coffee-tables">Coffee Tables</a>
-                            <a href="category.html?category=side-tables">Side Tables</a>
-                            <a href="category.html?category=outdoor-tables">Outdoor Tables</a>
-                            <a href="category.html?category=tables" class="view-all">View All Tables &rarr;</a>
-                        </div>
-                    </div>
-
                 </div>
+
+                <!-- Hidden extra categories (Tables), revealed by "Click to See More" -->
+                <div class="collection-expand-wrap" id="collectionExpandWrap">
+                    <div class="category-bento-grid collection-expand-grid">
+                        <a href="category.html?category=dining-tables" class="category-card bento-small">
+                            <div class="img-box category-photo">
+                                <img src="dining-tables.jpg" alt="Dining Tables" style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="card-content-small"><h4>Dining Tables</h4></div>
+                            </div>
+                        </a>
+                        <a href="category.html?category=coffee-tables" class="category-card bento-small">
+                            <div class="img-box category-photo">
+                                <img src="coffee-tables.jpg" alt="Coffee Tables" style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="card-content-small"><h4>Coffee Tables</h4></div>
+                            </div>
+                        </a>
+                        <a href="category.html?category=side-tables" class="category-card bento-small">
+                            <div class="img-box category-photo">
+                                <img src="side-tables.jpg" alt="Side Tables" style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="card-content-small"><h4>Side Tables</h4></div>
+                            </div>
+                        </a>
+                        <a href="category.html?category=outdoor-tables" class="category-card bento-small">
+                            <div class="img-box category-photo">
+                                <img src="outdoor-tables.jpg" alt="Outdoor Tables" style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="card-content-small"><h4>Outdoor Tables</h4></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <button class="collection-see-more" id="collectionSeeMoreBtn" aria-expanded="false" aria-controls="collectionExpandWrap">
+                    <span class="see-more-text">Click to See More</span>
+                    <svg class="see-more-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+
             </div>
         </section>
 
@@ -529,29 +529,20 @@
     </script>
     <!-- ... kode modal dan lainnya ... -->
 
-    <!-- Script untuk Dropdown Tables -->
+    <!-- Script untuk "Click to See More" (The Collection) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const toggleBtn = document.getElementById('tablesToggleBtn');
-            const dropdownMenu = document.getElementById('tablesDropdownMenu');
+            const toggleBtn = document.getElementById('collectionSeeMoreBtn');
+            const expandWrap = document.getElementById('collectionExpandWrap');
 
-            if (toggleBtn && dropdownMenu) {
+            if (toggleBtn && expandWrap) {
                 toggleBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    // Toggle class untuk membuka/menutup menu
-                    dropdownMenu.classList.toggle('show');
-                    toggleBtn.classList.toggle('active');
-                    
                     const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+                    expandWrap.classList.toggle('show');
+                    toggleBtn.classList.toggle('active');
                     toggleBtn.setAttribute('aria-expanded', !isExpanded);
-                });
-
-                document.addEventListener('click', function(e) {
-                    if (!toggleBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                        dropdownMenu.classList.remove('show');
-                        toggleBtn.classList.remove('active');
-                        toggleBtn.setAttribute('aria-expanded', 'false');
-                    }
+                    toggleBtn.querySelector('.see-more-text').textContent = isExpanded ? 'Click to See More' : 'Click to See Less';
                 });
             }
         });
