@@ -11,7 +11,6 @@
 </head>
 <body>
 
-    <!-- Site Preloader: icon appears first, then the wordmark letters reveal -->
     <div class="site-preloader" id="site-preloader">
         <div class="preloader-logo-wrap">
             <img class="preloader-logo-full" src="logo_pactform.png" alt="Pactform">
@@ -29,7 +28,7 @@
                     <li><a href="custom.html">custom</a></li>
                     <li><a href="shipping.html">shipping</a></li>
                     <li><a href="projects.html">projects</a></li>
-                                    <li class="nav-list-item"><button class="btn btn-primary" id="toggle-list-btn-mobile">Your list</button></li>
+                    <li class="nav-list-item"><button class="btn btn-primary" id="toggle-list-btn-mobile">Your list</button></li>
                 </ul>
             </nav>
             <div class="header-actions">
@@ -71,18 +70,21 @@
         });
     </script>
 
-
     <main class="container">
         <section class="product-showcase" style="margin-top: 40px;">
-            <div class="placeholder category-carousel-container" id="big-carousel">
+            <div class="category-carousel-container" id="big-carousel">
+                <img id="carousel-main-img" src="" alt="Product Image" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0;">
+                
                 <button class="carousel-arrow" id="prev-slide" aria-label="Previous image">&lt;</button>
                 <span class="img-label carousel-img-label" id="carousel-img-label"></span>
-                <div class="carousel-overlay">
-                    <h3 id="carousel-product-name">[SELECTED PRODUCT NAME]</h3>
-                    <p id="carousel-caption"></p>
-                </div>
                 <button class="carousel-arrow" id="next-slide" aria-label="Next image">&gt;</button>
             </div>
+            
+            <div style="text-align: left; margin-bottom: 24px;">
+                <h3 id="carousel-product-name" style="margin-bottom: 8px;">[SELECTED PRODUCT NAME]</h3>
+                <p id="carousel-caption" style="color: var(--grey-dark); margin: 0;"></p>
+            </div>
+
             <div class="carousel-dots" id="carousel-dots"></div>
         </section>
 
@@ -159,7 +161,6 @@
         </div>
     </footer>
 
-    <!-- Sticky Get Product Updates -->
     <a href="#" class="updates-sticky" aria-label="Get Product Updates">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         <span>Get Product Updates</span>
@@ -167,7 +168,6 @@
 
     <a href="https://wa.me/62xxxxxxxxxx" class="whatsapp-sticky" aria-label="Chat on WhatsApp" target="_blank" rel="noopener noreferrer">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="34" height="34" fill="currentColor">
-            <!--!Font Awesome Free v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
             <path d="M476.9 161.1C435 119.1 379.2 96 319.9 96C197.5 96 97.9 195.6 97.9 318C97.9 357.1 108.1 395.3 127.5 429L96 544L213.7 513.1C246.1 530.8 282.6 540.1 319.8 540.1L319.9 540.1C442.2 540.1 544 440.5 544 318.1C544 258.8 518.8 203.1 476.9 161.1zM319.9 502.7C286.7 502.7 254.2 493.8 225.9 477L219.2 473L149.4 491.3L168 423.2L163.6 416.2C145.1 386.8 135.4 352.9 135.4 318C135.4 216.3 218.2 133.5 320 133.5C369.3 133.5 415.6 152.7 450.4 187.6C485.2 222.5 506.6 268.8 506.5 318.1C506.5 419.9 421.6 502.7 319.9 502.7zM421.1 364.5C415.6 361.7 388.3 348.3 383.2 346.5C378.1 344.6 374.4 343.7 370.7 349.3C367 354.9 356.4 367.3 353.1 371.1C349.9 374.8 346.6 375.3 341.1 372.5C308.5 356.2 287.1 343.4 265.6 306.5C259.9 296.7 271.3 297.4 281.9 276.2C283.7 272.5 282.8 269.3 281.4 266.5C280 263.7 268.9 236.4 264.3 225.3C259.8 214.5 255.2 216 251.8 215.8C248.6 215.6 244.9 215.6 241.2 215.6C237.5 215.6 231.5 217 226.4 222.5C221.3 228.1 207 241.5 207 268.8C207 296.1 226.9 322.5 229.6 326.2C232.4 329.9 268.7 385.9 324.4 410C359.6 425.2 373.4 426.5 391 423.9C401.7 422.3 423.8 410.5 428.4 397.5C433 384.5 433 373.4 431.6 371.1C430.3 368.6 426.6 367.2 421.1 364.5z"/>
         </svg>
     </a>
@@ -191,65 +191,26 @@
     <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // ---------- Data ----------
-        const MATERIALS = [
-            { id: 'rattan', label: 'Rattan' },
-            { id: 'solid-timber', label: 'Solid timber' },
-            { id: 'plywood', label: 'Plywood' },
-            { id: 'steel', label: 'Steel' },
-            { id: 'aluminium', label: 'Aluminium' },
-            { id: 'upholstered', label: 'Upholstered' },
-            { id: 'stone-top', label: 'Stone top' },
-            { id: 'laminate', label: 'Laminate' }
-        ];
-        const STYLES = [
-            { id: 'scandinavian', label: 'Scandinavian' },
-            { id: 'industrial', label: 'Industrial' },
-            { id: 'mid-century', label: 'Mid-century' },
-            { id: 'tropical', label: 'Tropical' },
-            { id: 'minimal', label: 'Minimal' },
-            { id: 'classic', label: 'Classic' }
-        ];
-
         const CATEGORIES = {
-            'commercial': { name: 'Commercial', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order — pieces that hold up daily and match perfectly if you need more." },
+            'commercial': { name: 'Commercial', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
             'outdoor': { name: 'Outdoor', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
             'office': { name: 'Office', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-chairs': { name: 'Dining chairs', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair. Pick a look, pick a material, and we'll take it from there." },
-            'bar-stools': { name: 'Bar stools', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards a bar service demands." },
-            'booth-seating': { name: 'Booth seating', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order for your floor plan." },
-            'tables': { name: 'Tables', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables — plus legs and tops available separately." }
+            'dining-chairs': { name: 'Dining chairs', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
+            'bar-stools': { name: 'Bar stools', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
+            'booth-seating': { name: 'Booth seating', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
+            'tables': { name: 'Tables', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." }
         };
 
         const PRODUCTS = [
-            { slug: 'oslo-dining-chair', category: 'dining-chairs', name: 'Oslo Dining Chair', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service. The woven back keeps air moving on warm nights, and the powder-coated frame shrugs off the odd knock.", dims: 'approx. W450 x D520 x H820 mm, seat height approx. 450 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining, covered terraces' },
-            { slug: 'helsinki-side-chair', category: 'dining-chairs', name: 'Helsinki Side Chair', materials: ['solid-timber'], styles: ['scandinavian', 'minimal'], badges: ['Solid timber', 'Minimal', 'Non-stacking'], desc: "A quiet, upright chair for rooms where the furniture shouldn't compete with the plate. Finished by hand, joint by joint.", dims: 'approx. W440 x D500 x H800 mm, seat height approx. 460 mm', materialsText: 'Solid ash frame, natural oil finish', goodFor: 'Fine dining, private dining rooms' },
-            { slug: 'marrakech-rattan-chair', category: 'dining-chairs', name: 'Marrakech Rattan Chair', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan', 'Tropical', 'Handwoven'], desc: "Fully hand-woven, front to back, by makers who've done little else for twenty years. Built for rooms that are outdoors as often as in.", dims: 'approx. W460 x D540 x H830 mm, seat height approx. 450 mm', materialsText: 'Fully hand-woven rattan, solid timber legs', goodFor: 'Resorts, poolside dining, tropical interiors' },
-            { slug: 'bolt-steel-chair', category: 'dining-chairs', name: 'Bolt Steel Chair', materials: ['steel', 'upholstered'], styles: ['industrial', 'mid-century'], badges: ['Steel', 'Upholstered', 'Stackable'], desc: "Built for the sections that turn tables fastest. A steel frame that stacks four high, with just enough padding to keep guests around for dessert.", dims: 'approx. W430 x D500 x H810 mm, seat height approx. 440 mm', materialsText: 'Powder-coated steel frame, upholstered seat pad', goodFor: 'High-turnover dining, cafes, canteens' },
-
-            { slug: 'copenhagen-armchair', category: 'office', name: 'Copenhagen Armchair', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A general-purpose armchair with enough presence for a lobby and enough restraint for a meeting room.", dims: 'approx. W560 x D560 x H780 mm, seat height approx. 440 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas, meeting rooms' },
-            { slug: 'riva-stack-chair', category: 'commercial', name: 'Riva Stack Chair', materials: ['steel'], styles: ['industrial'], badges: ['Steel', 'Industrial', 'Stackable'], desc: "The chair you order two hundred of. Stacks eight high, stores flat, and shows no wear after a season of daily use.", dims: 'approx. W440 x D500 x H800 mm, seat height approx. 450 mm', materialsText: 'Powder-coated steel, moulded seat', goodFor: 'Function rooms, canteens, event spaces' },
-
-            { slug: 'lagoon-lounge-chair', category: 'outdoor', name: 'Lagoon Lounge Chair', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars. Weather-resistant weave over a hardwood frame.", dims: 'approx. W700 x D800 x H750 mm, seat height approx. 380 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies, outdoor lounges' },
-            { slug: 'wren-lounge-chair', category: 'commercial', name: 'Wren Lounge Chair', materials: ['upholstered'], styles: ['mid-century'], badges: ['Upholstered', 'Mid-century'], desc: "A hotel-lobby classic, reupholstered in commercial-grade fabric on a steel base rated for daily use.", dims: 'approx. W720 x D780 x H720 mm, seat height approx. 400 mm', materialsText: 'Performance fabric upholstery, powder-coated steel base', goodFor: 'Hotel lobbies, bars, breakout lounges' },
-
-            { slug: 'pebble-coffee-table', category: 'tables', name: 'Pebble Coffee Table', materials: ['stone-top'], styles: ['minimal'], badges: ['Stone top', 'Minimal'], desc: "A honed stone top on a low steel base — heavy enough to stay put, simple enough to disappear into the room.", dims: 'approx. W900 x D500 x H360 mm', materialsText: 'Honed stone top, powder-coated steel base', goodFor: 'Lounges, lobbies, bar seating' },
-            { slug: 'foundry-coffee-table', category: 'tables', name: 'Foundry Coffee Table', materials: ['steel'], styles: ['industrial'], badges: ['Steel', 'Industrial'], desc: "A stacked steel frame with a reinforced top, built to take feet, trays and the odd spilled drink.", dims: 'approx. W1000 x D550 x H380 mm', materialsText: 'Powder-coated steel frame and top', goodFor: 'Bars, breakout areas, waiting rooms' },
-
-            { slug: 'camber-dining-table', category: 'tables', name: 'Camber Dining Table', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge, sized to order from two-tops through to long-form seating.", dims: 'approx. W1600 x D850 x H750 mm (custom sizing available)', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining, private dining rooms' },
-            { slug: 'union-table', category: 'tables', name: 'Union Table', materials: ['laminate'], styles: ['industrial'], badges: ['Laminate', 'Industrial'], desc: "A hard-wearing laminate top on a bolt-together steel base, built to move if your floor plan does.", dims: 'approx. W1200 x D700 x H750 mm', materialsText: 'High-pressure laminate top, steel base', goodFor: 'Cafes, canteens, fast-turn dining' },
-
-            { slug: 'baltic-table-top', category: 'tables', name: 'Baltic Table Top', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Sold separately'], desc: "A solid-edge table top, sold on its own so you can standardise a base finish and swap tops as designs change.", dims: 'approx. W1200 x D700 x H30 mm', materialsText: 'Solid ash, natural oil finish', goodFor: 'Custom table builds, mixed-finish dining rooms' },
-            { slug: 'girder-leg-set', category: 'tables', name: 'Girder Table Leg Set', materials: ['steel'], styles: ['industrial'], badges: ['Steel', 'Sold separately'], desc: "A bolt-together steel leg set rated for commercial dining tables, sold independently of the top.", dims: 'approx. H750 mm, adjustable feet', materialsText: 'Powder-coated steel', goodFor: 'Custom table builds, high-traffic dining rooms' },
-
-            { slug: 'anchor-bar-stool', category: 'bar-stools', name: 'Anchor Bar Stool', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Steel', 'Upholstered', 'Stackable'], desc: "A counter-height stool with a padded seat and a frame built to be pulled in and out a hundred times a shift.", dims: 'approx. W400 x D400 x H750 mm, seat height approx. 760 mm', materialsText: 'Powder-coated steel frame, upholstered seat pad', goodFor: 'Bars, high tables, counter seating' },
-            { slug: 'reed-rattan-stool', category: 'bar-stools', name: 'Reed Rattan Stool', materials: ['rattan'], styles: ['tropical', 'minimal'], badges: ['Rattan', 'Tropical'], desc: "A light, hand-woven stool for bars that lean tropical or minimal rather than industrial.", dims: 'approx. W380 x D380 x H720 mm', materialsText: 'Hand-woven rattan, solid timber legs', goodFor: 'Resort bars, poolside counters' },
-
-            { slug: 'harbor-booth', category: 'booth-seating', name: 'Harbor Booth', materials: ['upholstered'], styles: ['mid-century'], badges: ['Upholstered', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial fire-safety standards and built to your floor plan's exact run.", dims: 'approx. W1800 x D700 x H1100 mm (custom sizing available)', materialsText: 'Performance vinyl upholstery, fire-rated foam, plywood frame', goodFor: 'Restaurants, diners, banquette seating' },
-            { slug: 'corner-booth-modular', category: 'booth-seating', name: 'Corner Booth Modular', materials: ['upholstered'], styles: ['industrial'], badges: ['Upholstered', 'Modular'], desc: "Modular booth sections that combine into straight runs, corners or full enclosures depending on the room.", dims: 'approx. modular units, W900 x D700 x H1100 mm each', materialsText: 'Commercial-grade upholstery, steel-reinforced frame', goodFor: 'Cafes, bars, flexible dining layouts' }
+            { slug: 'oslo-dining-chair', category: 'dining-chairs', name: 'Oslo Dining Chair', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
+            { slug: 'riva-stack-chair', category: 'commercial', name: 'Riva Stack Chair', materials: ['steel'], styles: ['industrial'], badges: ['Steel', 'Industrial', 'Stackable'], desc: "The chair you order two hundred of. Stacks eight high, stores flat.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, moulded seat', goodFor: 'Function rooms, canteens, event spaces' },
+            { slug: 'lagoon-lounge-chair', category: 'outdoor', name: 'Lagoon Lounge Chair', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
+            { slug: 'copenhagen-armchair', category: 'office', name: 'Copenhagen Armchair', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A general-purpose armchair with enough presence for a lobby.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
+            { slug: 'anchor-bar-stool', category: 'bar-stools', name: 'Anchor Bar Stool', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Steel', 'Upholstered', 'Stackable'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Powder-coated steel frame, upholstered seat pad', goodFor: 'Bars, high tables' },
+            { slug: 'harbor-booth', category: 'booth-seating', name: 'Harbor Booth', materials: ['upholstered'], styles: ['mid-century'], badges: ['Upholstered', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
+            { slug: 'camber-dining-table', category: 'tables', name: 'Camber Dining Table', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' }
         ];
 
-        // ---------- State ----------
         const params = new URLSearchParams(window.location.search);
         let currentCategory = CATEGORIES[params.get('category')] ? params.get('category') : 'dining-chairs';
         const activeMaterials = new Set((params.get('materials') || '').split(',').filter(Boolean));
@@ -258,7 +219,6 @@
         let currentSlide = 0;
         let currentSlides = [];
 
-        // ---------- Elements ----------
         const bigCarousel = document.getElementById('big-carousel');
         const carouselImgLabel = document.getElementById('carousel-img-label');
         const carouselProductName = document.getElementById('carousel-product-name');
@@ -276,7 +236,6 @@
         const productShowcase = document.querySelector('.product-showcase');
         const addToListBtn = document.getElementById('add-to-list-btn');
 
-        // ---------- Product filtering ----------
         function getFilteredProducts() {
             return PRODUCTS.filter(p => {
                 if (p.category !== currentCategory) return false;
@@ -310,7 +269,6 @@
         }
         document.getElementById('empty-clear').addEventListener('click', clearAllFilters);
 
-        // ---------- Thumbnails ----------
         function renderThumbnails(list) {
             thumbnailRow.innerHTML = '';
             list.forEach(p => {
@@ -318,21 +276,30 @@
                 thumb.className = 'thumbnail';
                 thumb.type = 'button';
                 thumb.classList.toggle('selected', currentProduct && currentProduct.slug === p.slug);
-                thumb.innerHTML = '<div class="placeholder img-box thumbnail-photo"><span class="img-label">' + p.name + '</span></div>' +
+                
+                thumb.innerHTML = '<div class="img-box thumbnail-photo">' + 
+                    '<img src="' + p.category + '/foto1.png" alt="' + p.name + '" style="width: 100%; height: 100%; object-fit: cover;">' + 
+                    '</div>' +
                     '<h5>' + p.name + '</h5>' +
                     '<p class="thumbnail-tags">' + p.badges.slice(0, 2).join(' · ') + '</p>';
+                
                 thumb.addEventListener('click', () => selectProduct(p.slug));
                 thumbnailRow.appendChild(thumb);
             });
         }
 
-        // ---------- Slides ----------
         function buildSlides(product) {
-            const shots = ['front', 'side', 'back', 'detail'];
+            const shots = ['front', 'side', 'back', 'detail', 'top', 'close-up', 'three-quarter angle'];
             const settings = ['a restaurant', 'a cafe', 'a hotel lobby', 'an office'];
             const slides = [];
-            shots.forEach((shot, i) => slides.push({ label: 'PRODUCT PHOTO — ' + product.name + ' (' + (i + 1) + '/4)', caption: 'Product photography on plain ground — ' + shot + ' view.' }));
-            settings.forEach((setting, i) => slides.push({ label: 'INTERIOR — ' + product.name + ' (' + (i + 1) + '/4)', caption: 'Visualised in ' + setting + '.' }));
+            shots.forEach((shot, i) => { 
+                const n = i + 1; 
+                slides.push({ label: 'PRODUCT PHOTO — ' + product.name + ' (' + n + '/' + shots.length + ')', caption: 'Product photography on plain ground — ' + shot + ' view.', img: product.category + '/foto' + n + '.png' }); 
+            });
+            settings.forEach((setting, i) => { 
+                const n = i + 1 + shots.length; 
+                slides.push({ label: 'INTERIOR — ' + product.name + ' (' + (i + 1) + '/' + settings.length + ')', caption: 'Visualised in ' + setting + '.', img: product.category + '/foto' + n + '.png' }); 
+            });
             return slides;
         }
 
@@ -353,6 +320,12 @@
             carouselImgLabel.textContent = slide.label;
             carouselProductName.textContent = currentProduct.name;
             carouselCaption.textContent = slide.caption;
+            
+            const mainImg = document.getElementById('carousel-main-img');
+            if (mainImg) {
+                mainImg.src = slide.img;
+            }
+
             document.querySelectorAll('#carousel-dots .dot').forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
         }
 
@@ -365,29 +338,6 @@
             updateCarousel();
         });
 
-        // Touch swipe support (mobile / tablet)
-        let catTouchStartX = 0;
-        let catTouchStartY = 0;
-        let catTouchActive = false;
-        bigCarousel.addEventListener('touchstart', (e) => {
-            catTouchStartX = e.changedTouches[0].clientX;
-            catTouchStartY = e.changedTouches[0].clientY;
-            catTouchActive = true;
-        }, { passive: true });
-        bigCarousel.addEventListener('touchend', (e) => {
-            if (!catTouchActive) return;
-            catTouchActive = false;
-            const dx = e.changedTouches[0].clientX - catTouchStartX;
-            const dy = e.changedTouches[0].clientY - catTouchStartY;
-            if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-                currentSlide = dx < 0
-                    ? (currentSlide + 1) % currentSlides.length
-                    : (currentSlide - 1 + currentSlides.length) % currentSlides.length;
-                updateCarousel();
-            }
-        }, { passive: true });
-
-        // ---------- Product selection ----------
         function selectProduct(slug) {
             currentProduct = PRODUCTS.find(p => p.slug === slug);
             currentSlide = 0;
@@ -406,14 +356,10 @@
             updateUrl();
         }
 
-        // ---------- Add to list ----------
-        const listItems = [
-            { name: '[PRODUCT NAME] x24', meta: 'Rattan / natural — approx. W450 D520 H820' },
-            { name: '[PRODUCT NAME] x8', meta: 'Solid oak / black steel — approx. W1400 D700 H750' },
-            { name: '[PRODUCT NAME] x12', meta: 'Powder-coated steel — approx. W400 D400 H650' }
-        ];
+        const listItems = [];
         const trashIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
         const listItemsEl = document.getElementById('list-items');
+        
         function renderListItems() {
             if (listItems.length === 0) {
                 listItemsEl.innerHTML = '<p class="list-empty">Your list is empty.</p>';
@@ -447,7 +393,6 @@
             openDrawer();
         });
 
-        // ---------- URL sync ----------
         function updateUrl() {
             const p = new URLSearchParams();
             p.set('category', currentCategory);
@@ -457,7 +402,6 @@
             history.replaceState(null, '', '?' + p.toString());
         }
 
-        // ---------- Drawer ----------
         const overlay = document.getElementById('drawer-overlay');
         const modal = document.getElementById('list-modal');
         const toggleListBtn = document.getElementById('toggle-list-btn');
@@ -485,7 +429,6 @@
             }).catch(() => {});
         });
 
-        // ---------- Init ----------
         const initialFiltered = getFilteredProducts();
         renderThumbnails(initialFiltered);
         const urlProduct = params.get('product');
