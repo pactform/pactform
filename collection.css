@@ -270,3 +270,27 @@
         text-align: center;
     }
 }
+/* ==========================================================================
+   Hero ghost text — large faint background heading behind the section title
+   ========================================================================== */
+.collection-section {
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+    padding-top: 4px;
+}
+.hero-ghost {
+    position: absolute;
+    top: -0.4em;
+    left: -0.03em;
+    z-index: -1;
+    font-size: clamp(4.5rem, 14vw, 11rem);
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--grey-light);
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+}

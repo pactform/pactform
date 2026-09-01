@@ -351,3 +351,27 @@
 .step-item:hover {
     background-color: #fffcf9;
 }
+
+/* ==========================================================================
+   Hero ghost text — large faint background heading behind the page title
+   ========================================================================== */
+.projects-hero {
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
+}
+.hero-ghost {
+    position: absolute;
+    top: -0.4em;
+    left: -0.03em;
+    z-index: -1;
+    font-size: clamp(4.5rem, 14vw, 11rem);
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--grey-light);
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+}

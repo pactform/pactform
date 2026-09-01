@@ -45,19 +45,19 @@
     flex-wrap: wrap;
 }
 
-/* ==========================================================================
-   Orange hero colour block — restyles the existing .custom-hero-section in
-   place. Same copy, same buttons, same placeholder photo box beneath; only
-   the surface, text colour and CTA colour are added.
-   ========================================================================== */
 .hero-orange-block {
     position: relative;
     isolation: isolate;
     z-index: 1;
-    padding-top: 64px;
+    
+    margin-top: -100px; 
+    
+    padding-top: 164px; 
+    
     padding-bottom: 56px;
     border-bottom: none;
 }
+
 .hero-orange-block::before {
     content: '';
     position: absolute;
@@ -364,4 +364,26 @@
 .result-item:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   Hero ghost text — large faint background heading behind the page title
+   ========================================================================== */
+.hero-ghost {
+    position: absolute;
+    
+    /* Ganti top: -0.4em; menjadi angka positif untuk mendorongnya turun */
+    top: 30px;/*Silakan naik-turunkan angka ini (misal 80px - 120px) sampai posisinya pas */
+    
+    left: -0.03em;
+    z-index: -1;
+    font-size: clamp(4.5rem, 14vw, 11rem);
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.14);
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
 }
