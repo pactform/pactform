@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="preloader.css?v=3.0">
     <link rel="stylesheet" href="scroll-reveal.css">
     <style>
-        /* Mencegah layar geser ke samping kalau fotonya kepanjangan */
-        body { overflow-x: hidden; }
+        /* Mencegah layar geser ke samping kalau ada elemen yang kelebaran */
+        html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
     </style>
 </head>
 <body>
@@ -84,7 +84,7 @@
             <h1>ABOUT PACTFORM</h1>
             <p class="hero-desc">Pactform is an international furniture company providing distinctive contract furniture and project furnishing solutions for restaurants, hotels, workplaces and other commercial interiors.</p>
         </section>
-    </main> <section style="width: 100vw; margin-bottom: 80px;">
+    </main> <section class="full-bleed" style="margin-bottom: 80px;">
         <div class="container" style="margin-bottom: 40px;">
             <div class="section-heading-row">
                 <div>
@@ -95,7 +95,7 @@
             </div>
         </div>
         
-        <img src="factory visit.jpg" alt="Pactform Approach" style="width: 100vw; height: 80vh; object-fit: cover; display: block; margin: 0; padding: 0;">
+        <img src="factory visit.jpg" alt="Pactform Approach" style="width: 100%; height: 80vh; object-fit: cover; display: block; margin: 0; padding: 0;">
     </section>
 
     <main class="container"> <section class="about-section">
