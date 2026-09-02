@@ -129,7 +129,6 @@
 .contract-hero-text .hero-subtitle { max-width: 100%; margin-bottom: 20px; color: #ffffff; font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 500; line-height: 1.4; }
 .contract-hero-text .intro-text { max-width: 520px; margin-bottom: 28px; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; line-height: 1.6; }
 .contract-hero-chair {
-<<<<<<< HEAD
     position: absolute; 
     right: -20%;  /* Menggeser kursi lebih jauh ke kanan hingga melewati batas layar */
     top: 2%;      /* Memastikan kepala kursi selalu berada di dalam frame (tidak terpotong) */
@@ -140,10 +139,6 @@
     object-fit: contain; 
     z-index: 1; 
     pointer-events: none;
-=======
-    position: absolute; right: 1%; bottom: 0; height: 94%; width: auto; max-width: 52%;
-    object-fit: contain; z-index: 1; pointer-events: none;
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
 }
 
 
@@ -415,7 +410,6 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
 .boq-dropzone-title { font-weight: 600; margin-bottom: 8px; }
 .boq-dropzone-sub { font-size: 0.85rem; color: var(--grey-dark); margin-bottom: 0; }
 
-<<<<<<< HEAD
 .custom-furniture-block { position: relative; overflow: hidden; min-height: 460px; display: flex; align-items: center; margin-bottom: 80px; }
 .custom-furniture-inner { width: 100%; }
 
@@ -440,14 +434,6 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     z-index: 1;
     pointer-events: none; 
 }
-=======
-.custom-furniture-block { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 80px; }
-.custom-furniture-photo { height: 500px; box-shadow: none !important; background-color: transparent !important; transition: box-shadow 0.25s ease, transform 0.25s ease; }
-.custom-furniture-photo:hover { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1); transform: translateY(-3px); }
-.custom-furniture-text h2 { font-size: clamp(1.75rem, 3vw, 2.4rem); margin-bottom: 16px; }
-.custom-furniture-text .eyebrow { margin-bottom: 12px; }
-.custom-furniture-text p { margin-bottom: 24px; }
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
 
 .about-teaser-orange {
     position: relative; isolation: isolate; z-index: 1; padding-top: 96px; padding-bottom: 96px; margin-bottom: 80px; width: 100vw; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;
@@ -486,7 +472,6 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     
     .ffe-project-section { grid-template-columns: 1fr; padding: 40px 28px; margin: 56px auto; gap: 28px; }
     .ffe-hero-materials { border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.15); padding-left: 0; padding-top: 24px; }
-<<<<<<< HEAD
     .custom-furniture-block { min-height: 480px; margin-bottom: 56px; }
     .custom-furniture-text { max-width: 50% !important; }
     .custom-furniture-text h2 { font-size: 2.2rem; margin-bottom: 14px; }
@@ -503,27 +488,18 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
         transform: none;
         z-index: 1; 
     }
-=======
-    .custom-furniture-block { gap: 24px; margin-bottom: 56px; }
-    .custom-furniture-photo { height: 320px; }
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
     .bento-small { grid-column: span 3; }
 }
 
 @media (max-width: 768px) {
     .why-grid { grid-template-columns: 1fr; }
     
-<<<<<<< HEAD
-=======
-    /* Feature Photo penyesuaian khusus mobile */
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
     .feature-photo { min-height: 360px; }
     .feature-photo .card-content { padding: 0 24px; justify-content: center; }
     .feature-photo::after { background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%); }
     .watermark { bottom: 50%; right: 50%; transform: translate(50%, 50%); color: rgba(255, 255, 255, 0.15); }
     .bento-commercial, .bento-office { grid-column: span 6; }
 
-<<<<<<< HEAD
     .contract-hero { 
         flex-direction: row; 
         align-items: center; 
@@ -569,12 +545,6 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
         transform: none; 
         z-index: 1; 
     }
-=======
-    .contract-hero { flex-direction: column; align-items: stretch; min-height: auto; padding: 40px 0 0; margin-bottom: 0; }
-    .contract-hero-inner { padding: 0 24px; }
-    .contract-hero-text { max-width: 100%; }
-    .contract-hero-chair { position: static; display: block; margin: 24px auto 0; width: 65%; max-width: 320px; height: auto; }
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
 }
 
 @media (max-width: 600px) {
@@ -594,7 +564,6 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     .scroll-chair-model { font-size: 1.25rem; margin-bottom: 6px; }
     .scroll-chair-desc { padding: 10px 12px; font-size: 0.75rem; max-width: 100%; }
 
-<<<<<<< HEAD
     .contract-hero { 
         min-height: 460px; 
         padding: 40px 0; 
@@ -618,21 +587,12 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
         margin: 0;
         z-index: 1; 
     }
-=======
-    .contract-hero { padding-top: 24px; }
-    .contract-hero-inner { padding: 0 24px; }
-    .contract-hero-text h1 { font-size: 1.5rem; line-height: 1.15; margin-bottom: 8px; }
-    .contract-hero-text .hero-subtitle { font-size: 0.85rem; margin-bottom: 8px; }
-    .contract-hero-text .intro-text { font-size: 0.75rem; line-height: 1.4; margin-bottom: 12px; }
-    .contract-hero-chair { width: 75%; margin-top: 16px; }
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
 
     .why-photo { height: 200px; }
     .ffe-project-section { padding: 32px 20px; }
     .boq-upload-section { padding: 40px 20px; margin-bottom: 48px; }
     .boq-dropzone { padding: 28px 16px; }
     
-<<<<<<< HEAD
     .custom-furniture-block { min-height: 400px; margin-bottom: 40px; }
     
     .custom-furniture-text { max-width: 65% !important; }
@@ -652,17 +612,10 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
         margin: 0;
         z-index: 1;
     }
-=======
-    .custom-furniture-block { grid-template-columns: 1.1fr 0.9fr; gap: 14px; margin-bottom: 40px; }
-    .custom-furniture-photo { height: 180px; }
-    .custom-furniture-text h2 { font-size: 1.3rem; margin-bottom: 10px; }
-    .custom-furniture-text p { font-size: 0.85rem; line-height: 1.5; margin-bottom: 16px; }
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
     
     .bento-full-row, .bento-small { grid-column: span 6; }
     .category-bento-grid .category-photo, .bento-small .category-photo { min-height: 240px; }
     .card-content { bottom: 16px; left: 16px; }
-<<<<<<< HEAD
 }
 
 /* ==========================================================================
@@ -686,6 +639,3 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
         transition: none;
     }
 }
-=======
-}
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
