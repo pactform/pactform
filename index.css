@@ -619,6 +619,16 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
 }
 
 /* ==========================================================================
+   MOBILE FIX: geser panah carousel ke area kosong (atas foto), supaya
+   tidak menutupi judul/teks hero yang diposisikan di tengah (added only)
+   ========================================================================== */
+@media (max-width: 600px) {
+    .carousel-arrow { top: auto; bottom: 110px; transform: none; }
+    .carousel-arrow:hover { transform: none; }
+    .carousel-arrow:active { transform: none; }
+}
+
+/* ==========================================================================
    CHAIR SLIDE-IN FROM RIGHT ON SCROLL (contract-hero-chair & custom-furniture-chair)
    ========================================================================== */
 .chair-slide-in-right {
