@@ -602,7 +602,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     /* PENGATURAN KURSI KACA HP: Disamping teks & terpotong (sama seperti contract-hero) */
     .custom-furniture-chair { 
         position: absolute; 
-        right: -45%;
+        right: -50%;
         top: 22%;
         bottom: auto;
         transform: none;
