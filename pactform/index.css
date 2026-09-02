@@ -129,21 +129,8 @@
 .contract-hero-text .hero-subtitle { max-width: 100%; margin-bottom: 20px; color: #ffffff; font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 500; line-height: 1.4; }
 .contract-hero-text .intro-text { max-width: 520px; margin-bottom: 28px; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; line-height: 1.6; }
 .contract-hero-chair {
-<<<<<<< HEAD
-    position: absolute; 
-    right: -20%;  /* Menggeser kursi lebih jauh ke kanan hingga melewati batas layar */
-    top: 2%;      /* Memastikan kepala kursi selalu berada di dalam frame (tidak terpotong) */
-    bottom: auto; /* Menghapus patokan bawah agar kursi bebas memanjang ke bawah */
-    height: 130%; /* Mempertahankan efek zoom */
-    width: auto; 
-    max-width: 65%; /* Memberi ruang batas maksimal agar proporsional */
-    object-fit: contain; 
-    z-index: 1; 
-    pointer-events: none;
-=======
     position: absolute; right: 1%; bottom: 0; height: 94%; width: auto; max-width: 52%;
     object-fit: contain; z-index: 1; pointer-events: none;
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
 }
 
 
@@ -415,39 +402,17 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
 .boq-dropzone-title { font-weight: 600; margin-bottom: 8px; }
 .boq-dropzone-sub { font-size: 0.85rem; color: var(--grey-dark); margin-bottom: 0; }
 
-<<<<<<< HEAD
 .custom-furniture-block { position: relative; overflow: hidden; min-height: 460px; display: flex; align-items: center; margin-bottom: 80px; }
 .custom-furniture-inner { width: 100%; }
-
-/* INI YANG MEMBUAT TEKS MEMANJANG KE KANAN */
-.custom-furniture-text { 
-    max-width: 850px !important; 
-}
-
+.custom-furniture-text { max-width: 460px; }
 .custom-furniture-text h2 { font-size: clamp(1.75rem, 3vw, 2.4rem); margin-bottom: 16px; }
 .custom-furniture-text .eyebrow { margin-bottom: 12px; }
 .custom-furniture-text p { margin-bottom: 24px; }
 .custom-furniture-chair {
-    position: absolute; 
-    right: -10%;  /* Menggeser kursi lebih jauh ke kanan, mengikuti gaya CONTRACT FURNITURE hero */
-    top: 2%;      /* Memastikan bagian atas kursi selalu berada di dalam frame (tidak terpotong) */
-    bottom: auto; /* Menghapus patokan bawah agar kursi bebas memanjang ke bawah */
-    transform: none;
-    height: 80%; /* Efek zoom seperti pada contract-hero-chair */
-    width: auto; /* Biarkan proporsinya menyesuaikan tinggi otomatis */
-    max-width: 65%; /* Memberi ruang batas maksimal agar proporsional */
-    object-fit: contain; /* Memaksa gambar tampil utuh */
-    z-index: 1;
-    pointer-events: none; 
+    position: absolute; right: 0; top: -36px; height: 560px; width: auto; max-width: none;
+    pointer-events: none; transition: transform 0.25s ease;
 }
-=======
-.custom-furniture-block { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 80px; }
-.custom-furniture-photo { height: 500px; box-shadow: none !important; background-color: transparent !important; transition: box-shadow 0.25s ease, transform 0.25s ease; }
-.custom-furniture-photo:hover { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1); transform: translateY(-3px); }
-.custom-furniture-text h2 { font-size: clamp(1.75rem, 3vw, 2.4rem); margin-bottom: 16px; }
-.custom-furniture-text .eyebrow { margin-bottom: 12px; }
-.custom-furniture-text p { margin-bottom: 24px; }
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
+.custom-furniture-block:hover .custom-furniture-chair { transform: translateY(-6px); }
 
 .about-teaser-orange {
     position: relative; isolation: isolate; z-index: 1; padding-top: 96px; padding-bottom: 96px; margin-bottom: 80px; width: 100vw; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;
@@ -486,95 +451,29 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     
     .ffe-project-section { grid-template-columns: 1fr; padding: 40px 28px; margin: 56px auto; gap: 28px; }
     .ffe-hero-materials { border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.15); padding-left: 0; padding-top: 24px; }
-<<<<<<< HEAD
-    .custom-furniture-block { min-height: 480px; margin-bottom: 56px; }
-    .custom-furniture-text { max-width: 50% !important; }
-    .custom-furniture-text h2 { font-size: 2.2rem; margin-bottom: 14px; }
-    .custom-furniture-text p { font-size: 0.95rem; }
-    .custom-furniture-chair { 
-        position: absolute; 
-        right: -20%; 
-        top: 0%; 
-        bottom: auto;
-        height: 100%; 
-        width: auto; 
-        max-width: 55%; 
-        margin: 0; 
-        transform: none;
-        z-index: 1; 
-    }
-=======
-    .custom-furniture-block { gap: 24px; margin-bottom: 56px; }
-    .custom-furniture-photo { height: 320px; }
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
+    .custom-furniture-block { min-height: 360px; margin-bottom: 56px; }
+    .custom-furniture-chair { height: 400px; top: -24px; }
     .bento-small { grid-column: span 3; }
 }
 
 @media (max-width: 768px) {
     .why-grid { grid-template-columns: 1fr; }
     
-<<<<<<< HEAD
-=======
     /* Feature Photo penyesuaian khusus mobile */
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
     .feature-photo { min-height: 360px; }
     .feature-photo .card-content { padding: 0 24px; justify-content: center; }
     .feature-photo::after { background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%); }
     .watermark { bottom: 50%; right: 50%; transform: translate(50%, 50%); color: rgba(255, 255, 255, 0.15); }
     .bento-commercial, .bento-office { grid-column: span 6; }
 
-<<<<<<< HEAD
-    .contract-hero { 
-        flex-direction: row; 
-        align-items: center; 
-        min-height: 480px; 
-        padding: 40px 0; 
-        margin-bottom: 0; 
-    }
-    .contract-hero-inner { padding: 0 24px; position: relative; z-index: 2; }
-    /* Lebar teks sedikit dikurangi agar tidak menabrak kursi yang membesar */
-    .contract-hero-text { max-width: 60%; } 
-    
-    /* PENGATURAN TABLET: Zoom kursi dan potong bagian kaki */
-    .contract-hero-chair { 
-        position: absolute; 
-        right: -30%;  /* Geser lebih ke kanan */
-        top: 25%;     /* Turunkan posisi kursi agar kakinya terpotong di bawah */
-        height: 130%; /* Perbesar ukuran kursi (zoom in) */
-        width: auto; 
-        max-width: none; 
-        margin: 0;
-        z-index: 1;
-    }
-/* PENGATURAN TABLET: Teks disamping, kursi disamping & terpotong (sama seperti contract-hero) */
-    .custom-furniture-block { 
-        min-height: 480px; 
-        margin-bottom: 56px; 
-    }
-    
-    .custom-furniture-text { 
-        max-width: 60% !important; 
-    }
-    .custom-furniture-text h2 { font-size: 2rem; line-height: 1.15; }
-    
-    .custom-furniture-chair { 
-        position: absolute; 
-        right: -30%;   /* Geser lebih ke kanan */
-        top: 20%;      /* Turunkan sedikit agar sejajar dengan chair contract-hero */
-        bottom: auto;
-        height: 80%;  /* Perbesar (zoom in) */
-        width: auto; 
-        max-width: none; 
-        margin: 0; 
-        transform: none; 
-        z-index: 1; 
-    }
-=======
     .contract-hero { flex-direction: column; align-items: stretch; min-height: auto; padding: 40px 0 0; margin-bottom: 0; }
     .contract-hero-inner { padding: 0 24px; }
     .contract-hero-text { max-width: 100%; }
     .contract-hero-chair { position: static; display: block; margin: 24px auto 0; width: 65%; max-width: 320px; height: auto; }
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
+
+    .custom-furniture-block { flex-direction: column; align-items: stretch; min-height: auto; }
+    .custom-furniture-text { max-width: 100%; }
+    .custom-furniture-chair { position: static; display: block; margin: 20px auto 0; height: auto; width: 60%; max-width: 260px; }
 }
 
 @media (max-width: 600px) {
@@ -594,98 +493,24 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     .scroll-chair-model { font-size: 1.25rem; margin-bottom: 6px; }
     .scroll-chair-desc { padding: 10px 12px; font-size: 0.75rem; max-width: 100%; }
 
-<<<<<<< HEAD
-    .contract-hero { 
-        min-height: 460px; 
-        padding: 40px 0; 
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-    .contract-hero-inner { padding: 0 24px; position: relative; z-index: 2; }
-    .contract-hero-text { max-width: 70%; }
-    .contract-hero-text h1 { font-size: 1.5rem; line-height: 1.15; margin-bottom: 8px; }
-    .contract-hero-text .hero-subtitle { font-size: 0.85rem; margin-bottom: 8px; }
-    .contract-hero-text .intro-text { font-size: 0.75rem; line-height: 1.4; margin-bottom: 12px; }
-    
-    .contract-hero-chair { 
-        position: absolute;
-        right: -45%;  
-        top: 28%;     
-        height: 130%; 
-        width: auto;
-        max-width: none;
-        margin: 0;
-        z-index: 1; 
-    }
-=======
     .contract-hero { padding-top: 24px; }
     .contract-hero-inner { padding: 0 24px; }
     .contract-hero-text h1 { font-size: 1.5rem; line-height: 1.15; margin-bottom: 8px; }
     .contract-hero-text .hero-subtitle { font-size: 0.85rem; margin-bottom: 8px; }
     .contract-hero-text .intro-text { font-size: 0.75rem; line-height: 1.4; margin-bottom: 12px; }
     .contract-hero-chair { width: 75%; margin-top: 16px; }
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
 
     .why-photo { height: 200px; }
     .ffe-project-section { padding: 32px 20px; }
     .boq-upload-section { padding: 40px 20px; margin-bottom: 48px; }
     .boq-dropzone { padding: 28px 16px; }
     
-<<<<<<< HEAD
-    .custom-furniture-block { min-height: 400px; margin-bottom: 40px; }
-    
-    .custom-furniture-text { max-width: 65% !important; }
-    .custom-furniture-text h2 { font-size: 1.5rem; line-height: 1.15; margin-bottom: 8px; }
-    .custom-furniture-text p { font-size: 0.8rem; line-height: 1.4; margin-bottom: 12px; }
-    
-    /* PENGATURAN KURSI KACA HP: Disamping teks & terpotong (sama seperti contract-hero) */
-    .custom-furniture-chair { 
-        position: absolute; 
-        right: -45%;
-        top: 22%;
-        bottom: auto;
-        transform: none;
-        height: 80%; 
-        width: auto;
-        max-width: none;
-        margin: 0;
-        z-index: 1;
-    }
-=======
-    .custom-furniture-block { grid-template-columns: 1.1fr 0.9fr; gap: 14px; margin-bottom: 40px; }
-    .custom-furniture-photo { height: 180px; }
+    .custom-furniture-block { margin-bottom: 40px; }
+    .custom-furniture-chair { width: 70%; max-width: 220px; margin-top: 12px; }
     .custom-furniture-text h2 { font-size: 1.3rem; margin-bottom: 10px; }
     .custom-furniture-text p { font-size: 0.85rem; line-height: 1.5; margin-bottom: 16px; }
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
     
     .bento-full-row, .bento-small { grid-column: span 6; }
     .category-bento-grid .category-photo, .bento-small .category-photo { min-height: 240px; }
     .card-content { bottom: 16px; left: 16px; }
-<<<<<<< HEAD
 }
-
-/* ==========================================================================
-   CHAIR SLIDE-IN FROM RIGHT ON SCROLL (contract-hero-chair & custom-furniture-chair)
-   ========================================================================== */
-.chair-slide-in-right {
-    opacity: 0;
-    transform: translateX(220px);
-    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.1s ease;
-    will-change: transform, opacity;
-}
-.chair-slide-in-right.is-visible {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .chair-slide-in-right {
-        opacity: 1;
-        transform: none;
-        transition: none;
-    }
-}
-=======
-}
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3

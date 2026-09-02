@@ -386,24 +386,4 @@
     white-space: nowrap;
     pointer-events: none;
     user-select: none;
-<<<<<<< HEAD
 }
-
-/* ==========================================================================
-   Custom photo — full-bleed hero treatment (appended only, nothing above touched)
-   ========================================================================== */
-.custom-photo {
-    position: relative;
-    width: 100vw;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    margin-top: 32px;
-    margin-bottom: 32px;
-    height: 100vh;
-    border: none;
-}
-=======
-}
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
