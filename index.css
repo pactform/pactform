@@ -118,7 +118,7 @@
     position: relative; overflow: hidden;
     width: 100vw; left: 50%; right: 50%;
     margin-left: -50vw; margin-right: -50vw;
-    background: linear-gradient(110deg, #651a00 0%, var(--hero-orange-deep) 35%, var(--accent) 75%, var(--hero-orange-vivid) 100%);
+    background: linear-gradient(110deg, #c53602 0%, #dc5800 100%);
     min-height: 620px;
     display: flex; align-items: center;
     margin-bottom: 80px;
@@ -155,7 +155,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     position: relative; isolation: isolate; z-index: 1;
     padding-top: 32px; padding-bottom: 32px; margin-bottom: 32px;
     width: 100vw; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;
-    background: linear-gradient(110deg, #651a00 0%, var(--hero-orange-deep) 35%, var(--accent) 75%, var(--hero-orange-vivid) 100%);
+    background: linear-gradient(110deg, #c53602 0%, #dc5800 100%);
     overflow: visible; 
     overflow-x: clip; 
 }
@@ -213,8 +213,8 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     display: flex; 
     flex-direction: column; 
     justify-content: center; 
-    align-items: flex-start !important; 
-    text-align: left !important;
+    align-items: center !important; 
+    text-align: center !important;
     width: 100%;
     height: 100%;
     padding: 0 48px; 
@@ -239,10 +239,10 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     font-weight: 600 !important; 
     line-height: 1.15 !important;
     color: #ffffff !important; 
-    margin: 0 0 12px 0 !important;
+    margin: 0 !important;
     padding: 0 !important;
     text-transform: none !important; 
-    text-align: left !important;
+    text-align: center !important;
     width: 100%;
     display: block;
 }
@@ -275,21 +275,47 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
 
 
 /* ==========================================================================
+   HOVER-REVEAL DESCRIPTION (slides in from the left)
+   ========================================================================== */
+.card-hover-desc {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    padding: 0 48px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.55);
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.category-card:hover .card-hover-desc {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+
+/* ==========================================================================
    PERBAIKAN KESEJAJARAN OUTDOOR & COMMERCIAL
    ========================================================================== */
 .bento-outdoor .feature-photo {
     display: flex;
-    justify-content: flex-start !important; 
+    justify-content: center !important; 
     align-items: center !important;
 }
 
 .bento-outdoor .feature-photo .card-content {
-    align-items: flex-start !important;
-    text-align: left !important;
+    align-items: center !important;
+    text-align: center !important;
     margin-left: 0 !important;
-    padding-left: 48px !important; 
     width: 100%;
-    max-width: 600px; 
 }
 
 
@@ -306,11 +332,11 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
 
 /* Small Cards (Dining, Bar, Booth, dll) */
 .bento-small .category-photo { min-height: 220px; border-radius: 0; position: relative; overflow: hidden; display: flex; }
-.card-content-small { position: absolute; bottom: 20px; left: 20px; z-index: 5; }
+.card-content-small { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; text-align: center; width: 100%; }
 .bento-small .category-photo::after {
     content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 70%); z-index: 1;
 }
-.bento-small .category-photo h4 { font-size: 1.25rem !important; margin: 0 !important; color: white; text-align: left !important; }
+.bento-small .category-photo h4 { font-size: 1.25rem !important; margin: 0 !important; color: white; text-align: center !important; }
 
 
 /* ==========================================================================
@@ -385,7 +411,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
 
 .about-teaser-orange {
     position: relative; isolation: isolate; z-index: 1; padding-top: 96px; padding-bottom: 96px; margin-bottom: 80px; width: 100vw; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;
-    background: linear-gradient(110deg, #651a00 0%, var(--hero-orange-deep) 35%, var(--accent) 75%, var(--hero-orange-vivid) 100%); overflow: hidden;
+    background: linear-gradient(110deg, #c53602 0%, #dc5800 100%); overflow: hidden;
 }
 .about-teaser-orange::before { content: ""; position: absolute; inset: 0; background-image: url('bg furniture.jpg'); background-size: cover; background-position: center; opacity: 0.10; z-index: 0; pointer-events: none; }
 .about-teaser { position: relative; z-index: 1; border-top: none; padding-top: 0; margin-bottom: 0; }
