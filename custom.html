@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pactform - Custom</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="custom.css?v=2.0">
+    <link rel="stylesheet" href="preloader.css?v=3.0">
+    <link rel="stylesheet" href="scroll-reveal.css">
+</head>
+<body>
+
+    <!-- Site Preloader: icon appears first, then the wordmark letters reveal -->
+    <div class="site-preloader" id="site-preloader">
+        <div class="preloader-logo-wrap">
+            <img class="preloader-logo-full" src="Logo Pactform.png" alt="Pactform">
+        </div>
+    </div>
+    <script src="preloader.js"></script>
+
+    <header>
+        <div class="container header-inner">
+            <div class="logo"><a href="index.html"><img src="Logo Pactform.png" alt="Pactform" class="logo-img"></a></div>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="collection.html">collections</a></li>
+                    <li><a href="custom.html" class="active-link">custom</a></li>
+                    <li><a href="shipping.html">shipping</a></li>
+                    <li><a href="projects.html">projects</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="btn btn-secondary" id="toggle-list-btn">Your list</button>
+            </div>
+        </div>
+    </header>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+        <span></span><span></span><span></span>
+    </button>
+    <div class="nav-overlay hidden" id="nav-overlay"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navToggle = document.getElementById('nav-toggle');
+            const mainNav = document.getElementById('main-nav');
+            const navOverlay = document.getElementById('nav-overlay');
+            if (!navToggle || !mainNav || !navOverlay) return;
+            function openNav() {
+                mainNav.classList.add('open');
+                navToggle.classList.add('open');
+                navToggle.setAttribute('aria-expanded', 'true');
+                navOverlay.classList.remove('hidden');
+                requestAnimationFrame(() => navOverlay.classList.add('visible'));
+            }
+            window.__pactformCloseNav = null;
+            function closeNav() {
+                mainNav.classList.remove('open');
+                navToggle.classList.remove('open');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navOverlay.classList.remove('visible');
+                setTimeout(() => navOverlay.classList.add('hidden'), 300);
+            }
+            window.__pactformCloseNav = closeNav;
+            navToggle.addEventListener('click', () => mainNav.classList.contains('open') ? closeNav() : openNav());
+            navOverlay.addEventListener('click', closeNav);
+            mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+            window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNav(); });
+        });
+    </script>
+
+
+    <main class="container">
+        <!-- Custom Hero Banner -->
+        <section class="page-header custom-hero-section hero-orange-block">
+            <div class="hero-ghost" aria-hidden="true">SOMETIMES THE PERFECT PIECE</div>
+            <p class="subtext">CUSTOM FURNITURE DEVELOPMENT</p>
+            <h1>SOMETIMES THE PERFECT PIECE DOESN'T EXIST YET</h1>
+            <p class="hero-desc">Begin with a Pactform design, a project brief or your own concept. We refine the dimensions, materials, finishes and construction details into furniture developed for your space and project requirements.</p>
+            <div class="custom-photo" style="overflow: hidden;">
+                <img src="custom piece.jpg" alt="A custom piece" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="custom-buttons">
+                <a href="#results-strip" class="btn btn-primary">EXPLORE CUSTOM WORK</a>
+                <a href="projects.html" class="btn btn-secondary">DISCUSS YOUR PROJECT</a>
+            </div>
+        </section>
+
+        <!-- Customisation Specification Grid -->
+<!-- Customisation Specification Grid (Architectural Material Schedule) -->
+        <section class="customisation-section">
+            <div class="section-heading-row">
+                <div>
+                    <span class="eyebrow">Tailored Specifications</span>
+                    <h2>CUSTOMISATION</h2>
+                </div>
+                <div class="heading-desc">
+                    <p style="margin-bottom: 6px; font-weight: 700; color: var(--black);">Commercial furniture is rarely one-size-fits-all.</p>
+                    <p style="margin-bottom: 0;">Almost every collection can be tailored to suit your project. Choose from:</p>
+                </div>
+            </div>
+
+            <!-- 10 Poin Spesifikasi dalam Format Architectural Spec Index (Zero Round Corners) -->
+            <div class="customisation-spec-grid">
+                <div class="spec-index-item">
+                    <div class="spec-num-box">01</div>
+                    <div class="spec-detail">
+                        <h4>UPHOLSTERY FABRICS</h4>
+                        <span class="spec-tag">COLOUR, TEXTURE & PERFORMANCE OPTIONS</span>
+                    </div>
+                </div>
+                <div class="spec-index-item">
+                    <div class="spec-num-box">02</div>
+                    <div class="spec-detail">
+                        <h4>LEATHER OPTIONS</h4>
+                        <span class="spec-tag">STYPE, COLOUR & FINISH OPTIONS</span>
+                    </div>
+                </div>
+                <div class="spec-index-item">
+                    <div class="spec-num-box">03</div>
+                    <div class="spec-detail">
+                        <h4>PERFORMANCE TEXTILES</h4>
+                        <span class="spec-tag">STAIN-RESISTANT & FIRE-RATED OPTIONS</span>
+                    </div>
+                </div>
+                <div class="spec-index-item">
+                    <div class="spec-num-box">04</div>
+                    <div class="spec-detail">
+                        <h4>TIMBER SPECIES</h4>
+                        <span class="spec-tag">SELECTED HARDWOODS</span>
+                    </div>
+                </div>
+                <div class="spec-index-item">
+                    <div class="spec-num-box">05</div>
+                    <div class="spec-detail">
+                        <h4>TIMBER FINISHES</h4>
+                        <span class="spec-tag">STAINS, PAINTS & COLOR OPTIONS</span>
+                    </div>
+                </div>
+                <div class="spec-index-item">
+                    <div class="spec-num-box">06</div>
+                    <div class="spec-detail">
+                        <h4>METAL FINISHES</h4>
+                        <span class="spec-tag">POWDER COATING, PLATING & RAL COLORS</span>
+                    </div>
+                </div>
+                <div class="spec-index-item">
+                    <div class="spec-num-box">07</div>
+                    <div class="spec-detail">
+                        <h4>STONE & SOLID SURFACES</h4>
+                        <span class="spec-tag">NATURAL & ENGINEERED OPTIONS</span>
+                    </div>
+                </div>
+                <div class="spec-index-item">
+                    <div class="spec-num-box">08</div>
+                    <div class="spec-detail">
+                        <h4>LAMINATES</h4>
+                        <span class="spec-tag">DECORATIVE & PERFORMANCE OPTIONS</span>
+                    </div>
+                </div>
+                <div class="spec-index-item">
+                    <div class="spec-num-box">09</div>
+                    <div class="spec-detail">
+                        <h4>DIMENSIONS & PROPORTIONS</h4>
+                        <span class="spec-tag">ADAPTED TO PROJECT REQUIREMENTS</span>
+                    </div>
+                </div>
+                <div class="spec-index-item">
+                    <div class="spec-num-box">10</div>
+                    <div class="spec-detail">
+                        <h4>BRANDING & DETAILS</h4>
+                        <span class="spec-tag">APPLIED, ENGRAVED & INTEGRATED OPTIONS</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-callout-banner">
+                <p style="margin-bottom: 20px;">
+                    <span>NEED SOMETHING UNIQUE?</span> &mdash; Let's create it together.
+                </p>
+                <a href="projects.html" class="btn btn-primary">DISCUSS A CUSTOM PIECE WITH US</a>
+            </div>
+
+        <!-- Recent Custom Work -->
+        <section class="results-section">
+            <div class="container results-section-inner">
+                <div class="section-heading-row">
+                    <div>
+                        <span class="eyebrow">CUSTOM PROJECTS</span>
+                        <h2>SELECTED CUSTOM WORK</h2>
+                    </div>
+                    <p class="heading-desc">Furniture developed around specific spaces, quantities and project requirements. Explore selected pieces from brief and specification through to production.</p>
+                </div>
+
+                <!-- JavaScript populates this ID — untouched -->
+                <div class="results-strip" id="results-strip"></div>
+            </div>
+        </section>
+
+        <!-- Ready When You Are CTA -->
+        <section class="contact-section">
+            <div class="cta-box">
+                <div>
+                    <span class="eyebrow">Project Consultation</span>
+                    <h2>READY WHEN YOU ARE</h2>
+                    <p>Whether you're still collecting ideas or ready to place an order, we'd like to hear about the project. No project is too early, and no question is too small.</p>
+                </div>
+                <div class="contact-buttons">
+                    <a href="#" class="btn btn-primary">Message us on WhatsApp</a>
+                    <a href="#" class="btn btn-secondary">Send your spec sheet</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <img src="Logo Pactform.png" alt="Pactform" class="logo-img footer-logo-img">
+                <p>International contract furniture for restaurants, hotels, workplaces and commercial interiors.</p>
+                <p class="footer-sub">Produced through selected international manufacturing partners under our specifications and quality controls.</p>
+            </div>
+
+            <div class="footer-col">
+                <h5>Company</h5>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="collection.html">Collections</a></li>
+                    <li><a href="custom.html" class="footer-active-link">Custom</a></li>
+                    <li><a href="shipping.html">Shipping</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                </ul>
+            </div>
+
+
+            <div class="footer-col footer-contact">
+                <h5>Get in touch</h5>
+                <p class="footer-sub">Whether you're collecting ideas or ready to order, we'd like to hear about your project.</p>
+                <a href="#" class="btn btn-primary">Contact Sales</a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Pactform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Sticky Get Product Updates -->
+    <a href="#" class="updates-sticky" aria-label="Get Product Updates">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span>Get Product Updates</span>
+    </a>
+
+    <a href="https://wa.me/62xxxxxxxxxx" class="whatsapp-sticky" aria-label="Chat on WhatsApp" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="34" height="34" fill="currentColor">
+            <!--!Font Awesome Free v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+            <path d="M476.9 161.1C435 119.1 379.2 96 319.9 96C197.5 96 97.9 195.6 97.9 318C97.9 357.1 108.1 395.3 127.5 429L96 544L213.7 513.1C246.1 530.8 282.6 540.1 319.8 540.1L319.9 540.1C442.2 540.1 544 440.5 544 318.1C544 258.8 518.8 203.1 476.9 161.1zM319.9 502.7C286.7 502.7 254.2 493.8 225.9 477L219.2 473L149.4 491.3L168 423.2L163.6 416.2C145.1 386.8 135.4 352.9 135.4 318C135.4 216.3 218.2 133.5 320 133.5C369.3 133.5 415.6 152.7 450.4 187.6C485.2 222.5 506.6 268.8 506.5 318.1C506.5 419.9 421.6 502.7 319.9 502.7zM421.1 364.5C415.6 361.7 388.3 348.3 383.2 346.5C378.1 344.6 374.4 343.7 370.7 349.3C367 354.9 356.4 367.3 353.1 371.1C349.9 374.8 346.6 375.3 341.1 372.5C308.5 356.2 287.1 343.4 265.6 306.5C259.9 296.7 271.3 297.4 281.9 276.2C283.7 272.5 282.8 269.3 281.4 266.5C280 263.7 268.9 236.4 264.3 225.3C259.8 214.5 255.2 216 251.8 215.8C248.6 215.6 244.9 215.6 241.2 215.6C237.5 215.6 231.5 217 226.4 222.5C221.3 228.1 207 241.5 207 268.8C207 296.1 226.9 322.5 229.6 326.2C232.4 329.9 268.7 385.9 324.4 410C359.6 425.2 373.4 426.5 391 423.9C401.7 422.3 423.8 410.5 428.4 397.5C433 384.5 433 373.4 431.6 371.1C430.3 368.6 426.6 367.2 421.1 364.5z"/>
+        </svg>
+    </a>
+
+    <div class="drawer-overlay hidden" id="drawer-overlay"></div>
+    <div class="your-list-modal hidden" id="list-modal">
+        <div class="modal-header">
+            <h3>Your list</h3>
+            <button class="close-btn" id="close-modal-btn" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="list-items" id="list-items"></div>
+        </div>
+        <div class="modal-actions">
+            <a href="#" class="btn btn-primary">Send to WhatsApp</a>
+            <button class="btn btn-secondary">Download PDF</button>
+            <button class="btn btn-secondary" id="copy-link-btn">Copy share link</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Results gallery
+            const results = [
+                "Banquette, 4.2m, client's own fabric",
+                "Bar stools x18, brushed brass frame",
+                "Reception desk, veneer-matched to lobby wall",
+                "Outdoor daybeds x6, weatherproof rattan",
+                "Private dining table, seats 14, live-edge top",
+                "Booth seating, quilted vinyl, fire-rated foam",
+                "Room-service trolleys x40, branded panels",
+                "Poolside loungers x24, stackable frame",
+                "Boardroom table, cable management built in",
+                "Custom bar front, reclaimed timber cladding"
+            ];
+            const stripEl = document.getElementById('results-strip');
+            results.forEach((caption, i) => {
+                const item = document.createElement('div');
+                item.className = 'result-item';
+                item.innerHTML = '<div class="placeholder img-box result-photo"><span class="img-label">CUSTOM RESULT ' + (i + 1) + '</span></div>' +
+                    '<p class="result-caption">' + caption + '</p>';
+                stripEl.appendChild(item);
+            });
+
+            // Drawer
+            const overlay = document.getElementById('drawer-overlay');
+            const modal = document.getElementById('list-modal');
+            const toggleListBtn = document.getElementById('toggle-list-btn');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            function openDrawer() { modal.classList.remove('hidden'); overlay.classList.add('visible'); overlay.classList.remove('hidden'); }
+            function closeDrawer() { modal.classList.add('hidden'); overlay.classList.remove('visible'); }
+            function toggleDrawer() { modal.classList.contains('hidden') ? openDrawer() : closeDrawer(); }
+            toggleListBtn.addEventListener('click', toggleDrawer);
+            const toggleListBtnMobile = document.getElementById('toggle-list-btn-mobile');
+            if (toggleListBtnMobile) {
+                toggleListBtnMobile.addEventListener('click', () => {
+                    if (window.__pactformCloseNav) window.__pactformCloseNav();
+                    toggleDrawer();
+                });
+            }
+            closeModalBtn.addEventListener('click', closeDrawer);
+            overlay.addEventListener('click', closeDrawer);
+
+            // Your list items — removable
+            const listItems = [
+                { name: '[PRODUCT NAME] x24', meta: 'Rattan / natural — approx. W450 D520 H820' },
+                { name: '[PRODUCT NAME] x8', meta: 'Solid oak / black steel — approx. W1400 D700 H750' },
+                { name: '[PRODUCT NAME] x12', meta: 'Powder-coated steel — approx. W400 D400 H650' }
+            ];
+            const trashIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
+            const listItemsEl = document.getElementById('list-items');
+            function renderListItems() {
+                if (listItems.length === 0) {
+                    listItemsEl.innerHTML = '<p class="list-empty">Your list is empty.</p>';
+                    return;
+                }
+                listItemsEl.innerHTML = listItems.map((item, i) =>
+                    '<div class="list-item" data-index="' + i + '"><div class="list-item-main"><h4>' + item.name + '</h4><p>' + item.meta + '</p></div>' +
+                    '<button class="remove-item-btn" data-index="' + i + '" aria-label="Remove ' + item.name + '">' + trashIcon + '</button></div>'
+                ).join('');
+            }
+            renderListItems();
+            listItemsEl.addEventListener('click', (e) => {
+                const btn = e.target.closest('.remove-item-btn');
+                if (!btn) return;
+                const index = Number(btn.dataset.index);
+                const row = btn.closest('.list-item');
+                row.classList.add('removing');
+                setTimeout(() => { listItems.splice(index, 1); renderListItems(); }, 200);
+            });
+
+            const copyLinkBtn = document.getElementById('copy-link-btn');
+            copyLinkBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    const original = copyLinkBtn.textContent;
+                    copyLinkBtn.textContent = 'Link copied';
+                    setTimeout(() => { copyLinkBtn.textContent = original; }, 1500);
+                }).catch(() => {});
+            });
+        });
+    </script>
+    <script src="scroll-reveal.js"></script>
+</body>
+</html>

@@ -1,0 +1,510 @@
+.eyebrow {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.shipping-hero {
+    position: relative;
+    margin-bottom: 72px;
+    padding-bottom: 56px;
+    padding-top: 4px;
+    overflow: visible;
+    isolation: isolate;
+    border-bottom: 1px solid var(--border-color);
+}
+.hero-ghost {
+    position: absolute;
+    top: -0.4em;
+    left: -0.03em;
+    z-index: -1;
+    font-size: clamp(4.5rem, 14vw, 11rem);
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--grey-light);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+}
+.shipping-hero .subtext {
+    display: block;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    animation: fadeUpIn 0.6s cubic-bezier(.2,.8,.2,1) both;
+}
+.shipping-hero h1 {
+    position: relative;
+    animation: fadeUpIn 0.7s cubic-bezier(.2,.8,.2,1) 0.12s both;
+}
+.shipping-hero .hero-desc {
+    position: relative;
+    max-width: 560px;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--grey-dark);
+    margin-bottom: 0;
+    animation: fadeUpIn 0.7s cubic-bezier(.2,.8,.2,1) 0.24s both;
+}
+
+@keyframes fadeUpIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------------------------------------------------
+   Manifest ticker — a quiet marquee strip between two hairlines
+   --------------------------------------------------------------------- */
+.manifest-ticker {
+    overflow: hidden;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 18px 0;
+    margin-bottom: 96px;
+}
+.ticker-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    gap: 16px;
+    white-space: nowrap;
+    font-size: 0.76rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--grey-dark);
+    animation: tickerScroll 30s linear infinite;
+}
+.manifest-ticker:hover .ticker-track {
+    animation-play-state: paused;
+}
+.tick-sep {
+    color: var(--accent);
+    font-size: 0.5rem;
+    opacity: 0.7;
+}
+@keyframes tickerScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+/* ---------------------------------------------------------------------
+   Section Header Shared Layout
+   --------------------------------------------------------------------- */
+.section-heading-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    position: relative;
+    border-bottom: 1px solid transparent;
+}
+.section-heading-row::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: var(--black);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.9s cubic-bezier(.2,.8,.2,1) 0.1s;
+}
+.section-heading-row.is-visible::after {
+    transform: scaleX(1);
+}
+.heading-desc {
+    max-width: 460px;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    color: var(--grey-dark);
+}
+
+.shipping-section {
+    margin-bottom: 96px;
+}
+
+/* ---------------------------------------------------------------------
+   Manifest list — plain hairline rows, a large quiet numeral, and a
+   thin accent underline that draws itself in on hover. All the
+   character comes from restraint and one moving line.
+   --------------------------------------------------------------------- */
+.manifest-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--border-color);
+}
+.manifest-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--white);
+    transition: background-color 0.35s ease;
+}
+.manifest-item:hover {
+    background: var(--grey-light);
+}
+.manifest-stub {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 8px;
+}
+.logistics-num {
+    font-size: 1.6rem;
+    font-weight: 300;
+    font-variant-numeric: tabular-nums;
+    color: var(--grey-dark);
+    line-height: 1;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+.manifest-item:hover .logistics-num {
+    color: var(--accent);
+    transform: translateX(2px);
+}
+.logistics-content {
+    position: relative;
+    padding: 28px 8px 28px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--border-color);
+    padding-left: 32px;
+    transition: padding-left 0.35s cubic-bezier(.2,.8,.2,1);
+}
+.manifest-item:hover .logistics-content {
+    padding-left: 40px;
+}
+.logistics-content::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
+}
+.manifest-item:hover .logistics-content::before {
+    transform: scaleY(1);
+}
+.logistics-content h4 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+    color: var(--black);
+}
+.logistics-content p {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    color: var(--grey-dark);
+    line-height: 1.6;
+    max-width: 600px;
+}
+
+/* ---------------------------------------------------------------------
+   Lead Times — a dark, quiet panel beside a plain spec sheet, with a
+   single live line tracking scroll progress through the block
+   --------------------------------------------------------------------- */
+.transit-block {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    border: 1px solid var(--black);
+    align-items: start;
+}
+.transit-intro {
+    padding: 48px 40px;
+    background: var(--grey-light);
+    border-right: 1px solid var(--black);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: sticky;
+    top: 32px;
+    align-self: start;
+}
+.transit-intro h2 {
+    margin-bottom: 16px;
+}
+.transit-intro p {
+    color: var(--grey-dark);
+    margin-bottom: 0;
+    line-height: 1.6;
+}
+
+.transit-track {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 40px;
+    background: var(--accent);
+    font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+.time-row {
+    padding: 32px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 2px solid transparent;
+    transition: border-color 0.35s ease, padding-left 0.35s ease;
+}
+.time-row:last-child {
+    border-bottom: none;
+}
+.time-row.is-active {
+    border-left-color: var(--white);
+    padding-left: 16px;
+}
+.time-label {
+    font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 10px;
+}
+.time-value {
+    font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--white);
+    margin-bottom: 6px;
+    transition: color 0.35s ease;
+}
+.time-row.is-active .time-value {
+    color: var(--white);
+}
+.time-note {
+    font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.75);
+}
+.time-row.reveal {
+    opacity: 0;
+    transform: translateY(10px);
+}
+.time-row.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.35s ease, padding-left 0.35s ease;
+}
+
+/* ---------------------------------------------------------------------
+   Reveal-on-scroll (headings, manifest items, CTA)
+   --------------------------------------------------------------------- */
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(.2,.8,.2,1), transform 0.7s cubic-bezier(.2,.8,.2,1);
+}
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.manifest-item.reveal:nth-child(1) { transition-delay: 0s; }
+.manifest-item.reveal:nth-child(2) { transition-delay: 0.06s; }
+.manifest-item.reveal:nth-child(3) { transition-delay: 0.12s; }
+.manifest-item.reveal:nth-child(4) { transition-delay: 0.18s; }
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.98) translateY(14px);
+    transition: opacity 0.7s cubic-bezier(.2,.8,.2,1), transform 0.7s cubic-bezier(.2,.8,.2,1);
+}
+.reveal-scale.is-visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* ---------------------------------------------------------------------
+   Call to Action — one plain, confident card. The only flourish is a
+   small corner mark and the accent rule that grows in on reveal.
+   --------------------------------------------------------------------- */
+.shipping-cta {
+    padding-top: 8px;
+    margin-bottom: 96px;
+}
+.cta-wrap {
+    position: relative;
+}
+.cta-ticket {
+    position: relative;
+    border: 1px solid var(--black);
+    background: var(--grey-light);
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+}
+.cta-ticket::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s cubic-bezier(.2,.8,.2,1) 0.15s;
+}
+.cta-wrap.is-visible .cta-ticket::before {
+    transform: scaleX(1);
+}
+.ticket-main {
+    flex: 1 1 auto;
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.ticket-main h2 {
+    margin-bottom: 12px;
+}
+.ticket-main p {
+    max-width: 520px;
+    margin-bottom: 0;
+    color: var(--grey-dark);
+}
+.ticket-stub {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 48px;
+    border-left: 1px solid var(--border-color);
+}
+
+.shipping-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.shipping-buttons .btn {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    text-align: center;
+}
+.shipping-buttons .btn:hover {
+    transform: translateY(-3px);
+}
+
+/* ---------------------------------------------------------------------
+   Responsive Styles
+   --------------------------------------------------------------------- */
+@media (max-width: 900px) {
+    .hero-ghost {
+        font-size: clamp(3.2rem, 20vw, 6rem);
+    }
+    .transit-block {
+        grid-template-columns: 1fr;
+    }
+    .transit-intro {
+        border-right: none;
+        border-bottom: 1px solid var(--black);
+        padding: 36px 28px;
+        position: static;
+        top: auto;
+    }
+    .transit-track {
+        padding: 8px 24px;
+    }
+    .time-row {
+        padding: 24px 0;
+    }
+    .time-row.is-active {
+        padding-left: 16px;
+    }
+    .cta-ticket {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .ticket-stub {
+        border-left: none;
+        border-top: 1px solid var(--border-color);
+        padding: 32px 28px;
+    }
+    .shipping-buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .shipping-buttons .btn {
+        flex: 1 1 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .manifest-item {
+        grid-template-columns: 64px 1fr;
+    }
+    .logistics-num {
+        font-size: 1.3rem;
+    }
+    .logistics-content {
+        padding: 24px 24px 24px 24px;
+    }
+    .section-heading-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .shipping-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    .shipping-buttons .btn {
+        width: 100%;
+        text-align: center;
+    }
+    .ticket-main {
+        padding: 32px 28px;
+    }
+    .hero-ghost {
+        font-size: clamp(2.4rem, 22vw, 4rem);
+    }
+}
+
+/* ---------------------------------------------------------------------
+   Respect reduced-motion preferences
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .shipping-hero .subtext,
+    .shipping-hero h1,
+    .shipping-hero .hero-desc,
+    .ticker-track,
+    .reveal,
+    .reveal-scale,
+    .time-row.reveal,
+    .section-heading-row::after,
+    .cta-ticket::before {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    .logistics-num,
+    .logistics-content,
+    .time-row,
+    .time-value,
+    .shipping-buttons .btn {
+        transition: none !important;
+    }
+}

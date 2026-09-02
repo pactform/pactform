@@ -1,0 +1,551 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pactform - Home</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="collection.css">
+    <link rel="stylesheet" href="preloader.css?v=3.0">
+    <link rel="stylesheet" href="scroll-reveal.css">
+</head>
+<body>
+
+    <!-- Site Preloader -->
+    <div class="site-preloader" id="site-preloader">
+        <div class="preloader-logo-wrap">
+            <img class="preloader-logo-full" src="Logo Pactform.png" alt="Pactform">
+        </div>
+    </div>
+    <script src="preloader.js"></script>
+
+    <header>
+        <div class="container header-inner">
+            <div class="logo"><a href="index.html"><img src="Logo Pactform.png" alt="Pactform" class="logo-img"></a></div>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="collection.html">collections</a></li>
+                    <li><a href="custom.html">custom</a></li>
+                    <li><a href="shipping.html">shipping</a></li>
+                    <li><a href="projects.html">projects</a></li>
+                    <li class="nav-list-item"><button class="btn btn-primary" id="toggle-list-btn-mobile">Your list</button></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="btn btn-secondary" id="toggle-list-btn">Your list</button>
+            </div>
+        </div>
+    </header>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+        <span></span><span></span><span></span>
+    </button>
+    <div class="nav-overlay hidden" id="nav-overlay"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navToggle = document.getElementById('nav-toggle');
+            const mainNav = document.getElementById('main-nav');
+            const navOverlay = document.getElementById('nav-overlay');
+            if (!navToggle || !mainNav || !navOverlay) return;
+            function openNav() {
+                mainNav.classList.add('open');
+                navToggle.classList.add('open');
+                navToggle.setAttribute('aria-expanded', 'true');
+                navOverlay.classList.remove('hidden');
+                requestAnimationFrame(() => navOverlay.classList.add('visible'));
+            }
+            window.__pactformCloseNav = null;
+            function closeNav() {
+                mainNav.classList.remove('open');
+                navToggle.classList.remove('open');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navOverlay.classList.remove('visible');
+                setTimeout(() => navOverlay.classList.add('hidden'), 300);
+            }
+            window.__pactformCloseNav = closeNav;
+            navToggle.addEventListener('click', () => mainNav.classList.contains('open') ? closeNav() : openNav());
+            navOverlay.addEventListener('click', closeNav);
+            mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+            window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNav(); });
+        });
+    </script>
+
+    <main>
+        <!-- Hero Carousel Atas -->
+        <section class="hero-full-image">
+            <div class="carousel-container" id="hero-carousel" style="position: relative; overflow: hidden; background-color: var(--black);">
+                <img id="carousel-bg-img" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Commercial interior" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0; filter: brightness(0.7);">
+                
+                <div class="carousel-content-wrapper" style="z-index: 2;">
+                    <div class="carousel-text-overlay" id="carousel-content">
+                        <h3 id="carousel-title"></h3>
+                        <p id="carousel-text"></p>
+                        <div class="carousel-buttons" id="carousel-buttons"></div>
+                        <div class="carousel-dots" id="carousel-dots"></div>
+                    </div>
+                <button class="carousel-arrow" id="prev-slide" aria-label="Previous slide" style="z-index: 3;">&lt;</button>
+                <button class="carousel-arrow" id="next-slide" aria-label="Next slide" style="z-index: 3;">&gt;</button>
+            </div> 
+        </section> 
+
+        <!-- === CONTRACT FURNITURE HERO (Orange Banner) === -->
+        <section class="contract-hero" id="heroScrollPin">
+            <div class="container contract-hero-inner">
+                <div class="contract-hero-text">
+                    <h1>CONTRACT FURNITURE,<br>DIRECT FROM THE SOURCE</h1>
+                    <p class="hero-subtitle">Contract furniture for hotels, restaurants, cafes, offices and commercial spaces.</p>
+                    <p class="intro-text">Source contract furniture which covers chairs, tables, and custom furniture through Pactform. We coordinate specifications, production, quality control and shipping through selected manufacturing partners across Asia.</p>
+                    <div class="hero-buttons">
+                        <a href="collection.html" class="btn btn-primary">BROWSE COLLECTION</a>
+                        <a href="projects.html" class="btn btn-secondary">SUBMIT YOUR PROJECT & BOQ</a>
+                    </div>
+                </div>
+            </div>
+            <img src="kursi baru.png" alt="Pactform Premium Contract Furniture" class="contract-hero-chair chair-slide-in-right">
+        </section>
+
+        <!-- Why Pactform -->
+        <section class="why-section container">
+            <h2>WHY PACTFORM</h2>
+            <p class="section-intro">Pactform is an international furniture company providing distinctive contract furniture and project furnishing solutions for restaurants, hotels, workplaces and other commercial interiors.</p>
+            <p>Unlike furniture intended primarily for the home, contract furniture must account for frequent use, consistent specifications, project quantities and future replacement needs. We select and develop our furniture accordingly, with production through selected international manufacturing partners under our specifications and quality controls.</p>
+        </section>
+
+<!-- THE COLLECTION -->
+        <section class="collection-section-orange">
+            <div class="container collection-section">
+                <h2>THE COLLECTION</h2>
+                <p class="section-intro">Seven categories, all built for commercial use. Have a look through.</p>
+                
+                <div class="category-bento-grid">
+                    
+                    <!-- Baris 1: Commercial (Kiri 50%) & Office (Kanan 50%) -->
+                    <a href="category.html?category=commercial" class="category-card bento-commercial">
+                        <div class="img-box category-photo feature-photo">
+                            <img src="commercial interior.jpg" alt="Commercial" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="card-content">
+                                <h4>COMMERCIAL</h4>
+                            </div>
+                            <div class="card-hover-desc">
+                                <p class="card-desc">Dining, bar and booth furniture for spaces that work hard and welcome often.</p>
+                                <span class="cta-link">EXPLORE RESTAURANT FURNITURE &rarr;</span>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="category.html?category=office" class="category-card bento-office">
+                        <div class="img-box category-photo feature-photo">
+                            <img src="office.jpg" alt="Office" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="card-content">
+                                <h4>OFFICE</h4>
+                            </div>
+                            <div class="card-hover-desc">
+                                <p class="card-desc">Task, meeting and shared-space furniture for contemporary workplaces.</p>
+                                <span class="cta-link">EXPLORE WORKPLACE FURNITURE &rarr;</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Baris 2: Outdoor (Full Width 100%) -->
+                    <a href="category.html?category=outdoor" class="category-card bento-outdoor">
+                        <div class="img-box category-photo feature-photo outdoor-photo">
+                            <img src="outdoor.jpg" alt="Outdoor" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="card-content">
+                                <h4>OUTDOOR</h4>
+                            </div>
+                            <div class="card-hover-desc">
+                                <p class="card-desc">Furniture for open-air dining, terraces and garden spaces.</p>
+                                <span class="cta-link">EXPLORE OUTDOOR FURNITURE &rarr;</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Baris 3: Kategori Kecil -->
+<!-- Box 1 -->
+                    <a href="category.html?category=dining-chairs" class="category-card bento-small">
+                        <div class="img-box category-photo">
+                            <img src="dining.jpg" alt="Dining chairs" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="card-content-small"><h4>DINING CHAIRS</h4></div>
+                        </div>
+                    </a>
+                    
+                    <!-- Box 2 -->
+                    <a href="category.html?category=bar-stools" class="category-card bento-small">
+                        <div class="img-box category-photo">
+                            <img src="bar.jpg" alt="Bar stools" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="card-content-small"><h4>BAR STOOLS</h4></div>
+                        </div>
+                    </a>
+                    
+                    <!-- Box 3 -->
+                    <a href="category.html?category=booth-seating" class="category-card bento-small">
+                        <div class="img-box category-photo">
+                            <img src="booth.jpg" alt="Booth seating" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="card-content-small"><h4>BOOTH SEATING</h4></div>
+                        </div>
+                    </a>
+
+                    <!-- Box 4 (Kategori Baru) -->
+                    <a href="category.html?category=lounge-chairs" class="category-card bento-small">
+                        <div class="img-box category-photo">
+                            <img src="lounge.jpg" alt="Lounge chairs" style="width: 100%; height: 100%; object-fit: cover; background: #ddd;">
+                            <div class="card-content-small"><h4>LOUNGE CHAIRS</h4></div>
+                        </div>
+                    </a>
+
+                    <!-- Box 5 (Kategori Baru) -->
+                    <a href="category.html?category=meeting-chairs" class="category-card bento-small">
+                        <div class="img-box category-photo">
+                            <img src="meeting.jpg" alt="Meeting chairs" style="width: 100%; height: 100%; object-fit: cover; background: #ccc;">
+                            <div class="card-content-small"><h4>MEETING CHAIRS</h4></div>
+                        </div>
+                    </a>
+
+                    <!-- Box 6 (Kategori Baru) -->
+                    <a href="category.html?category=storage" class="category-card bento-small">
+                        <div class="img-box category-photo">
+                            <img src="storage.jpg" alt="Storage" style="width: 100%; height: 100%; object-fit: cover; background: #bbb;">
+                            <div class="card-content-small"><h4>STORAGE</h4></div>
+                        </div>
+                    </a>
+
+                </div>
+
+                <!-- Hidden extra categories (Tables), revealed by "Click to See More" -->
+                <div class="collection-expand-wrap" id="collectionExpandWrap">
+                    <div class="category-bento-grid collection-expand-grid">
+                        <a href="category.html?category=dining-tables" class="category-card bento-small">
+                            <div class="img-box category-photo">
+                                <img src="dining-tables.jpg" alt="Dining Tables" style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="card-content-small"><h4>Dining Tables</h4></div>
+                            </div>
+                        </a>
+                        <a href="category.html?category=coffee-tables" class="category-card bento-small">
+                            <div class="img-box category-photo">
+                                <img src="coffee-tables.jpg" alt="Coffee Tables" style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="card-content-small"><h4>Coffee Tables</h4></div>
+                            </div>
+                        </a>
+                        <a href="category.html?category=side-tables" class="category-card bento-small">
+                            <div class="img-box category-photo">
+                                <img src="side-tables.jpg" alt="Side Tables" style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="card-content-small"><h4>Side Tables</h4></div>
+                            </div>
+                        </a>
+                        <a href="category.html?category=outdoor-tables" class="category-card bento-small">
+                            <div class="img-box category-photo">
+                                <img src="outdoor-tables.jpg" alt="Outdoor Tables" style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="card-content-small"><h4>Outdoor Tables</h4></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <button class="collection-see-more" id="collectionSeeMoreBtn" aria-expanded="false" aria-controls="collectionExpandWrap">
+                    <span class="see-more-text">Click to See More</span>
+                    <svg class="see-more-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+
+            </div>
+        </section>
+
+        <!-- Upload Project BOQ Section -->
+        <section class="container boq-upload-section">
+            <span class="eyebrow">Project Submission</span>
+            <h2>UPLOAD YOUR PROJECT OR BOQ</h2>
+            <p class="boq-desc">Send us your architectural drawings, furniture schedules, or Bill of Quantities (BOQ). Our engineering and procurement team will review your requirements.</p>
+
+            <div class="boq-dropzone">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                <p class="boq-dropzone-title">Drag &amp; drop your files here</p>
+                <p class="boq-dropzone-sub">Supports PDF, DWG, XLSX, ZIP</p>
+            </div>
+            <button class="btn btn-primary">Browse Files</button>
+        </section>
+
+        <!-- Custom Furniture Block -->
+<!-- Custom Furniture Block -->
+        <section class="custom-furniture-block">
+            <div class="container custom-furniture-inner">
+                <div class="custom-furniture-text">
+                    <span class="eyebrow">Custom Fabrication</span>
+                    <h2>SOMETIMES THE PERFECT PIECE DOESN'T EXIST YET</h2>
+                    <p>Send us a drawing, a mood board, or just an idea. We specialize in highly bespoke, made-to-spec, sculptural pieces tailored exactly to your vision and engineered to commercial standards.</p>
+                    <a href="custom.html" class="btn btn-primary">SEND US YOUR SPEC SHEET</a>
+                </div>
+            </div>
+            <!-- Menggunakan gambar kursi kaca yang baru -->
+            <img src="kursi kaca baru.png" alt="Sculptural bespoke silver chair" class="custom-furniture-chair chair-slide-in-right">
+        </section>
+
+        <!-- About (short version) -->
+        <section class="about-teaser-orange">
+            <div class="container about-teaser">
+                <h2>WE STARTED PACTFORM FOR ONE SIMPLE REASON.</h2>
+                <p>Finding commercial furniture shouldn't be harder than designing the space itself.</p>
+                <p>Too often, businesses are limited by local catalogues, long distributor chains, and products that look identical from one supplier to the next. Yet behind many of these collections are talented manufacturers capable of far more than what's available locally. Pactform was created to bridge that gap.</p>
+                <p>We connect projects directly with trusted manufacturers, making commercial furniture sourcing simpler, more transparent, and more flexible.</p>
+                <p>Whether you're furnishing a café, a hotel, an office, or an entire development, our goal is always the same: help you find the right furniture — not simply sell you what's available.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <img src="Logo Pactform.png" alt="Pactform" class="logo-img footer-logo-img">
+                <p>International contract furniture for restaurants, hotels, workplaces and commercial interiors.</p>
+                <p class="footer-sub">Produced through selected international manufacturing partners under our specifications and quality controls.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Company</h5>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="collection.html">Collections</a></li>
+                    <li><a href="custom.html">Custom</a></li>
+                    <li><a href="shipping.html">Shipping</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-contact">
+                <h5>Get in touch</h5>
+                <p class="footer-sub">Whether you're collecting ideas or ready to order, we'd like to hear about your project.</p>
+                <a href="#" class="btn btn-primary">Contact Sales</a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Pactform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Sticky Get Product Updates -->
+    <a href="#" class="updates-sticky" aria-label="Get Product Updates">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span>Get Product Updates</span>
+    </a>
+
+    <!-- Sticky WhatsApp -->
+    <a href="https://wa.me/62xxxxxxxxxx" class="whatsapp-sticky" aria-label="Chat on WhatsApp" target="_blank" rel="noopener noreferrer">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="34" height="34" fill="currentColor">
+        <path d="M476.9 161.1C435 119.1 379.2 96 319.9 96C197.5 96 97.9 195.6 97.9 318C97.9 357.1 108.1 395.3 127.5 429L96 544L213.7 513.1C246.1 530.8 282.6 540.1 319.8 540.1L319.9 540.1C442.2 540.1 544 440.5 544 318.1C544 258.8 518.8 203.1 476.9 161.1zM319.9 502.7C286.7 502.7 254.2 493.8 225.9 477L219.2 473L149.4 491.3L168 423.2L163.6 416.2C145.1 386.8 135.4 352.9 135.4 318C135.4 216.3 218.2 133.5 320 133.5C369.3 133.5 415.6 152.7 450.4 187.6C485.2 222.5 506.6 268.8 506.5 318.1C506.5 419.9 421.6 502.7 319.9 502.7zM421.1 364.5C415.6 361.7 388.3 348.3 383.2 346.5C378.1 344.6 374.4 343.7 370.7 349.3C367 354.9 356.4 367.3 353.1 371.1C349.9 374.8 346.6 375.3 341.1 372.5C308.5 356.2 287.1 343.4 265.6 306.5C259.9 296.7 271.3 297.4 281.9 276.2C283.7 272.5 282.8 269.3 281.4 266.5C280 263.7 268.9 236.4 264.3 225.3C259.8 214.5 255.2 216 251.8 215.8C248.6 215.6 244.9 215.6 241.2 215.6C237.5 215.6 231.5 217 226.4 222.5C221.3 228.1 207 241.5 207 268.8C207 296.1 226.9 322.5 229.6 326.2C232.4 329.9 268.7 385.9 324.4 410C359.6 425.2 373.4 426.5 391 423.9C401.7 422.3 423.8 410.5 428.4 397.5C433 384.5 433 373.4 431.6 371.1C430.3 368.6 426.6 367.2 421.1 364.5z"/>
+    </svg>
+    </a>
+
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay hidden" id="drawer-overlay"></div>
+    <div class="your-list-modal hidden" id="list-modal">
+        <div class="modal-header">
+            <h3>Your list</h3>
+            <button class="close-btn" id="close-modal-btn" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body"><div class="list-items" id="list-items"></div></div>
+        <div class="modal-actions">
+            <a href="#" class="btn btn-primary">Send to WhatsApp</a>
+            <button class="btn btn-secondary">Download PDF</button>
+            <button class="btn btn-secondary" id="copy-link-btn">Copy share link</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('drawer-overlay');
+            const modal = document.getElementById('list-modal');
+            const toggleListBtn = document.getElementById('toggle-list-btn');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            function openDrawer() { modal.classList.remove('hidden'); overlay.classList.add('visible'); overlay.classList.remove('hidden'); }
+            function closeDrawer() { modal.classList.add('hidden'); overlay.classList.remove('visible'); }
+            function toggleDrawer() { modal.classList.contains('hidden') ? openDrawer() : closeDrawer(); }
+            toggleListBtn.addEventListener('click', toggleDrawer);
+            const toggleListBtnMobile = document.getElementById('toggle-list-btn-mobile');
+            if (toggleListBtnMobile) {
+                toggleListBtnMobile.addEventListener('click', () => { if (window.__pactformCloseNav) window.__pactformCloseNav(); toggleDrawer(); });
+            }
+            closeModalBtn.addEventListener('click', closeDrawer);
+            overlay.addEventListener('click', closeDrawer);
+
+            const listItems = [
+                { name: '[PRODUCT NAME] x24', meta: 'Rattan / natural — approx. W450 D520 H820' },
+                { name: '[PRODUCT NAME] x8', meta: 'Solid oak / black steel — approx. W1400 D700 H750' },
+                { name: '[PRODUCT NAME] x12', meta: 'Powder-coated steel — approx. W400 D400 H650' }
+            ];
+            const trashIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
+            const listItemsEl = document.getElementById('list-items');
+            function renderListItems() {
+                if (listItems.length === 0) { listItemsEl.innerHTML = '<p class="list-empty">Your list is empty.</p>'; return; }
+                listItemsEl.innerHTML = listItems.map((item, i) =>
+                    '<div class="list-item" data-index="' + i + '"><div class="list-item-main"><h4>' + item.name + '</h4><p>' + item.meta + '</p></div>' +
+                    '<button class="remove-item-btn" data-index="' + i + '" aria-label="Remove ' + item.name + '">' + trashIcon + '</button></div>'
+                ).join('');
+            }
+            renderListItems();
+            listItemsEl.addEventListener('click', (e) => {
+                const btn = e.target.closest('.remove-item-btn');
+                if (!btn) return;
+                const index = Number(btn.dataset.index);
+                const row = btn.closest('.list-item');
+                row.classList.add('removing');
+                setTimeout(() => { listItems.splice(index, 1); renderListItems(); }, 200);
+            });
+
+            const copyLinkBtn = document.getElementById('copy-link-btn');
+            copyLinkBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    const original = copyLinkBtn.textContent;
+                    copyLinkBtn.textContent = 'Link copied';
+                    setTimeout(() => { copyLinkBtn.textContent = original; }, 1500);
+                }).catch(() => {});
+            });
+
+            // Carousel Logic
+            const carouselData = [
+                { title: "International Furniture for Hospitality & Commercial Spaces", text: "Pactform provides curated furniture collections and project furnishing solutions for restaurants, hotels and commercial interiors worldwide.", image: "Slide 1.png", btn1Text: "EXPLORE COLLECTIONS", btn1Link: "collection.html", btn2Text: "START A PROJECT", btn2Link: "projects.html" },
+                { title: "Short-Lead-Time Furniture for Restaurants", text: "Dining chairs, tables, bar stools and custom restaurant furniture coordinated around clear production and delivery schedules for openings, renovations and rollouts.", image: "Slide 2.png", btn1Text: "EXPLORE RESTAURANT FURNITURE", btn1Link: "collection.html" },
+                { title: "Indonesian Rattan, Shaped by Skilled Hands", text: "We work with selected artisans to create distinctive rattan furniture under our specifications and quality controls.", image: "Slide 3.png", btn1Text: "DISCOVER RATTAN", btn1Link: "collection.html" },
+                { title: "When the Right Piece Doesn't Exist Yet", text: "Bring us a drawing, reference or idea. We can adapt the dimensions, materials and finishes, or develop a piece around your brief.", image: "Slide 4.png", btn1Text: "START A CUSTOM PIECE", btn1Link: "collection.html" },
+                { title: "Distinctive Contract Furniture Beyond Standard Catalogues", text: "Furniture should do more than survive the room. It should help define it, through an unexpected line, a tactile material or a detail people remember. We uphold consistency in production quality across every project to ensure this impression is always conveyed to our customers and end-users.", image: "Slide 5.png", btn1Text: "SEE WHAT SETS US APART", btn1Link: "collection.html" },
+            ];
+
+            let currentSlide = 0;
+            const titleEl = document.getElementById('carousel-title');
+            const textEl = document.getElementById('carousel-text');
+            const bgImgEl = document.getElementById('carousel-bg-img');
+            const dotsContainer = document.getElementById('carousel-dots');
+            const heroCarousel = document.getElementById('hero-carousel');
+            const buttonsContainer = document.getElementById('carousel-buttons');
+
+            carouselData.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+
+            function updateCarousel() {
+                const slide = carouselData[currentSlide];
+                titleEl.textContent = slide.title;
+                textEl.textContent = slide.text;
+                bgImgEl.src = slide.image;
+                let buttonsHTML = '';
+                if (slide.btn1Text && slide.btn1Link) { buttonsHTML += `<a href="${slide.btn1Link}" class="btn btn-primary">${slide.btn1Text}</a>`; }
+                if (slide.btn2Text && slide.btn2Link) { buttonsHTML += `<a href="${slide.btn2Link}" class="btn btn-secondary">${slide.btn2Text}</a>`; }
+                buttonsContainer.innerHTML = buttonsHTML;
+                document.querySelectorAll('.carousel-dots .dot').forEach((dot, index) => { dot.classList.toggle('active', index === currentSlide); });
+            }
+
+            function goToSlide(index) { currentSlide = index; updateCarousel(); resetAutoplay(); }
+            document.getElementById('prev-slide').addEventListener('click', () => { currentSlide = (currentSlide - 1 + carouselData.length) % carouselData.length; updateCarousel(); resetAutoplay(); });
+            document.getElementById('next-slide').addEventListener('click', () => { currentSlide = (currentSlide + 1) % carouselData.length; updateCarousel(); resetAutoplay(); });
+
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let autoplayTimer = null;
+            function startAutoplay() {
+                if (prefersReducedMotion) return;
+                stopAutoplay();
+                autoplayTimer = setInterval(() => { currentSlide = (currentSlide + 1) % carouselData.length; updateCarousel(); }, 6500);
+            }
+            function stopAutoplay() { if (autoplayTimer) clearInterval(autoplayTimer); }
+            function resetAutoplay() { stopAutoplay(); startAutoplay(); }
+
+            heroCarousel.addEventListener('mouseenter', stopAutoplay);
+            heroCarousel.addEventListener('mouseleave', startAutoplay);
+            heroCarousel.addEventListener('focusin', stopAutoplay);
+            heroCarousel.addEventListener('focusout', startAutoplay);
+            updateCarousel(); 
+            startAutoplay();
+
+            let touchStartX = 0; let touchStartY = 0; let touchActive = false;
+            heroCarousel.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; touchStartY = e.changedTouches[0].clientY; touchActive = true; stopAutoplay(); }, { passive: true });
+            heroCarousel.addEventListener('touchend', (e) => {
+                if (!touchActive) return;
+                touchActive = false;
+                const dx = e.changedTouches[0].clientX - touchStartX;
+                const dy = e.changedTouches[0].clientY - touchStartY;
+                if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+                    currentSlide = dx < 0 ? (currentSlide + 1) % carouselData.length : (currentSlide - 1 + carouselData.length) % carouselData.length;
+                    updateCarousel();
+                }
+                resetAutoplay();
+            }, { passive: true });
+        });
+    </script>
+    <script src="scroll-reveal.js"></script>
+
+    <!-- Script animasi kursi slide dari kanan saat section-nya di-scroll -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chairSections = document.querySelectorAll('.contract-hero, .custom-furniture-block');
+            if (!chairSections.length) return;
+            const chairObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const chair = entry.target.querySelector('.chair-slide-in-right');
+                        if (chair) chair.classList.add('is-visible');
+                        chairObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+            chairSections.forEach((section) => chairObserver.observe(section));
+        });
+    </script>
+
+    <!-- Script Kalkulasi Scroll (Jangan dihapus, ini mesin animasinya!) -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const pin = document.getElementById("heroScrollPin");
+        const sticky = document.getElementById("heroScrollSticky");
+        if (!pin || !sticky) return;
+        let ticking = false;
+
+        function updateProgress() {
+            ticking = false;
+            const rect = pin.getBoundingClientRect();
+            const scrollDistance = pin.offsetHeight - window.innerHeight;
+            let progress = 0;
+
+            if (scrollDistance > 0) {
+                progress = (-rect.top) / scrollDistance;
+            }
+
+            progress = Math.max(0, Math.min(1, progress));
+            sticky.style.setProperty("--scroll-progress", progress.toFixed(4));
+        }
+
+        function onScroll() {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(updateProgress);
+            }
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        updateProgress();
+    });
+    </script>
+    <!-- ... kode modal dan lainnya ... -->
+
+    <!-- Script untuk "Click to See More" (The Collection) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('collectionSeeMoreBtn');
+            const expandWrap = document.getElementById('collectionExpandWrap');
+
+            if (toggleBtn && expandWrap) {
+                toggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+                    expandWrap.classList.toggle('show');
+                    toggleBtn.classList.toggle('active');
+                    toggleBtn.setAttribute('aria-expanded', !isExpanded);
+                    toggleBtn.querySelector('.see-more-text').textContent = isExpanded ? 'Click to See More' : 'Click to See Less';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
