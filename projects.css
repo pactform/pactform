@@ -375,3 +375,16 @@
     pointer-events: none;
     user-select: none;
 }
+.projects-visual-hero {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    border-radius: 0;
+    
+    /* INI TAMBAHAN UNTUK MEMANJANGKAN FOTO KE BAWAH */
+    height: 70vh !important; 
+    min-height: 550px !important; 
+}
