@@ -253,7 +253,7 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    background: linear-gradient(110deg, #651a00 0%, #7e2401 35%, var(--accent) 75%, #ff6a33 100%);
+    background: linear-gradient(110deg, #c53602 0%, #dc5800 100%);
     border-color: transparent;
 }
 .cta-box .eyebrow {
@@ -286,7 +286,7 @@
 }
 
 .prof-intro {
-    background: linear-gradient(110deg, #651a00 0%, #7e2401 35%, var(--accent) 75%, #ff6a33 100%);
+    background: linear-gradient(110deg, #c53602 0%, #dc5800 100%);
     border-right-color: rgba(255, 255, 255, 0.25);
 }
 .prof-intro .eyebrow {

@@ -66,7 +66,7 @@
     width: 100vw;
     height: 100%;
     transform: translateX(-50%);
-    background: radial-gradient(130% 150% at 15% -10%, var(--hero-orange-vivid) 0%, var(--accent) 48%, var(--hero-orange-deep) 100%);
+    background: linear-gradient(110deg, #c53602 0%, #dc5800 100%);
     z-index: -1;
 }
 .hero-orange-block .subtext { color: rgba(255, 255, 255, 0.92); }
@@ -206,7 +206,7 @@
     padding-top: 56px;
     padding-bottom: 56px;
     margin-bottom: 80px;
-    background: linear-gradient(110deg, #651a00 0%, var(--hero-orange-deep) 35%, var(--accent) 75%, var(--hero-orange-vivid) 100%);
+    background: linear-gradient(110deg, #c53602 0%, #dc5800 100%);
 }
 .results-section::before {
     content: "";
