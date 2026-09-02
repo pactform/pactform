@@ -1,0 +1,389 @@
+.eyebrow {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+:root {
+    --hero-orange-deep: #7e2401;
+    --hero-orange-vivid: #ff6a33;
+}
+
+/* Page Header & Custom Hero */
+.custom-hero-section {
+    margin-bottom: 64px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 48px;
+}
+.custom-hero-section .subtext {
+    display: block;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: var(--accent);
+}
+.custom-hero-section .hero-desc {
+    max-width: 720px;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--black);
+    margin-bottom: 0;
+}
+.custom-photo {
+    height: 380px;
+    margin: 32px 0;
+    border: 1px solid var(--black);
+}
+.custom-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.hero-orange-block {
+    position: relative;
+    isolation: isolate;
+    z-index: 1;
+    
+    margin-top: -100px; 
+    
+    padding-top: 164px; 
+    
+    padding-bottom: 56px;
+    border-bottom: none;
+}
+
+.hero-orange-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    height: 100%;
+    transform: translateX(-50%);
+    background: radial-gradient(130% 150% at 15% -10%, var(--hero-orange-vivid) 0%, var(--accent) 48%, var(--hero-orange-deep) 100%);
+    z-index: -1;
+}
+.hero-orange-block .subtext { color: rgba(255, 255, 255, 0.92); }
+.hero-orange-block h1,
+.hero-orange-block .hero-desc { color: var(--white); }
+.hero-orange-block .hero-desc { color: rgba(255, 255, 255, 0.85); }
+
+.hero-orange-block .btn-primary {
+    background-color: var(--white);
+    color: var(--hero-orange-deep);
+    border-color: var(--white);
+}
+.hero-orange-block .btn-primary:hover {
+    background-color: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+}
+.hero-orange-block .btn-secondary {
+    background-color: transparent;
+    color: var(--white);
+    border-color: rgba(255, 255, 255, 0.65);
+}
+.hero-orange-block .btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+    border-color: var(--white);
+}
+
+/* Section Header Shared Layout */
+.section-heading-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--black);
+    padding-bottom: 16px;
+}
+.heading-desc {
+    max-width: 480px;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    color: var(--grey-dark);
+}
+
+/* Architectural Spec Schedule for Customisation Items */
+.customisation-spec-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background-color: var(--border-color);
+    border: 1px solid var(--border-color);
+    gap: 1px;
+    margin-bottom: 32px;
+}
+
+.spec-index-item {
+    background-color: var(--white);
+    display: flex;
+    align-items: stretch;
+    border-radius: 0;
+    transition: background-color 0.2s ease;
+}
+
+.spec-num-box {
+    flex: 0 0 54px;
+    background-color: var(--grey-light);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--black);
+    font-family: monospace;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.spec-detail {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.spec-detail h4 {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 2px;
+}
+
+.spec-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+}
+
+.spec-index-item:hover {
+    background-color: #fffcf9;
+}
+
+.spec-index-item:hover .spec-num-box {
+    background-color: var(--accent);
+    color: var(--white);
+    border-right-color: var(--accent);
+}
+
+/* Custom Callout Banner — Ditambah jarak bawah (margin-bottom) */
+.custom-callout-banner {
+    background-color: var(--grey-light);
+    padding: 24px 32px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.05rem;
+    border: 1px solid var(--black);
+    border-left: 6px solid var(--accent);
+    color: var(--black);
+    margin-bottom: 48px; /* <-- Tambahkan baris ini untuk memberi jarak */
+}
+.custom-callout-banner span {
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+}
+
+/* Results Gallery Horizontal Strip */
+.results-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding-top: 56px;
+    padding-bottom: 56px;
+    margin-bottom: 80px;
+    background: linear-gradient(110deg, #651a00 0%, var(--hero-orange-deep) 35%, var(--accent) 75%, var(--hero-orange-vivid) 100%);
+}
+.results-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('custom_chair.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+    z-index: 0;
+    pointer-events: none;
+}
+.results-section-inner {
+    position: relative;
+    z-index: 1;
+}
+.results-section .eyebrow {
+    color: #ffe4d1;
+}
+.results-section .section-heading-row {
+    border-bottom-color: rgba(255, 255, 255, 0.35);
+}
+.results-section h2 {
+    color: #ffffff;
+}
+.results-section .heading-desc {
+    color: rgba(255, 255, 255, 0.85);
+}
+.results-section .result-item {
+    background: var(--white);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+.results-strip {
+    display: flex;
+    gap: 32px; /* Memperbesar jarak antar kotak (sebelumnya 24px) */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 12px 4px 24px 4px; /* Memberi ruang atas dan bawah agar tidak mepet */
+}
+
+.result-item {
+    flex: 0 0 300px; /* Lebar kotak sedikit diperlebar agar proporsional */
+    scroll-snap-align: start;
+    border: 1px solid var(--border-color);
+    background: var(--white);
+    padding: 20px; /* Menambah jarak/padding di dalam kotak */
+    border-radius: 0; /* Tetap pertahankan sudut tajam 90 derajat */
+}
+
+.result-photo {
+    height: 220px;
+    margin-bottom: 16px; /* Jarak antara foto dan teks caption di bawahnya */
+    border: 1px solid var(--border-color);
+}
+
+.result-caption {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+/* Ready When You Are CTA Section */
+.contact-section {
+    border-top: 1px solid var(--border-color);
+    padding-top: 64px;
+    margin-bottom: 80px;
+}
+.cta-box {
+    border: 1px solid var(--black);
+    padding: 48px;
+    background: var(--grey-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+.cta-box h2 {
+    margin-bottom: 12px;
+}
+.cta-box p {
+    max-width: 540px;
+    margin-bottom: 0;
+    color: var(--grey-dark);
+}
+.contact-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 900px) {
+    .cta-box {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 36px 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .customisation-spec-grid {
+        grid-template-columns: 1fr;
+    }
+    .section-heading-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .custom-photo {
+        height: 260px;
+    }
+}
+
+@media (max-width: 600px) {
+    .custom-buttons,
+    .contact-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    .custom-buttons .btn,
+    .contact-buttons .btn {
+        width: 100%;
+        text-align: center;
+    }
+    .spec-num-box {
+        flex-basis: 48px;
+    }
+    .spec-detail {
+        padding: 14px 16px;
+    }
+    .result-item {
+        flex-basis: 240px;
+    }
+    .result-photo {
+        height: 180px;
+    }
+}
+/* ==========================================================================
+   Interactive transitions (added — hover/focus feedback only)
+   ========================================================================== */
+.custom-photo {
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.custom-photo:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+}
+
+.result-item {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.result-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   Hero ghost text — large faint background heading behind the page title
+   ========================================================================== */
+.hero-ghost {
+    position: absolute;
+    
+    /* Ganti top: -0.4em; menjadi angka positif untuk mendorongnya turun */
+    top: 30px;/*Silakan naik-turunkan angka ini (misal 80px - 120px) sampai posisinya pas */
+    
+    left: -0.03em;
+    z-index: -1;
+    font-size: clamp(4.5rem, 14vw, 11rem);
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.14);
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+}
