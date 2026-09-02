@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="preloader.css?v=3.0">
     <link rel="stylesheet" href="scroll-reveal.css">
     <style>
-        /* Mencegah layar geser ke samping kalau ada elemen yang kelebaran */
-        html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
+        /* Mencegah layar geser ke samping kalau ada elemen yang kelebaran.
+           Catatan: overflow-x:hidden sengaja HANYA di body, bukan html —
+           kalau dipasang di html juga, position:fixed (mis. burger menu)
+           jadi ikut ke-scroll di sejumlah browser mobile. */
+        body { overflow-x: hidden; width: 100%; max-width: 100%; }
     </style>
 </head>
 <body>

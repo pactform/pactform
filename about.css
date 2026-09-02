@@ -11,20 +11,11 @@
     margin-bottom: 8px;
 }
 
-/* Full-bleed breakout — safer than width:100vw, which overflows on mobile
-   when there's any body margin or scrollbar-width mismatch */
-.full-bleed {
-    width: 100%;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-}
-
 /* Page Header */
 .about-hero {
     margin-bottom: 64px;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 48px;
-    overflow: hidden; /* clip .hero-ghost so it can't push the page wider */
 }
 .about-hero .subtext {
     display: block;
@@ -347,7 +338,7 @@
    ========================================================================== */
 .about-hero {
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     isolation: isolate;
 }
 .hero-ghost {
