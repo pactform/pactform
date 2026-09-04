@@ -72,17 +72,19 @@
 
     <main class="container">
         <section class="product-showcase" style="margin-top: 40px;">
+            
+            <!-- Bagian Judul & Caption dipindah ke atas foto -->
+            <div style="text-align: left; margin-bottom: 24px;">
+                <h3 id="carousel-product-name" style="margin-bottom: 8px;">[SELECTED PRODUCT NAME]</h3>
+                <p id="carousel-caption" style="color: var(--grey-dark); margin: 0;"></p>
+            </div>
+
             <div class="category-carousel-container" id="big-carousel">
                 <img id="carousel-main-img" src="" alt="Product Image" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0;">
                 
                 <button class="carousel-arrow" id="prev-slide" aria-label="Previous image">&lt;</button>
                 <span class="img-label carousel-img-label" id="carousel-img-label"></span>
                 <button class="carousel-arrow" id="next-slide" aria-label="Next image">&gt;</button>
-            </div>
-            
-            <div style="text-align: left; margin-bottom: 24px;">
-                <h3 id="carousel-product-name" style="margin-bottom: 8px;">[SELECTED PRODUCT NAME]</h3>
-                <p id="carousel-caption" style="color: var(--grey-dark); margin: 0;"></p>
             </div>
 
             <div class="carousel-dots" id="carousel-dots"></div>
@@ -191,7 +193,7 @@
 
         const PRODUCTS = [
             { slug: 'oslo-dining-chair', category: 'dining-chairs', name: 'Oslo Dining Chair', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'riva-stack-chair', category: 'commercial', name: 'Riva Stack Chair', materials: ['steel'], styles: ['industrial'], badges: ['Steel', 'Industrial', 'Stackable'], desc: "The chair you order two hundred of. Stacks eight high, stores flat.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, moulded seat', goodFor: 'Function rooms, canteens, event spaces' },
+            { slug: 'riva-stack-chair', category: 'commercial', name: 'Chair 008 - 0070', materials: ['steel'], styles: ['industrial'], badges: ['Steel', 'Industrial', 'Stackable'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vynil upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort ' },
             { slug: 'lagoon-lounge-chair', category: 'outdoor', name: 'Lagoon Lounge Chair', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
             { slug: 'copenhagen-armchair', category: 'office', name: 'Copenhagen Armchair', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A general-purpose armchair with enough presence for a lobby.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
             { slug: 'anchor-bar-stool', category: 'bar-stools', name: 'Anchor Bar Stool', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Steel', 'Upholstered', 'Stackable'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Powder-coated steel frame, upholstered seat pad', goodFor: 'Bars, high tables' },
@@ -225,17 +227,17 @@
                 { caption: 'Styled in a minimalist dining room.' }
             ],
             'riva-stack-chair': [
-                { caption: 'Front view of the moulded seat and steel frame.' },
-                { caption: 'Side profile showing the stacking angle.' },
-                { caption: 'Back view of the frame and seat shell.' },
-                { caption: 'Detail of the seat\'s moulded texture.' },
-                { caption: 'Top-down view of the seat and backrest shape.' },
-                { caption: 'Close-up on the welded steel joints.' },
-                { caption: 'Rows set up for a restaurant private function.' },
-                { caption: 'Arranged around small tables in a cafe.' },
-                { caption: 'Lined along a hotel lobby event space.' },
-                { caption: 'Stacked and ready in an office storage corner.' },
-                { caption: 'Set out for a large gathering in an open interior.' }
+                { caption: 'Product photography on plain ground, close-up view.' },
+                { caption: 'Product photography on plain ground, close-up view.' },
+                { caption: 'Product photography on plain ground, close-up view.' },
+                { caption: 'Product photography on plain ground, close-up view.' },
+                { caption: 'Product photography on plain ground, close-up view.' },
+                { caption: 'Product photography on plain ground, close-up view.' },
+                { caption: '' },
+                { caption: '' },
+                { caption: '' },
+                { caption: '' },
+                { caption: '' }
             ],
             'lagoon-lounge-chair': [
                 { caption: 'Front view of the low, deep rattan seat.' },

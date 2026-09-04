@@ -130,7 +130,7 @@
 .contract-hero-text .intro-text { max-width: 520px; margin-bottom: 28px; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; line-height: 1.6; }
 .contract-hero-chair {
     position: absolute; 
-    right: -20%;  /* Menggeser kursi lebih jauh ke kanan hingga melewati batas layar */
+    right: -15%;  /* Menggeser kursi lebih jauh ke kanan hingga melewati batas layar */
     top: 2%;      /* Memastikan kepala kursi selalu berada di dalam frame (tidak terpotong) */
     bottom: auto; /* Menghapus patokan bawah agar kursi bebas memanjang ke bawah */
     height: 130%; /* Mempertahankan efek zoom */
@@ -423,7 +423,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
 .custom-furniture-text p { margin-bottom: 24px; }
 .custom-furniture-chair {
     position: absolute; 
-    right: -10%;  /* Menggeser kursi lebih jauh ke kanan, mengikuti gaya CONTRACT FURNITURE hero */
+    right: -8%;  /* Menggeser kursi lebih jauh ke kanan, mengikuti gaya CONTRACT FURNITURE hero */
     top: 2%;      /* Memastikan bagian atas kursi selalu berada di dalam frame (tidak terpotong) */
     bottom: auto; /* Menghapus patokan bawah agar kursi bebas memanjang ke bawah */
     transform: none;
@@ -579,8 +579,8 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     
     .contract-hero-chair { 
         position: absolute;
-        right: -45%;  
-        top: 28%;     
+        right: -40%;  
+        top: 5%;     
         height: 130%; 
         width: auto;
         max-width: none;
@@ -602,7 +602,7 @@ body { overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-sm
     /* PENGATURAN KURSI KACA HP: Disamping teks & terpotong (sama seperti contract-hero) */
     .custom-furniture-chair { 
         position: absolute; 
-        right: -50%;
+        right: -40%;
         top: 22%;
         bottom: auto;
         transform: none;

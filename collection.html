@@ -75,9 +75,6 @@
     <main class="container">
         <section class="collection-section">
             <h2>THE COLLECTION</h2>
-            <p class="section-intro">Seven categories, all built for commercial use. Have a look through.</p>
-
-            <!-- BARU: Tambahan Filter dan Search Keywords sesuai wireframe -->
             <div class="collection-toolbar">
                 <button class="btn btn-secondary collection-filter-btn" type="button">FILTER</button>
                 <div class="collection-search-wrap">
@@ -102,7 +99,6 @@
                         <img src="commercial/foto7.png" class="rotate-img" alt="Commercial 7" style="width: 100%; height: 100%; object-fit: cover;">
                         <img src="commercial/foto8.png" class="rotate-img" alt="Commercial 8" style="width: 100%; height: 100%; object-fit: cover;">                    </div>
                     <h4>Commercial</h4>
-                    <p class="category-count">[N] designs</p>
                 </a>
 
                 <a href="category.html?category=outdoor" class="category-card">
@@ -116,7 +112,6 @@
                         <img src="outdoor/foto7.png" class="rotate-img" alt="Outdoor 7" style="width: 100%; height: 100%; object-fit: cover;">
                         <img src="outdoor/foto8.png" class="rotate-img" alt="Outdoor 8" style="width: 100%; height: 100%; object-fit: cover;">                    </div>
                     <h4>Outdoor</h4>
-                    <p class="category-count">[N] designs</p>
                 </a>
 
                 <a href="category.html?category=office" class="category-card">
@@ -130,7 +125,6 @@
                         <img src="office/foto7.png" class="rotate-img" alt="Office 7" style="width: 100%; height: 100%; object-fit: cover;">
                         <img src="office/foto8.png" class="rotate-img" alt="Office 8" style="width: 100%; height: 100%; object-fit: cover;">                    </div>
                     <h4>Office</h4>
-                    <p class="category-count">[N] designs</p>
                 </a>
 
                 <a href="category.html?category=dining-chairs" class="category-card">
@@ -144,7 +138,6 @@
                         <img src="dining-chairs/foto7.png" class="rotate-img" alt="Dining Chairs 7" style="width: 100%; height: 100%; object-fit: cover;">
                         <img src="dining-chairs/foto8.png" class="rotate-img" alt="Dining Chairs 8" style="width: 100%; height: 100%; object-fit: cover;">                    </div>
                     <h4>Dining chairs</h4>
-                    <p class="category-count">[N] designs</p>
                 </a>
 
                 <a href="category.html?category=bar-stools" class="category-card">
@@ -158,7 +151,6 @@
                         <img src="bar-stools/foto7.png" class="rotate-img" alt="Bar Stools 7" style="width: 100%; height: 100%; object-fit: cover;">
                         <img src="bar-stools/foto8.png" class="rotate-img" alt="Bar Stools 8" style="width: 100%; height: 100%; object-fit: cover;">                    </div>
                     <h4>Bar stools</h4>
-                    <p class="category-count">[N] designs</p>
                 </a>
 
                 <a href="category.html?category=booth-seating" class="category-card">
@@ -172,7 +164,6 @@
                         <img src="booth-seating/foto7.png" class="rotate-img" alt="Booth Seating 7" style="width: 100%; height: 100%; object-fit: cover;">
                         <img src="booth-seating/foto8.png" class="rotate-img" alt="Booth Seating 8" style="width: 100%; height: 100%; object-fit: cover;">                    </div>
                     <h4>Booth seating</h4>
-                    <p class="category-count">[N] designs</p>
                 </a>
 
                 <a href="category.html?category=tables" class="category-card">
@@ -186,7 +177,6 @@
                         <img src="tables/foto7.png" class="rotate-img" alt="Tables 7" style="width: 100%; height: 100%; object-fit: cover;">
                         <img src="tables/foto8.png" class="rotate-img" alt="Tables 8" style="width: 100%; height: 100%; object-fit: cover;">                    </div>
                     <h4>Tables</h4>
-                    <p class="category-count">[N] designs</p>
                 </a>
             </div>
         </section>
@@ -396,6 +386,33 @@
             const STYLE_LABELS = { 'Scandinavian': 'scandinavian', 'Industrial': 'industrial', 'Mid-century': 'mid-century', 'Tropical': 'tropical', 'Minimal': 'minimal', 'Classic': 'classic' };
 
             const categoryCards = Array.from(document.querySelectorAll('.category-grid .category-card'));
+            // Kode untuk memunculkan tags otomatis berdasarkan CATEGORY_DATA
+            categoryCards.forEach(card => {
+                const slugMatch = (card.getAttribute('href') || '').match(/category=([a-z-]+)/);
+                const slug = slugMatch ? slugMatch[1] : '';
+                const data = CATEGORY_DATA[slug];
+
+                if (data) {
+                    const tagsContainer = document.createElement('div');
+                    tagsContainer.style.cssText = 'margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;';
+                    
+                    // Fungsi untuk memformat teks (misal: "solid-timber" menjadi "Solid Timber")
+                    const formatTag = (tag) => tag.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    
+                    // Menggabungkan tags (Indoor/Outdoor, Material, dan Style)
+                    const allTags = [data.indoorOutdoor, ...data.materials, ...data.styles].filter(Boolean);
+                    
+                    // Menampilkan maksimal 3 tags agar desain kartu tidak terlalu penuh
+                    allTags.slice(0, 3).forEach(tag => {
+                        const span = document.createElement('span');
+                        span.textContent = formatTag(tag);
+                        span.style.cssText = 'background: #f4f4f4; padding: 4px 10px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #111;';
+                        tagsContainer.appendChild(span);
+                    });
+                    
+                    card.appendChild(tagsContainer);
+                }
+            });
             const collectionEmptyState = document.getElementById('collection-empty-state');
             const collectionSearchInput = document.querySelector('.collection-search-input');
             const filterCountLabel = document.querySelector('.collection-filter-btn');
@@ -481,58 +498,80 @@
             <button class="close-btn" id="close-filter-btn" aria-label="Close">&times;</button>
         </div>
         <div class="filter-modal-body">
-            <!-- Materials -->
             <div class="filter-group">
-                <label>MATERIALS</label>
+                <label>MATERIALS & UPHOLSTERY</label>
                 <div class="filter-chips">
-                    <button type="button" class="chip">Rattan</button>
-                    <button type="button" class="chip">Solid timber</button>
+                    <button type="button" class="chip">Rattan & Cane</button>
+                    <button type="button" class="chip">Solid Timber</button>
+                    <button type="button" class="chip">Timber Veneer</button>
                     <button type="button" class="chip">Plywood</button>
                     <button type="button" class="chip">Steel</button>
+                    <button type="button" class="chip">Stainless Steel</button>
                     <button type="button" class="chip">Aluminium</button>
-                    <button type="button" class="chip">Upholstered</button>
-                    <button type="button" class="chip">Stone top</button>
-                    <button type="button" class="chip">Laminate</button>
+                    <button type="button" class="chip">Fabric Upholstery</button>
+                    <button type="button" class="chip">Leather Upholstery</button>
+                    <button type="button" class="chip">Vinyl Upholstery</button>
+                    <button type="button" class="chip">Woven Rope & Cord</button>
+                    <button type="button" class="chip">Polymer</button>
+                    <button type="button" class="chip">Glass</button>
+                    <button type="button" class="chip">Natural Stone</button>
+                    <button type="button" class="chip">Engineered Stone</button>
+                    <button type="button" class="chip">Laminate & HPL</button>
+                    <button type="button" class="chip">Solid Surface</button>
                 </div>
             </div>
 
-            <!-- Interior Style -->
+            <!-- Design Character -->
             <div class="filter-group">
-                <label>INTERIOR STYLE</label>
+                <label>DESIGN CHARACTER</label>
                 <div class="filter-chips">
-                    <button type="button" class="chip">Scandinavian</button>
-                    <button type="button" class="chip">Industrial</button>
-                    <button type="button" class="chip">Mid-century</button>
-                    <button type="button" class="chip">Tropical</button>
                     <button type="button" class="chip">Minimal</button>
+                    <button type="button" class="chip">Organic</button>
+                    <button type="button" class="chip">Sculptural</button>
+                    <button type="button" class="chip">Tailored</button>
+                    <button type="button" class="chip">Warm Contemporary</button>
+                    <button type="button" class="chip">Mid-century Inspired</button>
+                    <button type="button" class="chip">Industrial</button>
                     <button type="button" class="chip">Classic</button>
+                    <button type="button" class="chip">Soft & Rounded</button>
+                    <button type="button" class="chip">Geometric</button>
+                    <button type="button" class="chip">Lightweight</button>
+                    <button type="button" class="chip">Monolithic</button>
+                    <button type="button" class="chip">Rustic</button>
+                    <button type="button" class="chip">Decorative</button>
                 </div>
             </div>
 
-            <!-- Furniture Types -->
+            <!-- Product Type -->
             <div class="filter-group">
-                <label>FURNITURE TYPES</label>
+                <label>PRODUCT TYPE</label>
                 <div class="filter-chips">
-                    <button type="button" class="chip">Type 1</button>
-                    <button type="button" class="chip">Type 2</button>
-                    <button type="button" class="chip">Type 3</button>
+                    <!-- Product Type will be added separately -->
                 </div>
             </div>
 
-            <!-- Project Types -->
+            <!-- Project Setting -->
             <div class="filter-group">
-                <label>PROJECT TYPES</label>
+                <label>PROJECT SETTING</label>
                 <div class="filter-chips">
-                    <button type="button" class="chip">Project 1</button>
-                    <button type="button" class="chip">Project 2</button>
+                    <button type="button" class="chip">Restaurant & Café</button>
+                    <button type="button" class="chip">Bar & Lounge</button>
+                    <button type="button" class="chip">Hotel & Resort</button>
+                    <button type="button" class="chip">Workplace</button>
+                    <button type="button" class="chip">Retail</button>
+                    <button type="button" class="chip">Residential</button>
+                    <button type="button" class="chip">Public & Cultural Space</button>
+                    <button type="button" class="chip">Education</button>
+                    <button type="button" class="chip">Healthcare</button>
                 </div>
             </div>
 
-            <!-- Indoor/Outdoor -->
+            <!-- Location -->
             <div class="filter-group">
-                <label>INDOOR/OUTDOOR</label>
+                <label>LOCATION</label>
                 <div class="filter-chips">
                     <button type="button" class="chip">Indoor</button>
+                    <button type="button" class="chip">Covered Outdoor</button>
                     <button type="button" class="chip">Outdoor</button>
                 </div>
             </div>
