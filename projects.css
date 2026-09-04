@@ -376,12 +376,8 @@
     user-select: none;
 }
 .projects-visual-hero {
-    width: 100vw;
     position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    width: 100%; /* Mengubah dari 100vw menjadi 100% agar mengikuti kontainer */
     border-radius: 0;
     
     /* INI TAMBAHAN UNTUK MEMANJANGKAN FOTO KE BAWAH */

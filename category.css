@@ -65,7 +65,7 @@
 .category-carousel-container .carousel-arrow { position: absolute; font-size: 1.5rem; font-weight: bold; background: rgba(255, 255, 255, 0.85); border: 1px solid var(--border-color); cursor: pointer; z-index: 2; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
 .category-carousel-container #prev-slide { left: 24px; }
 .category-carousel-container #next-slide { right: 24px; }
-.category-carousel-container .carousel-img-label { position: absolute; top: 20px; left: 20px; max-width: 260px; text-align: left; }
+.category-carousel-container .carousel-img-label { display: none; }
 .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 40px; }
 .dot { width: 8px; height: 8px; border-radius: 50%; background-color: var(--grey-mid); cursor: pointer; transition: background-color 0.2s ease, transform 0.2s ease; border: none; padding: 0; }
 .dot:hover { background-color: var(--accent); transform: scale(1.2); }

@@ -199,6 +199,111 @@
             { slug: 'camber-dining-table', category: 'tables', name: 'Camber Dining Table', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' }
         ];
 
+        // ==========================================================================
+        // DESKRIPSI FOTO (mudah diedit per produk, per foto)
+        // ==========================================================================
+        // Tiap produk punya 11 foto, urutannya SELALU sama:
+        //   1-6  = foto produk (front, side, back, detail, top, close-up)
+        //   7-11 = foto interior (restaurant, cafe, hotel lobby, office, modern interior)
+        //
+        // Cara pakai:
+        // - Ganti teks di dalam caption: '...' sesuka hati, tidak akan mempengaruhi produk lain.
+        // - Mau menghapus caption suatu foto? Kosongkan saja jadi caption: '' (foto tetap tampil, cuma teksnya hilang).
+        // - Urutan tetap harus 11 baris per produk, sesuai urutan foto1.png - foto11.png.
+        const PHOTO_CAPTIONS = {
+            'oslo-dining-chair': [
+                { caption: 'Front view — hand-woven rattan back and steel frame in full profile.' },
+                { caption: 'Side profile showing the slim steel legs and stacking clearance.' },
+                { caption: 'Back view of the rattan weave pattern across the backrest.' },
+                { caption: 'Close detail of the rattan seat weave and steel joinery.' },
+                { caption: 'Top-down view of the seat shape and backrest curve.' },
+                { caption: 'Close-up on the powder-coated steel frame finish.' },
+                { caption: 'Set around a restaurant dining table.' },
+                { caption: 'Paired with a small round table in a cafe corner.' },
+                { caption: 'Placed in a hotel lobby seating nook.' },
+                { caption: 'Used as casual seating in an office breakout area.' },
+                { caption: 'Styled in a minimalist dining room.' }
+            ],
+            'riva-stack-chair': [
+                { caption: 'Front view of the moulded seat and steel frame.' },
+                { caption: 'Side profile showing the stacking angle.' },
+                { caption: 'Back view of the frame and seat shell.' },
+                { caption: 'Detail of the seat\'s moulded texture.' },
+                { caption: 'Top-down view of the seat and backrest shape.' },
+                { caption: 'Close-up on the welded steel joints.' },
+                { caption: 'Rows set up for a restaurant private function.' },
+                { caption: 'Arranged around small tables in a cafe.' },
+                { caption: 'Lined along a hotel lobby event space.' },
+                { caption: 'Stacked and ready in an office storage corner.' },
+                { caption: 'Set out for a large gathering in an open interior.' }
+            ],
+            'lagoon-lounge-chair': [
+                { caption: 'Front view of the low, deep rattan seat.' },
+                { caption: 'Side profile showing the chair\'s relaxed recline.' },
+                { caption: 'Back view of the woven rattan backrest.' },
+                { caption: 'Detail of the synthetic rattan weave.' },
+                { caption: 'Top-down view of the wide, deep seat.' },
+                { caption: 'Close-up on the hardwood frame joints.' },
+                { caption: 'Set beside a restaurant\'s outdoor terrace.' },
+                { caption: 'Placed on a cafe patio.' },
+                { caption: 'Arranged by a hotel lobby water feature.' },
+                { caption: 'Used in an office outdoor break area.' },
+                { caption: 'Styled poolside in a resort setting.' }
+            ],
+            'copenhagen-armchair': [
+                { caption: 'Front view of the solid oak frame and armrests.' },
+                { caption: 'Side profile showing the chair\'s gentle curves.' },
+                { caption: 'Back view of the oak backrest.' },
+                { caption: 'Detail of the natural oak grain finish.' },
+                { caption: 'Top-down view of the seat and armrest shape.' },
+                { caption: 'Close-up on the joinery at the armrest.' },
+                { caption: 'Placed near a restaurant\'s entrance.' },
+                { caption: 'Set in a quiet cafe reading corner.' },
+                { caption: 'Arranged in a hotel lobby seating group.' },
+                { caption: 'Used in an office waiting area.' },
+                { caption: 'Styled in a bright Scandinavian-inspired room.' }
+            ],
+            'anchor-bar-stool': [
+                { caption: 'Front view of the upholstered seat and steel frame.' },
+                { caption: 'Side profile showing counter-height proportions.' },
+                { caption: 'Back view of the frame and footrest.' },
+                { caption: 'Detail of the upholstered seat pad stitching.' },
+                { caption: 'Top-down view of the round seat.' },
+                { caption: 'Close-up on the steel footrest and frame finish.' },
+                { caption: 'Lined along a restaurant bar counter.' },
+                { caption: 'Set at a cafe\'s high counter.' },
+                { caption: 'Placed at a hotel lobby bar.' },
+                { caption: 'Used at a standing-height office table.' },
+                { caption: 'Styled at a home bar counter.' }
+            ],
+            'harbor-booth': [
+                { caption: 'Front view of the upholstered banquette.' },
+                { caption: 'Side profile showing the booth\'s fixed frame.' },
+                { caption: 'Back view of the booth\'s structural panel.' },
+                { caption: 'Detail of the performance vinyl upholstery.' },
+                { caption: 'Top-down view of the booth seating layout.' },
+                { caption: 'Close-up on the seam and stitching detail.' },
+                { caption: 'Fitted along a restaurant wall.' },
+                { caption: 'Set in a cafe corner booth.' },
+                { caption: 'Placed in a hotel dining nook.' },
+                { caption: 'Used as an office lounge banquette.' },
+                { caption: 'Styled in a mid-century diner interior.' }
+            ],
+            'camber-dining-table': [
+                { caption: 'Front view of the curved ash tabletop.' },
+                { caption: 'Side profile showing the table\'s leg design.' },
+                { caption: 'Back view of the table\'s underside framing.' },
+                { caption: 'Detail of the solid ash grain and curved edge.' },
+                { caption: 'Top-down view of the full tabletop surface.' },
+                { caption: 'Close-up on the leg-to-top joinery.' },
+                { caption: 'Set as the centrepiece of a restaurant dining room.' },
+                { caption: 'Used as a communal cafe table.' },
+                { caption: 'Placed in a hotel breakfast room.' },
+                { caption: 'Styled as an office communal table.' },
+                { caption: 'Set in a warm Scandinavian dining space.' }
+            ]
+        };
+
         const params = new URLSearchParams(window.location.search);
         let currentCategory = CATEGORIES[params.get('category')] ? params.get('category') : 'dining-chairs';
         const activeMaterials = new Set((params.get('materials') || '').split(',').filter(Boolean));
@@ -279,14 +384,19 @@
         function buildSlides(product) {
             const shots = ['front', 'side', 'back', 'detail', 'top', 'close-up'];
             const settings = ['a restaurant', 'a cafe', 'a hotel lobby', 'an office', 'a modern interior'];
+            const captions = PHOTO_CAPTIONS[product.slug] || []; // ambil dari blok DESKRIPSI FOTO di atas
             const slides = [];
             shots.forEach((shot, i) => { 
                 const n = i + 1; 
-                slides.push({ label: 'PRODUCT PHOTO — ' + product.name + ' (' + n + '/' + shots.length + ')', caption: 'Product photography on plain ground — ' + shot + ' view.', img: product.category + '/foto' + n + '.png' }); 
+                const custom = captions[i]; // index 0..5 = foto1..foto6
+                const caption = custom && custom.caption !== undefined ? custom.caption : 'Product photography on plain ground — ' + shot + ' view.';
+                slides.push({ label: 'PRODUCT PHOTO — ' + product.name + ' (' + n + '/' + shots.length + ')', caption: caption, img: product.category + '/foto' + n + '.png' }); 
             });
             settings.forEach((setting, i) => { 
                 const n = i + 1 + shots.length; 
-                slides.push({ label: 'INTERIOR — ' + product.name + ' (' + (i + 1) + '/' + settings.length + ')', caption: 'Visualised in ' + setting + '.', img: product.category + '/foto' + n + '.png' }); 
+                const custom = captions[shots.length + i]; // index 6..10 = foto7..foto11
+                const caption = custom && custom.caption !== undefined ? custom.caption : 'Visualised in ' + setting + '.';
+                slides.push({ label: 'INTERIOR — ' + product.name + ' (' + (i + 1) + '/' + settings.length + ')', caption: caption, img: product.category + '/foto' + n + '.png' }); 
             });
             return slides;
         }

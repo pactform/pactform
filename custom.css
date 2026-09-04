@@ -386,7 +386,6 @@
     white-space: nowrap;
     pointer-events: none;
     user-select: none;
-<<<<<<< HEAD
 }
 
 /* ==========================================================================
@@ -394,16 +393,10 @@
    ========================================================================== */
 .custom-photo {
     position: relative;
-    width: 100vw;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    width: 100%;
     margin-top: 32px;
     margin-bottom: 32px;
-    height: 100vh;
+    height: 80vh; /* Sesuaikan angka ini (misal 100vh atau 500px) jika gambar terlalu tinggi */
     border: none;
 }
-=======
-}
->>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
+
