@@ -132,11 +132,7 @@ nav a:hover, nav a.active-link { color: var(--accent); font-weight: 700; }
     nav#main-nav {
         position: fixed;
         top: 0;
-<<<<<<< HEAD
         right: -340px; /* geser keluar via offset posisi, bukan transform — transform pada fixed element yang digeser keluar viewport memicu horizontal scroll di sejumlah browser mobile */
-=======
-        right: 0;
->>>>>>> 6420e36cb732208a140d95fe2d255a7e61bcdaf3
         height: 100vh;
         width: 300px;
         max-width: 85vw;
@@ -144,21 +140,12 @@ nav a:hover, nav a.active-link { color: var(--accent); font-weight: 700; }
         border-left: 1px solid var(--border-color);
         border-top: 4px solid var(--accent);
         box-shadow: -10px 0 30px rgba(0,0,0,0.15);
-<<<<<<< HEAD
         transition: right 0.3s ease;
-=======
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
->>>>>>> 6420e36cb732208a140d95fe2d255a7e61bcdaf3
         z-index: 200;
         padding: 100px 32px 32px;
         overflow-y: auto;
     }
-<<<<<<< HEAD
     nav#main-nav.open { right: 0; }
-=======
-    nav#main-nav.open { transform: translateX(0); }
->>>>>>> 6420e36cb732208a140d95fe2d255a7e61bcdaf3
     nav#main-nav ul { flex-direction: column; gap: 8px; }
     nav#main-nav a { display: block; padding: 12px 0; font-size: 1.05rem; border-bottom: 1px solid var(--grey-light); }
 
@@ -232,15 +219,9 @@ footer { border-top: 1px solid var(--border-color); padding-top: 60px; margin-to
 .drawer-overlay { position: fixed; inset: 0; background: rgba(26, 26, 26, 0.4); z-index: 140; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
 .drawer-overlay.visible { opacity: 1; pointer-events: auto; }
 
-<<<<<<< HEAD
 .your-list-modal { position: fixed; top: 0; right: -420px; height: 100vh; width: 380px; max-width: 90vw; background: var(--white); border-left: 1px solid var(--border-color); border-top: 4px solid var(--accent); box-shadow: -10px 0 30px rgba(0,0,0,0.12); z-index: 150; display: flex; flex-direction: column; transition: right 0.3s ease; }
 .your-list-modal.hidden { right: -420px; }
 .your-list-modal:not(.hidden) { right: 0; }
-=======
-.your-list-modal { position: fixed; top: 0; right: 0; height: 100vh; width: 380px; max-width: 90vw; background: var(--white); border-left: 1px solid var(--border-color); border-top: 4px solid var(--accent); box-shadow: -10px 0 30px rgba(0,0,0,0.12); z-index: 150; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s ease; }
-.your-list-modal.hidden { transform: translateX(100%); }
-.your-list-modal:not(.hidden) { transform: translateX(0); }
->>>>>>> 6420e36cb732208a140d95fe2d255a7e61bcdaf3
 .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--border-color); background: var(--grey-light); flex: 0 0 auto; }
 .close-btn { background: none; border: none; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--grey-dark); transition: color 0.2s; }
 .close-btn:hover { color: var(--accent); }

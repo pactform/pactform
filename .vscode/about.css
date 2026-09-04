@@ -333,8 +333,6 @@
     color: var(--accent);
 }
 
-<<<<<<< HEAD
-=======
 /* ==========================================================================
    Hero ghost text — large faint background heading behind the page title
    ========================================================================== */
@@ -347,6 +345,7 @@
     position: absolute;
     top: -0.4em;
     left: -0.03em;
+    right: 0;
     z-index: -1;
     font-size: clamp(4.5rem, 14vw, 11rem);
     font-weight: 800;
@@ -355,7 +354,7 @@
     color: var(--grey-light);
     text-transform: uppercase;
     white-space: nowrap;
+    overflow: hidden;
     pointer-events: none;
     user-select: none;
 }
->>>>>>> 6420e36cb732208a140d95fe2d255a7e61bcdaf3

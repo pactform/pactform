@@ -394,13 +394,16 @@
    ========================================================================== */
 .custom-photo {
     position: relative;
-    width: 100%;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
     margin-top: 32px;
     margin-bottom: 32px;
-    height: 80vh; /* Sesuaikan angka ini (misal 100vh atau 500px) jika gambar terlalu tinggi */
+    height: 100vh;
     border: none;
 }
-
 =======
 }
->>>>>>> 6420e36cb732208a140d95fe2d255a7e61bcdaf3
+>>>>>>> 2acd49cbcbc73d197e7f1168c7499b14f1428cd3
