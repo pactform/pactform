@@ -1,0 +1,162 @@
+/* category.css */
+
+.category-header { margin-bottom: 40px; }
+
+/* Filters */
+.filters-section { margin-bottom: 32px; }
+.filter-group { margin-bottom: 16px; }
+.filter-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--grey-dark); margin-bottom: 10px; }
+.tag-pill-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.filter-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color); }
+.filter-count { font-size: 0.85rem; color: var(--grey-dark); }
+.clear-filters { background: none; border: none; padding: 8px 0; font-size: 0.85rem; font-weight: 600; text-decoration: underline; cursor: pointer; color: var(--black); transition: color 0.2s ease; }
+.clear-filters:hover { color: var(--accent); }
+
+/* Tag pills — filter buttons + static product badges (previously missing / undefined) */
+.tag-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    color: var(--grey-dark);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+    min-height: 40px;
+}
+.tag-pill:hover { border-color: var(--black); color: var(--black); }
+.tag-pill.active { background: var(--black); border-color: var(--black); color: var(--white); }
+.tag-pill.static {
+    cursor: default;
+    background: var(--grey-light);
+    border-color: var(--grey-light);
+    color: var(--black);
+    min-height: auto;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* Spec table — product dimensions / materials / good-for rows (previously missing / undefined) */
+.spec-table { border-top: 1px solid var(--border-color); margin: 24px 0; }
+.spec-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.spec-row .spec-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--grey-dark);
+}
+.spec-value { font-size: 0.95rem; color: var(--black); margin: 0; }
+
+/* Big carousel — bleeds off both edges of the container */
+.category-carousel-container { position: relative; height: 480px; margin: 8px -40px 16px; width: calc(100% + 80px); display: flex; align-items: center; justify-content: center; }
+.category-carousel-container .carousel-overlay { background-color: var(--white); padding: 40px; max-width: 600px; text-align: center; z-index: 1; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+.category-carousel-container .carousel-arrow { position: absolute; font-size: 1.5rem; font-weight: bold; background: rgba(255, 255, 255, 0.85); border: 1px solid var(--border-color); cursor: pointer; z-index: 2; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+.category-carousel-container #prev-slide { left: 24px; }
+.category-carousel-container #next-slide { right: 24px; }
+.category-carousel-container .carousel-img-label { display: none; }
+.carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 40px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background-color: var(--grey-mid); cursor: pointer; transition: background-color 0.2s ease, transform 0.2s ease; border: none; padding: 0; }
+.dot:hover { background-color: var(--accent); transform: scale(1.2); }
+.dot.active { background-color: var(--accent); }
+
+@media (max-width: 900px) {
+    .category-carousel-container { margin-left: -28px; margin-right: -28px; width: calc(100% + 56px); }
+}
+
+@media (max-width: 700px) {
+    .category-carousel-container { height: 360px; }
+    .category-carousel-container .carousel-overlay { padding: 24px; }
+    .category-carousel-container .carousel-img-label { display: none; }
+}
+
+/* Product info */
+.product-info { border-top: 1px solid var(--border-color); padding-top: 32px; margin-bottom: 40px; }
+.product-info h2 { margin-bottom: 12px; }
+.product-info .tag-pill-row { margin-bottom: 20px; }
+.product-info > p { max-width: 700px; }
+.product-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* Thumbnails */
+.thumbnail-section { margin-bottom: 80px; }
+.thumbnail-row { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 12px; scroll-snap-type: x mandatory; }
+.thumbnail { flex: 0 0 220px; scroll-snap-align: start; cursor: pointer; background: none; border: none; text-align: left; padding: 0; font-family: inherit; }
+.thumbnail-photo { height: 160px; margin-bottom: 8px; border-width: 1px; }
+.thumbnail.selected .thumbnail-photo { border: 2px solid var(--accent); }
+.thumbnail h5 { font-size: 0.9rem; margin-bottom: 2px; }
+.thumbnail-tags { font-size: 0.75rem; color: var(--grey-dark); }
+.empty-state { text-align: center; padding: 40px 0; }
+.link-btn { background: none; border: none; padding: 0; text-decoration: underline; font-weight: 600; color: var(--black); cursor: pointer; font-size: inherit; }
+
+.custom-teaser-small { margin-bottom: 80px; }
+.custom-teaser-small .custom-buttons { display: flex; gap: 16px; margin-top: 20px; }
+
+@media (max-width: 700px) {
+    .spec-row { grid-template-columns: 1fr; gap: 4px; padding: 14px 0; }
+}
+
+@media (max-width: 600px) {
+    .category-carousel-container { margin-left: -20px; margin-right: -20px; width: calc(100% + 40px); height: 320px; }
+    .category-carousel-container .carousel-arrow { width: 34px; height: 34px; font-size: 1.2rem; }
+    .filter-meta { flex-wrap: wrap; }
+    .tag-pill { padding: 8px 14px; font-size: 0.8rem; }
+    .product-actions { flex-direction: column; }
+    .product-actions .btn { width: 100%; text-align: center; }
+    .thumbnail { flex-basis: 180px; }
+    .thumbnail-photo { height: 130px; }
+    .custom-teaser-small .custom-buttons { flex-direction: column; }
+    .custom-teaser-small .custom-buttons .btn { width: 100%; text-align: center; }
+}
+
+@media (max-width: 380px) {
+    .category-carousel-container { margin-left: -16px; margin-right: -16px; width: calc(100% + 32px); height: 280px; }
+    .thumbnail { flex-basis: 150px; }
+    .thumbnail-photo { height: 110px; }
+}
+
+/* ==========================================================================
+   Interactive transitions (added — hover/focus feedback only)
+   ========================================================================== */
+.category-carousel-container .carousel-arrow {
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.category-carousel-container .carousel-arrow:hover {
+    background-color: var(--white);
+    transform: scale(1.08);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.thumbnail {
+    transition: transform 0.2s ease;
+}
+.thumbnail-photo {
+    transition: border-color 0.2s ease;
+}
+.thumbnail:hover {
+    transform: translateY(-3px);
+}
+
+.link-btn {
+    transition: color 0.2s ease;
+}
+.link-btn:hover {
+    color: var(--accent);
+}
+
+.spec-row {
+    transition: background-color 0.2s ease;
+}
+.spec-row:hover {
+    background-color: var(--grey-light);
+}
