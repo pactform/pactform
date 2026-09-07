@@ -388,3 +388,90 @@
 .load-more-btn.hidden {
     display: none;
 }
+
+/* ==========================================================================
+   Card info-tag overlay — moved over from the category.html product carousel
+   (name / location tag on top, material-style-type-goodfor tags below),
+   now used as the footer of each collection grid card.
+   ========================================================================== */
+.carousel-info-overlay {
+    margin-top: 16px;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.overlay-top-row {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+}
+.overlay-top-row .overlay-tag {
+    flex: 0 0 auto;
+}
+.category-card .overlay-tag-name {
+    margin: 0;
+}
+
+.overlay-bottom-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.overlay-bottom-row .overlay-tag {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+    white-space: normal; /* wrap onto a 2nd line instead of truncating with "..." */
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.25;
+}
+
+.overlay-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 14px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--white);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    font-family: inherit;
+    line-height: 1.2;
+}
+.overlay-tag-name { background-color: #E8792A; }
+.overlay-tag-location { background-color: #E8792A; }
+.overlay-tag-info { background-color: #E8792A; }
+.overlay-tag-location.is-outdoor { background-color: #E8792A; }
+.overlay-tag-location.is-covered { background-color: #E8792A; }
+.overlay-tag-location.is-indoor { background-color: #E8792A; }
+
+@media (max-width: 700px) {
+    .carousel-info-overlay { margin-top: 12px; gap: 6px; }
+    .overlay-tag { font-size: 0.68rem; padding: 5px 10px; }
+}
+
+/* Mobile/tablet: keep the exact same layout as desktop (2 tags on top,
+   4 tags on the bottom row) — just shrink font/padding so everything still
+   fits, instead of restacking into single-column rows. */
+@media (max-width: 900px) and (min-width: 601px) {
+    .overlay-tag { font-size: 0.65rem; padding: 6px 6px; }
+}
+
+@media (max-width: 600px) {
+    .overlay-tag { font-size: 0.6rem; padding: 5px 4px; letter-spacing: 0; }
+    .overlay-top-row { gap: 6px; }
+    .overlay-bottom-row { gap: 4px; }
+}
+
+@media (max-width: 380px) {
+    .overlay-tag { font-size: 0.55rem; padding: 4px 3px; }
+}
