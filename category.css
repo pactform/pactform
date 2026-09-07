@@ -223,8 +223,25 @@
     .overlay-tag { font-size: 0.68rem; padding: 5px 10px; }
 }
 
+/* Tablet: keep 2 tags per row instead of forcing 4 equal columns so long
+   labels (e.g. "Lounge Chairs & Armchairs") aren't clipped */
+@media (max-width: 900px) and (min-width: 601px) {
+    .overlay-top-row { flex-wrap: wrap; row-gap: 6px; }
+    .overlay-bottom-row { flex-wrap: wrap; row-gap: 6px; }
+    .overlay-bottom-row .overlay-tag { flex: 1 1 45%; white-space: normal; }
+}
+
+/* Mobile: stack everything to one tag per row and allow the text to wrap
+   onto multiple lines instead of being cut off */
+@media (max-width: 600px) {
+    .overlay-top-row { flex-wrap: wrap; row-gap: 6px; }
+    .overlay-top-row .overlay-tag { flex: 1 1 100%; white-space: normal; }
+    .overlay-bottom-row { flex-wrap: wrap; row-gap: 6px; }
+    .overlay-bottom-row .overlay-tag { flex: 1 1 100%; white-space: normal; line-height: 1.3; }
+}
+
 @media (max-width: 380px) {
     /* Penyesuaian agar tidak terpotong jika dibuka di HP layar sangat kecil */
     .overlay-bottom-row { flex-wrap: wrap; }
-    .overlay-bottom-row .overlay-tag { flex: 1 1 45%; }
+    .overlay-bottom-row .overlay-tag { flex: 1 1 100%; white-space: normal; }
 }
