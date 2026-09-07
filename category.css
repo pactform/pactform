@@ -194,6 +194,13 @@
 }
 .overlay-bottom-row .overlay-tag {
     flex: 1 1 0; /* Memaksa ke-4 kotak membagi ruang persis sama besar */
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+    white-space: normal; /* teks panjang dibikin turun ke baris ke-2, bukan dipotong "..." */
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.25;
 }
 
 /* KOTAK DASAR (Tampilan Kotak) */

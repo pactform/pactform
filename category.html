@@ -87,22 +87,6 @@
                 <button class="carousel-arrow" id="next-slide" aria-label="Next image">&gt;</button>
             </div>
 
-            <!-- Info tags below the photo (name/location + cycling material/style/type/good-for tags) -->
-            <div class="carousel-info-overlay">
-                <div class="overlay-top-row">
-                    <span class="overlay-tag overlay-tag-name" id="overlay-product-name"></span>
-                    <span class="overlay-tag overlay-tag-location" id="overlay-location"></span>
-                </div>
-                <div class="overlay-bottom-row">
-                    <span class="overlay-tag overlay-tag-info" id="overlay-materials"></span>
-                    <div class="overlay-tag-group">
-                        <span class="overlay-tag overlay-tag-info" id="overlay-styles"></span>
-                        <span class="overlay-tag overlay-tag-info" id="overlay-type"></span>
-                        <span class="overlay-tag overlay-tag-info" id="overlay-goodfor"></span>
-                    </div>
-                </div>
-            </div>
-
             <div class="carousel-dots" id="carousel-dots"></div>
         </section>
 
@@ -212,7 +196,7 @@
             { slug: 'oslo-dining-chair', category: 'dining-chairs', name: 'Oslo Dining Chair', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
             { slug: 'riva-stack-chair', category: 'commercial', name: 'Chair 008 - 0070', materials: ['timber veneer', 'stainless steel', 'vynil upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vynil Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vynil upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
             { slug: 'lagoon-lounge-chair', category: 'outdoor', name: 'Lagoon Lounge Chair', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'copenhagen-armchair', category: 'office', name: 'Copenhagen Armchair', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A general-purpose armchair with enough presence for a lobby.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
+            { slug: 'copenhagen-armchair', category: 'office', name: 'Chair 0081 - 0090', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
             { slug: 'anchor-bar-stool', category: 'bar-stools', name: 'Anchor Bar Stool', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Steel', 'Upholstered', 'Stackable'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Powder-coated steel frame, upholstered seat pad', goodFor: 'Bars, high tables' },
             { slug: 'harbor-booth', category: 'booth-seating', name: 'Harbor Booth', materials: ['upholstered'], styles: ['mid-century'], badges: ['Upholstered', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
             { slug: 'camber-dining-table', category: 'tables', name: 'Camber Dining Table', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' }
@@ -460,23 +444,41 @@
             });
         }
 
+        // ==========================================================================
+        // JUMLAH FOTO PER KATEGORI (mudah diedit — total foto/dot carousel per
+        // kategori). Kalau kategori tidak ada di sini, dipakai default 11
+        // (6 shot produk + 5 foto interior), sesuai jumlah foto+2 yang tersedia.
+        // ==========================================================================
+        const PHOTO_COUNTS = {
+            'office': 9
+            // tambahkan kategori lain di sini kalau jumlah fotonya beda, misal:
+            // 'dining-chairs': 8,
+            // 'bar-stools': 6,
+        };
+
         function buildSlides(product) {
             const shots = ['front', 'side', 'back', 'detail', 'top', 'close-up'];
             const settings = ['a restaurant', 'a cafe', 'a hotel lobby', 'an office', 'a modern interior'];
-            const captions = PHOTO_CAPTIONS[product.slug] || []; 
+            const captions = PHOTO_CAPTIONS[product.slug] || [];
+            const totalPhotos = PHOTO_COUNTS[product.category] || (shots.length + settings.length);
             const slides = [];
-            shots.forEach((shot, i) => { 
-                const n = i + 1; 
-                const custom = captions[i]; 
-                const caption = custom && custom.caption !== undefined ? custom.caption : 'Product photography on plain ground — ' + shot + ' view.';
-                slides.push({ label: 'PRODUCT PHOTO — ' + product.name + ' (' + n + '/' + shots.length + ')', caption: caption, img: product.category + '/foto' + n + '.png' }); 
-            });
-            settings.forEach((setting, i) => { 
-                const n = i + 1 + shots.length; 
-                const custom = captions[shots.length + i]; 
-                const caption = custom && custom.caption !== undefined ? custom.caption : 'Visualised in ' + setting + '.';
-                slides.push({ label: 'INTERIOR — ' + product.name + ' (' + (i + 1) + '/' + settings.length + ')', caption: caption, img: product.category + '/foto' + n + '.png' }); 
-            });
+
+            const shotCount = Math.min(shots.length, totalPhotos);
+            for (let i = 0; i < shotCount; i++) {
+                const n = i + 1;
+                const custom = captions[i];
+                const caption = custom && custom.caption !== undefined ? custom.caption : 'Product photography on plain ground — ' + shots[i] + ' view.';
+                slides.push({ label: 'PRODUCT PHOTO — ' + product.name + ' (' + n + '/' + shotCount + ')', caption: caption, img: product.category + '/foto' + n + '.png' });
+            }
+
+            const settingCount = Math.max(0, Math.min(settings.length, totalPhotos - shotCount));
+            for (let i = 0; i < settingCount; i++) {
+                const n = i + 1 + shotCount;
+                const custom = captions[shotCount + i];
+                const caption = custom && custom.caption !== undefined ? custom.caption : 'Visualised in ' + settings[i] + '.';
+                slides.push({ label: 'INTERIOR — ' + product.name + ' (' + (i + 1) + '/' + settingCount + ')', caption: caption, img: product.category + '/foto' + n + '.png' });
+            }
+
             return slides;
         }
 
