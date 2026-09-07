@@ -335,3 +335,56 @@
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
 }
+
+/* ==========================================================================
+   Card footer row — product name + location tag (INDOOR / OUTDOOR /
+   COVERED OUTDOOR) side by side, tag pinned to the right edge.
+   ========================================================================== */
+.category-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.category-card-footer h4 {
+    margin: 0;
+}
+.category-location-tag {
+    flex: 0 0 auto;
+    background: var(--grey-light);
+    color: var(--black);
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 5px 10px;
+    white-space: nowrap;
+}
+.category-location-tag.is-outdoor {
+    background: #E8792A;
+    color: var(--white);
+}
+.category-location-tag.is-covered {
+    background: var(--black);
+    color: var(--white);
+}
+
+/* ==========================================================================
+   Load More — paginates the category grid instead of showing all cards
+   at once
+   ========================================================================== */
+.category-grid .category-card.load-more-hidden {
+    display: none !important;
+}
+.load-more-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+.load-more-btn {
+    min-width: 200px;
+}
+.load-more-btn.hidden {
+    display: none;
+}
