@@ -1,0 +1,36 @@
+/* ==========================================================================
+   scroll-reveal.css — teks muncul dengan transisi saat discroll ke dalam
+   viewport (baik scroll ke bawah maupun ke atas).
+   File baru, berdiri sendiri — tidak mengubah CSS lain.
+   Include di setiap halaman setelah CSS lain:
+     <link rel="stylesheet" href="scroll-reveal.css">
+   ========================================================================== */
+
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+.scroll-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger anak-anak dalam satu grup (opsional, dipakai lewat JS) */
+.scroll-reveal[data-reveal-delay="1"] { transition-delay: 0.08s; }
+.scroll-reveal[data-reveal-delay="2"] { transition-delay: 0.16s; }
+.scroll-reveal[data-reveal-delay="3"] { transition-delay: 0.24s; }
+.scroll-reveal[data-reveal-delay="4"] { transition-delay: 0.32s; }
+.scroll-reveal[data-reveal-delay="5"] { transition-delay: 0.4s; }
+.scroll-reveal[data-reveal-delay="6"] { transition-delay: 0.48s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
