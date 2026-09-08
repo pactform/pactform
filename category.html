@@ -195,9 +195,9 @@
         const PRODUCTS = [
             { slug: 'oslo-dining-chair', category: 'dining-chairs', name: 'Oslo Dining Chair', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
             { slug: 'riva-stack-chair', category: 'commercial', name: 'Chair 008 - 0070', materials: ['timber veneer', 'stainless steel', 'vynil upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vynil Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vynil upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'lagoon-lounge-chair', category: 'outdoor', name: 'Lagoon Lounge Chair', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
+            { slug: 'lagoon-lounge-chair', category: 'outdoor', name: 'CHAIR 0071 - 0080', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
             { slug: 'copenhagen-armchair', category: 'office', name: 'Chair 0081 - 0090', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'anchor-bar-stool', category: 'bar-stools', name: 'CHAIR 0101-0110', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Steel', 'Upholstered', 'Stackable'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Powder-coated steel frame, upholstered seat pad', goodFor: 'Bars, high tables' },
+            { slug: 'anchor-bar-stool', category: 'bar-stools', name: 'CHAIR 0101-0110', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
             { slug: 'harbor-booth', category: 'booth-seating', name: 'Harbor Booth', materials: ['upholstered'], styles: ['mid-century'], badges: ['Upholstered', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
             { slug: 'camber-dining-table', category: 'tables', name: 'Camber Dining Table', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' }
         ];
@@ -428,10 +428,11 @@
         function renderThumbnails(list) {
             thumbnailRow.innerHTML = '';
             
-            // 1. Tambahkan mapping folder yang sama di sini
             const folderMap = {
                 'dining-chairs': 'dining',
-                'bar-stools': 'bar'
+                'bar-stools': 'bar',
+                'booth-seating': 'booth',
+                'tables': 'outdoor'
             };
 
             list.forEach(p => {
@@ -440,12 +441,12 @@
                 thumb.type = 'button';
                 thumb.classList.toggle('selected', currentProduct && currentProduct.slug === p.slug);
                 
-                // 2. Dapatkan nama folder yang benar berdasarkan mapping
                 const folderName = folderMap[p.category] || p.category;
                 
-                // 3. Ubah p.category menjadi folderName di dalam atribut src="..."
+                let thumbImg = folderName + '/foto1.png';
+                
                 thumb.innerHTML = '<div class="img-box thumbnail-photo">' + 
-                    '<img src="' + folderName + '/foto1.png" alt="' + p.name + '" style="width: 100%; height: 100%; object-fit: cover;">' + 
+                    '<img src="' + thumbImg + '" alt="' + p.name + '" style="width: 100%; height: 100%; object-fit: cover;">' + 
                     '</div>' +
                     '<h5>' + p.name + '</h5>' +
                     '<p class="thumbnail-tags">' + p.badges.slice(0, 2).join(' · ') + '</p>';
@@ -456,9 +457,11 @@
         }
 
         const PHOTO_COUNTS = {
-            'office': 9,
+            'office': 10,
             'bar-stools': 10,
-            'booth-seating': 8,
+            'booth-seating': 10,
+            'outdoor': 10,
+            'dining-chairs': 10,
         };
 
         function buildSlides(product) {
@@ -468,31 +471,42 @@
             const totalPhotos = PHOTO_COUNTS[product.category] || (shots.length + settings.length);
             const slides = [];
 
-            // 1. TAMBAHKAN KODE INI UNTUK MAPPING NAMA FOLDER
             const folderMap = {
                 'dining-chairs': 'dining',
-                'bar-stools': 'bar'
+                'bar-stools': 'bar',
+                'booth-seating': 'booth',
+                'tables': 'outdoor'
             };
             const folderName = folderMap[product.category] || product.category;
 
-            const shotCount = Math.min(shots.length, totalPhotos);
+            // Split slides roughly in half between "product photo" and
+            // "interior" captions. The word lists (shots/settings) are
+            // cycled with % instead of capping the count to their length,
+            // so totalPhotos always produces exactly that many slides —
+            // even past 6 or 5, e.g. outdoor's 12.
+            const shotCount = Math.ceil(totalPhotos / 2);
+            const settingCount = totalPhotos - shotCount;
+
             for (let i = 0; i < shotCount; i++) {
                 const n = i + 1;
                 const custom = captions[i];
-                const caption = custom && custom.caption !== undefined ? custom.caption : 'Product photography on plain ground — ' + shots[i] + ' view.';
+                const shotWord = shots[i % shots.length];
+                const caption = custom && custom.caption !== undefined ? custom.caption : 'Product photography on plain ground — ' + shotWord + ' view.';
                 
-                // 2. UBAH 'product.category' MENJADI 'folderName'
-                slides.push({ label: 'PRODUCT PHOTO — ' + product.name + ' (' + n + '/' + shotCount + ')', caption: caption, img: folderName + '/foto' + n + '.png' });
+                let imgPath = folderName + '/foto' + n + '.png';
+
+                slides.push({ label: 'PRODUCT PHOTO — ' + product.name + ' (' + n + '/' + shotCount + ')', caption: caption, img: imgPath });
             }
 
-            const settingCount = Math.max(0, Math.min(settings.length, totalPhotos - shotCount));
             for (let i = 0; i < settingCount; i++) {
                 const n = i + 1 + shotCount;
                 const custom = captions[shotCount + i];
-                const caption = custom && custom.caption !== undefined ? custom.caption : 'Visualised in ' + settings[i] + '.';
+                const settingWord = settings[i % settings.length];
+                const caption = custom && custom.caption !== undefined ? custom.caption : 'Visualised in ' + settingWord + '.';
                 
-                // 3. UBAH 'product.category' MENJADI 'folderName'
-                slides.push({ label: 'INTERIOR — ' + product.name + ' (' + (i + 1) + '/' + settingCount + ')', caption: caption, img: folderName + '/foto' + n + '.png' });
+                let imgPath = folderName + '/foto' + n + '.png';
+
+                slides.push({ label: 'INTERIOR — ' + product.name + ' (' + (i + 1) + '/' + settingCount + ')', caption: caption, img: imgPath });
             }
 
             return slides;

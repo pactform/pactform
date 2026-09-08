@@ -500,3 +500,74 @@
 @media (max-width: 380px) {
     .overlay-tag { font-size: 0.55rem; padding: 4px 3px; }
 }
+
+/* ==========================================================================
+   Category card photo nav — dot pill (bottom-center) + prev/next arrows,
+   added on top of the existing rotate-img crossfade. Generated dynamically
+   per card by JS, so no card markup needed to change.
+   ========================================================================== */
+.category-photo-nav {
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 2;
+}
+.category-photo-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.category-photo-dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+.category-photo-dot.active {
+    background: #fff;
+    transform: scale(1.25);
+}
+
+.category-photo-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    font-size: 1rem;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+.category-photo:hover .category-photo-arrow {
+    opacity: 1;
+}
+.category-photo-arrow.prev { left: 8px; }
+.category-photo-arrow.next { right: 8px; }
+.category-photo-arrow:hover {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+@media (max-width: 600px) {
+    .category-photo-arrow {
+        opacity: 1;
+        width: 24px;
+        height: 24px;
+        font-size: 0.85rem;
+    }
+}
