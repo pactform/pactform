@@ -190,7 +190,21 @@
             'bar-stools': { name: 'Bar stools', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
             'booth-seating': { name: 'Booth seating', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
             'tables': { name: 'Tables', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-8': { name: 'Chair 0131 - 0140', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." }
+            'commercial-8': { name: 'Chair 0131 - 0140', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
+            // Each of these is its own numbered collection card with its own
+            // photo folder (kursi/, meja/, sofa/, etc). Keyed by folder name
+            // so the photos resolve correctly, same pattern as commercial-8 above.
+            'kursi': { name: 'Chair 0141 - 0150', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
+            'meja': { name: 'Chair 0151 - 0160', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
+            'sofa': { name: 'Chair 0161 - 0170', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
+            'kayu': { name: 'Chair 0171 - 0180', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
+            'besi': { name: 'Chair 0181 - 0190', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
+            'rotan': { name: 'Chair 0191 - 0200', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
+            'hitam': { name: 'Chair 0201 - 0210', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
+            'stainless': { name: 'Chair 0211 - 0220', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
+            'wood': { name: 'Chair 0221 - 0230', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
+            'metal': { name: 'Chair 0231 - 0240', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
+            'fabric': { name: 'Chair 0241 - 0250', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." }
         };
 
         const PRODUCTS = [
@@ -201,7 +215,23 @@
             { slug: 'anchor-bar-stool', category: 'bar-stools', name: 'Chair 0101 - 0110', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
             { slug: 'harbor-booth', category: 'booth-seating', name: 'Chair 0111 - 0120', materials: ['upholstered'], styles: ['mid-century'], badges: ['Upholstered', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
             { slug: 'camber-dining-table', category: 'tables', name: 'Chair 0121 - 0130', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'garden-stack-chair', category: 'commercial-8', name: 'Chair 0131 - 0140', materials: ['timber veneer', 'stainless steel', 'vynil upholstery'], styles: ['sculptural', 'tailored', 'warm contemporary', 'soft & rounded'], badges: ['Timber Veneer', 'Stainless Steel', 'Vynil Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vynil upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' }
+            { slug: 'garden-stack-chair', category: 'commercial-8', name: 'Chair 0131 - 0140', materials: ['timber veneer', 'stainless steel', 'vynil upholstery'], styles: ['sculptural', 'tailored', 'warm contemporary', 'soft & rounded'], badges: ['Timber Veneer', 'Stainless Steel', 'Vynil Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vynil upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
+            // Same 11 duplicate collection cards as the CATEGORIES additions
+            // above — each reuses its twin product's materials/styles/desc
+            // (the card content on collection.html is identical to the twin
+            // too), only slug/category/name differ so the right photo folder
+            // and product name are shown.
+            { slug: 'kursi-outdoor-chair', category: 'kursi', name: 'Chair 0141 - 0150', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
+            { slug: 'meja-office-chair', category: 'meja', name: 'Chair 0151 - 0160', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
+            { slug: 'sofa-dining-chair', category: 'sofa', name: 'Chair 0161 - 0170', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
+            { slug: 'kayu-bar-stool', category: 'kayu', name: 'Chair 0171 - 0180', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
+            { slug: 'besi-booth', category: 'besi', name: 'Chair 0181 - 0190', materials: ['upholstered'], styles: ['mid-century'], badges: ['Upholstered', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
+            { slug: 'rotan-dining-table', category: 'rotan', name: 'Chair 0191 - 0200', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
+            { slug: 'hitam-commercial-chair', category: 'hitam', name: 'Chair 0201 - 0210', materials: ['timber veneer', 'stainless steel', 'vynil upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vynil Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vynil upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
+            { slug: 'stainless-outdoor-chair', category: 'stainless', name: 'Chair 0211 - 0220', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
+            { slug: 'wood-office-chair', category: 'wood', name: 'Chair 0221 - 0230', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
+            { slug: 'metal-dining-chair', category: 'metal', name: 'Chair 0231 - 0240', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
+            { slug: 'fabric-bar-stool', category: 'fabric', name: 'Chair 0241 - 0250', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' }
         ];
 
         // ==========================================================================
@@ -340,7 +370,20 @@
         };
 
         const params = new URLSearchParams(window.location.search);
-        let currentCategory = CATEGORIES[params.get('category')] ? params.get('category') : 'dining-chairs';
+        // Collection cards link with suffixed slugs like "bar-stools-12" or
+        // "outdoor-9" (the number just keeps each card's URL unique). Those
+        // exact strings aren't keys in CATEGORIES, so without this fallback
+        // they'd all resolve to the default 'dining-chairs' category. Strip
+        // a trailing "-<number>" and match against the base category name
+        // before giving up and using the default.
+        function resolveCategoryParam(raw) {
+            if (!raw) return null;
+            if (CATEGORIES[raw]) return raw;
+            const base = raw.replace(/-\d+$/, '');
+            if (CATEGORIES[base]) return base;
+            return null;
+        }
+        let currentCategory = resolveCategoryParam(params.get('category')) || 'dining-chairs';
         const activeMaterials = new Set((params.get('materials') || '').split(',').filter(Boolean));
         const activeStyles = new Set((params.get('styles') || '').split(',').filter(Boolean));
         let currentProduct = null;
@@ -492,6 +535,12 @@
             'sofa': 10,
             'kayu': 10,
             'besi': 10,
+            'rotan': 10,
+            'hitam': 10,
+            'stainless': 10,
+            'wood': 10,
+            'metal': 10,
+            'fabric': 10,
         };
 
         function buildSlides(product) {
