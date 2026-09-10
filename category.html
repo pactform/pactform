@@ -204,7 +204,9 @@
             'stainless': { name: 'Chair 0211 - 0220', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
             'wood': { name: 'Chair 0221 - 0230', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
             'metal': { name: 'Chair 0231 - 0240', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'fabric': { name: 'Chair 0241 - 0250', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." }
+            'fabric': { name: 'Chair 0241 - 0250', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
+            'rattan': { name: 'Chair 0251 - 0260', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
+            'beach': { name: 'Chair 0261 - 0270', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." }
         };
 
         const PRODUCTS = [
@@ -231,7 +233,9 @@
             { slug: 'stainless-outdoor-chair', category: 'stainless', name: 'Chair 0211 - 0220', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
             { slug: 'wood-office-chair', category: 'wood', name: 'Chair 0221 - 0230', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
             { slug: 'metal-dining-chair', category: 'metal', name: 'Chair 0231 - 0240', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'fabric-bar-stool', category: 'fabric', name: 'Chair 0241 - 0250', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' }
+            { slug: 'fabric-bar-stool', category: 'fabric', name: 'Chair 0241 - 0250', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
+            { slug: 'rattan-booth', category: 'rattan', name: 'Chair 0251 - 0260', materials: ['upholstered'], styles: ['mid-century'], badges: ['Upholstered', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
+            { slug: 'beach-dining-table', category: 'beach', name: 'Chair 0261 - 0270', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' }
         ];
 
         // ==========================================================================
@@ -541,6 +545,8 @@
             'wood': 10,
             'metal': 10,
             'fabric': 10,
+            'rattan': 10,
+            'beach': 10,
         };
 
         function buildSlides(product) {
