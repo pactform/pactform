@@ -2185,7 +2185,7 @@
             // but every card gets a small staggered start so the whole grid doesn't
             // flip all at once — the changes ripple neatly across the cards instead.
             const ROTATE_INTERVAL = 4000; // ms between each photo change, per card
-            const ROTATE_STAGGER = 300;   // ms offset added per card, in page order
+            const ROTATE_STAGGER = 0;     // ms offset added per card, in page order (0 = all cards change at once)
 
             document.querySelectorAll('[data-rotate]').forEach((box, boxIndex) => {
                 const frames = box.querySelectorAll('.rotate-img');
