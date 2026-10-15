@@ -252,3 +252,25 @@
     .overlay-bottom-row { flex-wrap: wrap; }
     .overlay-bottom-row .overlay-tag { flex: 1 1 100%; white-space: normal; }
 }
+
+/* ==========================================================================
+   Back button — kembali ke halaman collection
+   ========================================================================== */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 8px 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--black);
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+.back-btn:hover {
+    color: var(--accent);
+    transform: translateX(-3px);
+}

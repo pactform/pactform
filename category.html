@@ -71,6 +71,8 @@
     </script>
 
     <main class="container">
+        <a href="collection.html" class="back-btn" id="back-btn" aria-label="Back to collection">&larr; Back</a>
+
         <section class="product-showcase" style="margin-top: 40px;">
             
             <!-- Bagian Judul & Caption dipindah ke atas foto -->
@@ -1315,7 +1317,7 @@
                 
                 const folderName = folderMap[p.category] || p.category;
                 
-                let thumbImg = folderName + '/' + (PHOTO_PREFIX[p.category] || 'foto') + '1.png';
+                let thumbImg = folderName + '/' + (PHOTO_PREFIX[p.category] || 'foto') + '1.webp';
                 
                 thumb.innerHTML = '<div class="img-box thumbnail-photo">' + 
                     '<img loading="lazy" decoding="async" src="' + thumbImg + '" alt="' + p.name + '" style="width: 100%; height: 100%; object-fit: cover;">' + 
@@ -1475,7 +1477,7 @@
                 const shotWord = shots[i % shots.length];
                 const caption = custom && custom.caption !== undefined ? custom.caption : 'Product photography on plain ground — ' + shotWord + ' view.';
                 
-                let imgPath = folderName + '/' + (PHOTO_PREFIX[product.category] || 'foto') + n + '.png';
+                let imgPath = folderName + '/' + (PHOTO_PREFIX[product.category] || 'foto') + n + '.webp';
 
                 slides.push({ label: 'PRODUCT PHOTO — ' + product.name + ' (' + n + '/' + shotCount + ')', caption: caption, img: imgPath });
             }
@@ -1486,7 +1488,7 @@
                 const settingWord = settings[i % settings.length];
                 const caption = custom && custom.caption !== undefined ? custom.caption : 'Visualised in ' + settingWord + '.';
                 
-                let imgPath = folderName + '/' + (PHOTO_PREFIX[product.category] || 'foto') + n + '.png';
+                let imgPath = folderName + '/' + (PHOTO_PREFIX[product.category] || 'foto') + n + '.webp';
 
                 slides.push({ label: 'INTERIOR — ' + product.name + ' (' + (i + 1) + '/' + settingCount + ')', caption: caption, img: imgPath });
             }
@@ -1665,6 +1667,19 @@
             const box = img.id === 'carousel-main-img' ? document.getElementById('big-carousel') : img.closest('.thumbnail-photo');
             if (box) box.classList.remove('photo-missing');
         }, true);
+    </script>
+
+    <script>
+        // Tombol Back: balik ke collection di posisi scroll terakhir (bukan ke atas)
+        document.getElementById('back-btn').addEventListener('click', (e) => {
+            const fromCollection = document.referrer && /collection\.html/.test(document.referrer);
+            if (fromCollection && history.length > 1) {
+                e.preventDefault();
+                history.back();
+            } else {
+                try { sessionStorage.setItem('pactform-restore-collection', '1'); } catch (err) {}
+            }
+        });
     </script>
 </body>
 </html>
