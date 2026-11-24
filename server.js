@@ -18,6 +18,35 @@ app.use((req, res, next) => {
   next();
 });
 
+const EXTENSION_GUARD_SCRIPT = `<script>(function(){try{var d=Object.getOwnPropertyDescriptor(window,'fetch');if(d&&d.get&&!d.set&&d.configurable){Object.defineProperty(window,'fetch',{get:d.get,set:function(){},configurable:true,enumerable:d.enumerable});}}catch(e){}window.addEventListener('error',function(ev){var f=(ev&&ev.filename)||'';var s=(ev&&ev.error&&ev.error.stack)||'';if(f.indexOf('chrome-extension://')===0||f.indexOf('moz-extension://')===0||s.indexOf('chrome-extension://')!==-1||s.indexOf('moz-extension://')!==-1){ev.preventDefault();ev.stopImmediatePropagation();}},true);})();</script>`;
+
+// Serve HTML pages with a defensive guard against browser extensions mutating getter-only window.fetch
+app.get(/^\/(?:|.*\.html)$/, (req, res, next) => {
+  const reqPath = req.path === '/' ? 'index.html' : req.path.replace(/^\/+/, '');
+  const candidates = [
+    path.resolve(rootDir, reqPath),
+    path.resolve(pactformDir, reqPath),
+  ];
+
+  for (const filePath of candidates) {
+    if (
+      (filePath.startsWith(rootDir + path.sep) || filePath.startsWith(pactformDir + path.sep)) &&
+      fs.existsSync(filePath) &&
+      fs.statSync(filePath).isFile()
+    ) {
+      let html = fs.readFileSync(filePath, 'utf8');
+      if (/<head[^>]*>/i.test(html)) {
+        html = html.replace(/<head[^>]*>/i, (match) => `${match}\n    ${EXTENSION_GUARD_SCRIPT}`);
+      } else {
+        html = `${EXTENSION_GUARD_SCRIPT}\n${html}`;
+      }
+      res.type('html').send(html);
+      return;
+    }
+  }
+  next();
+});
+
 // Serve primary static files from repository root
 app.use(express.static(rootDir, { index: 'index.html' }));
 

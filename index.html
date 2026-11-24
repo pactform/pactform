@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -75,19 +75,22 @@
     <main>
         <!-- Hero Carousel Atas -->
         <section class="hero-full-image">
-            <div class="carousel-container" id="hero-carousel" style="position: relative; overflow: hidden; background-color: var(--black);">
-                <img id="carousel-bg-img" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Commercial interior" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0; filter: brightness(0.7);">
-                
-                <div class="carousel-content-wrapper" style="z-index: 2;">
+            <div class="carousel-container" id="hero-carousel">
+                <div class="carousel-media">
+                    <img id="carousel-bg-img" src="Slide 1.png" alt="Commercial interior">
+                </div>
+
+                <div class="carousel-content-wrapper">
                     <div class="carousel-text-overlay" id="carousel-content">
                         <h3 id="carousel-title"></h3>
                         <p id="carousel-text"></p>
                         <div class="carousel-buttons" id="carousel-buttons"></div>
                         <div class="carousel-dots" id="carousel-dots"></div>
                     </div>
-                <button class="carousel-arrow" id="prev-slide" aria-label="Previous slide" style="z-index: 3;">&lt;</button>
-                <button class="carousel-arrow" id="next-slide" aria-label="Next slide" style="z-index: 3;">&gt;</button>
-            </div> 
+                </div>
+                <button class="carousel-arrow" id="prev-slide" aria-label="Previous slide">&lt;</button>
+                <button class="carousel-arrow" id="next-slide" aria-label="Next slide">&gt;</button>
+            </div>
         </section> 
 
         <!-- === CONTRACT FURNITURE HERO (Orange Banner) === -->
@@ -403,11 +406,63 @@
 
             // Carousel Logic
             const carouselData = [
-                { title: "International Furniture for Hospitality & Commercial Spaces", text: "Pactform provides curated furniture collections and project furnishing solutions for restaurants, hotels and commercial interiors worldwide.", image: "Slide 1.png", btn1Text: "EXPLORE COLLECTIONS", btn1Link: "collection.html", btn2Text: "START A PROJECT", btn2Link: "projects.html" },
-                { title: "Short-Lead-Time Furniture for Restaurants", text: "Dining chairs, tables, bar stools and custom restaurant furniture coordinated around clear production and delivery schedules for openings, renovations and rollouts.", image: "Slide 2.png", btn1Text: "EXPLORE RESTAURANT FURNITURE", btn1Link: "collection.html" },
-                { title: "Indonesian Rattan, Shaped by Skilled Hands", text: "We work with selected artisans to create distinctive rattan furniture under our specifications and quality controls.", image: "Slide 3.png", btn1Text: "DISCOVER RATTAN", btn1Link: "collection.html" },
-                { title: "When the Right Piece Doesn't Exist Yet", text: "Bring us a drawing, reference or idea. We can adapt the dimensions, materials and finishes, or develop a piece around your brief.", image: "Slide 4.png", btn1Text: "START A CUSTOM PIECE", btn1Link: "collection.html" },
-                { title: "Distinctive Contract Furniture Beyond Standard Catalogues", text: "Furniture should do more than survive the room. It should help define it, through an unexpected line, a tactile material or a detail people remember. We uphold consistency in production quality across every project to ensure this impression is always conveyed to our customers and end-users.", image: "Slide 5.png", btn1Text: "SEE WHAT SETS US APART", btn1Link: "collection.html" },
+                {
+                    title: "International Furniture for Hospitality & Commercial Spaces",
+                    mobileTitle: "Furniture for hospitality & commercial spaces.",
+                    text: "Pactform provides curated furniture collections and project furnishing solutions for restaurants, hotels and commercial interiors worldwide.",
+                    mobileText: "Curated collections and project furnishing for hotels, restaurants, and commercial interiors worldwide.",
+                    image: "Slide 1.png",
+                    mobilePos: "62% 55%",
+                    btn1Text: "Explore collections",
+                    btn1Link: "collection.html",
+                    btn2Text: "Start a project",
+                    btn2Link: "projects.html"
+                },
+                {
+                    title: "Short-Lead-Time Furniture for Restaurants",
+                    mobileTitle: "Short-lead-time furniture for restaurants.",
+                    text: "Dining chairs, tables, bar stools and custom restaurant furniture coordinated around clear production and delivery schedules for openings, renovations and rollouts.",
+                    image: "Slide 2.png",
+                    mobilePos: "center center",
+                    btn1Text: "Explore restaurant furniture",
+                    btn1Link: "collection.html",
+                    btn2Text: "Start a project",
+                    btn2Link: "projects.html"
+                },
+                {
+                    title: "Indonesian Rattan, Shaped by Skilled Hands",
+                    mobileTitle: "Indonesian rattan, shaped by skilled hands.",
+                    text: "We work with selected artisans to create distinctive rattan furniture under our specifications and quality controls.",
+                    image: "Slide 3.png",
+                    mobilePos: "center center",
+                    btn1Text: "Discover rattan",
+                    btn1Link: "collection.html",
+                    btn2Text: "Start a project",
+                    btn2Link: "projects.html"
+                },
+                {
+                    title: "When the Right Piece Doesn't Exist Yet",
+                    mobileTitle: "When the right piece doesn't exist yet.",
+                    text: "Bring us a drawing, reference or idea. We can adapt the dimensions, materials and finishes, or develop a piece around your brief.",
+                    image: "Slide 4.png",
+                    mobilePos: "center center",
+                    btn1Text: "Start a custom piece",
+                    btn1Link: "custom.html",
+                    btn2Text: "Start a project",
+                    btn2Link: "projects.html"
+                },
+                {
+                    title: "Distinctive Contract Furniture Beyond Standard Catalogues",
+                    mobileTitle: "Distinctive contract furniture beyond catalogues.",
+                    text: "Furniture should do more than survive the room. It should help define it, through an unexpected line, a tactile material or a detail people remember. We uphold consistency in production quality across every project to ensure this impression is always conveyed to our customers and end-users.",
+                    mobileText: "Furniture should do more than survive the room. It should help define it, through an unexpected line, a tactile material, or a detail people remember.",
+                    image: "Slide 5.png",
+                    mobilePos: "center center",
+                    btn1Text: "See what sets us apart",
+                    btn1Link: "collection.html",
+                    btn2Text: "Start a project",
+                    btn2Link: "projects.html"
+                },
             ];
 
             let currentSlide = 0;
@@ -417,6 +472,8 @@
             const dotsContainer = document.getElementById('carousel-dots');
             const heroCarousel = document.getElementById('hero-carousel');
             const buttonsContainer = document.getElementById('carousel-buttons');
+            const mobileTabletMq = window.matchMedia('(max-width: 1024px)');
+            const ctaArrowSvg = '<span class="hero-cta-arrow" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><polyline points="14 6 20 12 14 18"></polyline></svg></span>';
 
             carouselData.forEach((_, index) => {
                 const dot = document.createElement('div');
@@ -428,14 +485,26 @@
 
             function updateCarousel() {
                 const slide = carouselData[currentSlide];
-                titleEl.textContent = slide.title;
-                textEl.textContent = slide.text;
+                const isCompact = mobileTabletMq.matches;
+                titleEl.textContent = (isCompact && slide.mobileTitle) ? slide.mobileTitle : slide.title;
+                textEl.textContent = (isCompact && slide.mobileText) ? slide.mobileText : slide.text;
                 bgImgEl.src = slide.image;
+                bgImgEl.style.objectPosition = isCompact ? (slide.mobilePos || 'center center') : 'center center';
                 let buttonsHTML = '';
-                if (slide.btn1Text && slide.btn1Link) { buttonsHTML += `<a href="${slide.btn1Link}" class="btn btn-primary">${slide.btn1Text}</a>`; }
-                if (slide.btn2Text && slide.btn2Link) { buttonsHTML += `<a href="${slide.btn2Link}" class="btn btn-secondary">${slide.btn2Text}</a>`; }
+                if (slide.btn1Text && slide.btn1Link) {
+                    buttonsHTML += `<a href="${slide.btn1Link}" class="btn btn-primary"><span class="hero-cta-label">${slide.btn1Text}</span>${ctaArrowSvg}</a>`;
+                }
+                if (slide.btn2Text && slide.btn2Link && (isCompact || currentSlide === 0)) {
+                    buttonsHTML += `<a href="${slide.btn2Link}" class="btn btn-secondary">${slide.btn2Text}</a>`;
+                }
                 buttonsContainer.innerHTML = buttonsHTML;
                 document.querySelectorAll('.carousel-dots .dot').forEach((dot, index) => { dot.classList.toggle('active', index === currentSlide); });
+            }
+
+            if (mobileTabletMq.addEventListener) {
+                mobileTabletMq.addEventListener('change', updateCarousel);
+            } else if (mobileTabletMq.addListener) {
+                mobileTabletMq.addListener(updateCarousel);
             }
 
             function goToSlide(index) { currentSlide = index; updateCarousel(); resetAutoplay(); }
