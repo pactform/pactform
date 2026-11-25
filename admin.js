@@ -1081,12 +1081,114 @@
         });
     }
 
-    async function publishToGitHub() {
+    function readGitHubConfig() {
         const owner = document.getElementById('gh-owner').value.trim();
         const repo = document.getElementById('gh-repo').value.trim();
         const branch = document.getElementById('gh-branch').value.trim() || 'main';
         const msg = document.getElementById('gh-msg').value.trim() || 'Update Pactform content via Admin Studio';
-        const token = document.getElementById('gh-token').value.trim();
+        const token = document.getElementById('gh-token').value.replace(/\s+/g, '');
+        return { owner, repo, branch, msg, token };
+    }
+
+    function formatGitHubFetchError(err, owner, repo) {
+        const raw = (err && err.message) ? String(err.message) : String(err || 'Unknown error');
+        if (/failed to fetch|networkerror|load failed/i.test(raw)) {
+            return raw + '\n\n' +
+                'Chrome could not complete the request to https://api.github.com.\n' +
+                'Check:\n' +
+                '  1. Press F12 -> Console tab in Chrome to see the exact red error (e.g. ERR_CONNECTION_RESET, ERR_QUIC_PROTOCOL_ERROR, or CORS).\n' +
+                '  2. Make sure internet/VPN/firewall/antivirus is not interrupting https://api.github.com.\n' +
+                '  3. If uploading a large PNG on slow WiFi, try a smaller image (< 2 MB) or retry.\n' +
+                '  4. Or use "2. Save to Local Project Folder" on the right (works 100% offline in Chrome/Edge).';
+        }
+        return raw;
+    }
+
+    async function fetchWithRetry(url, options, logEl, label) {
+        let lastErr = null;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            try {
+                return await fetch(url, options);
+            } catch (err) {
+                lastErr = err;
+                const msg = (err && err.message) ? String(err.message) : String(err);
+                if (attempt < 3 && /failed to fetch|networkerror|load failed/i.test(msg)) {
+                    if (logEl) logEl.textContent += '  [RETRY ' + attempt + '/2] Network hiccup on ' + label + ', retrying...\n';
+                    await new Promise(r => setTimeout(r, 1500 * attempt));
+                    continue;
+                }
+                throw err;
+            }
+        }
+        throw lastErr;
+    }
+
+    async function verifyGitHubRepoAccess(cfg, logEl) {
+        if (!/^[\x21-\x7E]+$/.test(cfg.token)) {
+            throw new Error('GitHub token contains invalid characters. Please re-copy the token from GitHub.');
+        }
+        const repoUrl = 'https://api.github.com/repos/' + encodeURIComponent(cfg.owner) + '/' + encodeURIComponent(cfg.repo);
+
+        // Stage 1: Simple unauthenticated GET (no CORS preflight) to verify Chrome can reach api.github.com
+        if (logEl) logEl.textContent += '  [1/2] Checking reachability of api.github.com...\n';
+        const pingRes = await fetchWithRetry(repoUrl, { cache: 'no-store' }, logEl, 'api.github.com');
+        if (logEl) logEl.textContent += '  [OK] api.github.com reachable (HTTP ' + pingRes.status + ')\n';
+
+        // Stage 2: Authenticated GET to verify token & permissions
+        if (logEl) logEl.textContent += '  [2/2] Verifying token & repository permissions...\n';
+        const res = await fetchWithRetry(repoUrl, {
+            cache: 'no-store',
+            headers: {
+                'Authorization': 'Bearer ' + cfg.token
+            }
+        }, logEl, 'auth check');
+        if (res.status === 401) {
+            throw new Error('HTTP 401 Unauthorized — Token is invalid or expired. Generate a new Fine-grained token on GitHub.');
+        }
+        if (res.status === 403 || res.status === 404) {
+            throw new Error('HTTP ' + res.status + ' — Cannot access ' + cfg.owner + '/' + cfg.repo + '. Make sure the token selected this repository and has Repository permissions -> Contents: Read and write.');
+        }
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error('GitHub check failed (HTTP ' + res.status + '): ' + (errData.message || res.statusText));
+        }
+        const info = await res.json().catch(() => ({}));
+        if (info.permissions && info.permissions.push === false) {
+            throw new Error('Token only has read-only access to ' + cfg.owner + '/' + cfg.repo + '. Edit the token and set Contents to "Read and write".');
+        }
+        if (logEl) {
+            logEl.textContent += '  [OK] Token verified for ' + cfg.owner + '/' + cfg.repo + ' (branch: ' + cfg.branch + ')\n';
+        }
+        return info;
+    }
+
+    async function testGitHubConnection() {
+        const cfg = readGitHubConfig();
+        const logEl = document.getElementById('gh-log');
+        if (!cfg.owner || !cfg.repo || !cfg.token) {
+            alert('Please fill Repository Owner, Repository Name, and your GitHub Personal Access Token.');
+            return;
+        }
+        try { sessionStorage.setItem(GH_TOKEN_KEY, cfg.token); } catch (e) {}
+        logEl.classList.remove('hidden');
+        logEl.textContent = 'Testing connection to https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '...\n';
+        const btn = document.getElementById('btn-test-github');
+        if (btn) btn.disabled = true;
+        try {
+            await verifyGitHubRepoAccess(cfg, logEl);
+            logEl.textContent += '\nConnection OK! You can now click "Publish to GitHub".';
+            toast('GitHub connection successful!');
+        } catch (err) {
+            logEl.textContent += '\n[ERROR] ' + formatGitHubFetchError(err, cfg.owner, cfg.repo);
+            toast('Connection test failed — see log');
+        } finally {
+            if (btn) btn.disabled = false;
+        }
+    }
+
+    async function publishToGitHub() {
+        const cfg = readGitHubConfig();
+        const { owner, repo, branch, msg, token } = cfg;
         const logEl = document.getElementById('gh-log');
 
         if (!owner || !repo || !token) {
@@ -1103,26 +1205,28 @@
         async function putFile(path, base64Content) {
             const apiUrl = 'https://api.github.com/repos/' + encodeURIComponent(owner) + '/' + encodeURIComponent(repo) + '/contents/' + path.split('/').map(encodeURIComponent).join('/');
             let sha = null;
-            const checkRes = await fetch(apiUrl + '?ref=' + encodeURIComponent(branch), {
-                headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' }
-            });
+            const checkRes = await fetchWithRetry(apiUrl + '?ref=' + encodeURIComponent(branch), {
+                cache: 'no-store',
+                headers: { 'Authorization': 'Bearer ' + token }
+            }, logEl, 'check ' + path);
             if (checkRes.ok) {
                 const existing = await checkRes.json();
                 sha = existing.sha;
             } else if (checkRes.status !== 404) {
-                throw new Error('Failed reading ' + path + ' (HTTP ' + checkRes.status + ')');
+                const errData = await checkRes.json().catch(() => ({}));
+                throw new Error('Failed reading ' + path + ' (HTTP ' + checkRes.status + (errData.message ? ': ' + errData.message : '') + ')');
             }
             const putBody = { message: msg + ' (' + path + ')', content: base64Content, branch: branch };
             if (sha) putBody.sha = sha;
-            const putRes = await fetch(apiUrl, {
+            const putRes = await fetchWithRetry(apiUrl, {
                 method: 'PUT',
+                cache: 'no-store',
                 headers: {
                     'Authorization': 'Bearer ' + token,
-                    'Accept': 'application/vnd.github+json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(putBody)
-            });
+            }, logEl, 'upload ' + path);
             if (!putRes.ok) {
                 const errData = await putRes.json().catch(() => ({}));
                 throw new Error('Failed committing ' + path + ': ' + (errData.message || ('HTTP ' + putRes.status)));
@@ -1131,9 +1235,13 @@
         }
 
         try {
+            // 0. Verify connectivity & token access first
+            await verifyGitHubRepoAccess(cfg, logEl);
+
             // 1. Upload staged images first
             for (const [relPath, fileObj] of stagedUploads.entries()) {
-                logEl.textContent += 'Uploading image ' + relPath + '...\n';
+                const kb = Math.max(1, Math.round((fileObj.base64.length * 0.75) / 1024));
+                logEl.textContent += 'Uploading image ' + relPath + ' (~' + kb + ' KB)...\n';
                 await putFile(relPath, fileObj.base64);
             }
             // 2. Commit catalog-content.js
@@ -1154,7 +1262,7 @@
             logEl.textContent += '\nDONE! Changes published to GitHub (' + branch + '). GitHub Pages will refresh shortly.';
             toast('Published to GitHub successfully!');
         } catch (err) {
-            logEl.textContent += '\n[ERROR] ' + err.message;
+            logEl.textContent += '\n[ERROR] ' + formatGitHubFetchError(err, owner, repo);
             toast('GitHub publish failed — see log');
         } finally {
             btn.disabled = false;
@@ -1525,6 +1633,7 @@
 
         // Publish & Backup events
         document.getElementById('btn-publish-github').addEventListener('click', publishToGitHub);
+        document.getElementById('btn-test-github').addEventListener('click', testGitHubConnection);
         document.getElementById('btn-save-folder').addEventListener('click', saveToLocalFolder);
         document.getElementById('btn-dl-catalog').addEventListener('click', () => {
             downloadTextFile('catalog-content.js', buildCatalogContentJs());
