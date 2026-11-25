@@ -1,231 +1,694 @@
-/* about.css — Architectural Editorial Design (Zero Round Corners) */
+/* ==========================================================================
+   about.css — Minimalist Editorial Layout + Home Page Typography
+   Matches "Plus Jakarta Sans" weights, tracking, and colors from index.css /
+   global.css:
+   - Full-bleed atmospheric interior hero
+   - 2-photo Left & Right asymmetric intro below hero
+   - Slow-spinning 3D Chair Turnaround showcase stage
+   - Full-width numbered rows (01-04) with dark highlight bar
+   - Staggered horizontal Collection Category Carousel (COMMERCIAL, OFFICE...)
+   ========================================================================== */
 
-/* Shared Eyebrow Accent */
+body {
+    font-family: var(--font-family);
+    color: var(--black);
+}
+
 .eyebrow {
     display: block;
+    font-family: var(--font-family);
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--accent);
-    margin-bottom: 8px;
-}
-
-/* Page Header */
-.about-hero {
-    margin-bottom: 64px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 48px;
-}
-.about-hero .subtext {
-    display: block;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
-    color: var(--accent);
-}
-.about-hero .hero-desc {
-    max-width: 720px;
-    font-size: 1.15rem;
-    line-height: 1.6;
-    color: var(--black);
     margin-bottom: 0;
-}
-
-/* Section Header Shared Layout */
-.section-heading-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 32px;
-    margin-bottom: 32px;
-    border-bottom: 1px solid var(--black);
-    padding-bottom: 16px;
-}
-.heading-desc {
-    max-width: 480px;
-    margin-bottom: 0;
-    font-size: 0.95rem;
-    color: var(--grey-dark);
+    padding-top: 6px;
 }
 
 .about-section {
-    margin-bottom: 80px;
+    margin-bottom: 112px;
 }
 
-/* What We Do - Split Grid */
-.about-content-grid {
+/* Shared Asymmetric Editorial Header (Home Page Font Scale & Weight) */
+.editorial-section-head {
     display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 32px;
+    grid-template-columns: 0.32fr 0.68fr;
+    gap: 40px;
     align-items: start;
+    margin-bottom: 48px;
 }
-.about-text-box {
-    border: 1px solid var(--border-color);
-    padding: 36px 32px;
-    background: var(--white);
-}
-.about-text-box h4 {
-    font-size: 1.25rem;
-    margin-bottom: 16px;
+
+.editorial-heading-col h2 {
+    font-family: var(--font-family);
+    font-size: clamp(1.75rem, 3vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.14;
     color: var(--black);
-}
-.about-text-box p {
-    color: var(--grey-dark);
-    line-height: 1.7;
     margin-bottom: 16px;
 }
-.about-text-box p:last-child {
+
+.editorial-heading-col .heading-desc,
+.editorial-heading-col .prof-line {
+    max-width: 560px;
+    font-family: var(--font-family);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--grey-dark);
     margin-bottom: 0;
 }
-.about-photo-stack {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-}
-.about-photo {
-    height: 220px;
-    border: 1px solid var(--black);
+
+/* ==========================================================================
+   1. FULL-BLEED EDITORIAL HERO (Matches Home Page Hero Typography)
+   ========================================================================== */
+.about-hero-bleed {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    margin-top: -60px;
+    min-height: clamp(480px, 76vh, 690px);
+    display: flex;
+    align-items: flex-end;
+    padding: 88px 0 76px;
+    overflow: hidden;
+    background-color: var(--black);
 }
 
-/* How We're Set Up - 4-Card Sharp Grid */
-.setup-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    border: 1px solid var(--border-color);
-    background: var(--border-color);
-    gap: 1px; /* 1px sharp borders between items */
+.about-hero-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
 }
-.setup-card {
-    background: var(--white);
-    padding: 36px 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+
+.about-hero-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        98deg,
+        rgba(20, 18, 16, 0.82) 0%,
+        rgba(20, 18, 16, 0.46) 50%,
+        rgba(20, 18, 16, 0.12) 100%
+    );
 }
-.setup-num {
-    font-size: 0.8rem;
+
+.about-hero-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    animation: heroSubtleZoom 18s ease-out forwards;
+}
+
+@keyframes heroSubtleZoom {
+    from { transform: scale(1.05); }
+    to { transform: scale(1); }
+}
+
+.about-hero-inner {
+    position: relative;
+    z-index: 2;
+}
+
+.about-hero-text {
+    max-width: 600px;
+}
+
+.about-hero-text .subtext {
+    display: block;
+    font-family: var(--font-family);
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    margin-bottom: 24px;
-    border-bottom: 1px solid var(--grey-light);
-    padding-bottom: 8px;
-}
-.setup-card h4 {
-    font-size: 1.15rem;
-    margin-bottom: 10px;
-    color: var(--black);
-}
-.setup-card p {
-    margin-bottom: 0;
-    font-size: 0.95rem;
-    color: var(--grey-dark);
-    line-height: 1.6;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 16px;
 }
 
-/* Built for Professionals - Architectural Split Box */
-.professionals-block {
-    border: 1px solid var(--black);
-    display: grid;
-    grid-template-columns: 1.1fr 1.3fr;
+.about-hero-text h1 {
+    font-family: var(--font-family);
+    font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 20px;
+}
+
+.about-hero-text .hero-desc {
+    font-family: var(--font-family);
+    font-size: 1rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.86);
+    margin-bottom: 0;
+    max-width: 520px;
+}
+
+/* ==========================================================================
+   2. BELOW HERO — OUR APPROACH + 3D ROTATING CHAIR SIDE-BY-SIDE
+   ========================================================================== */
+.about-approach-editorial {
+    padding-top: 96px;
+    padding-bottom: 104px;
     background: var(--white);
 }
-.prof-intro {
-    padding: 48px 40px;
-    background: var(--grey-light);
-    border-right: 1px solid var(--black);
+
+.approach-chair-split {
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 48px;
+    align-items: center;
+}
+
+.approach-copy-col .eyebrow {
+    padding-top: 0;
+    margin-bottom: 14px;
+}
+
+.approach-copy-col h2 {
+    font-family: var(--font-family);
+    font-size: clamp(1.75rem, 3vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 20px;
+    max-width: 520px;
+}
+
+.approach-copy-col .heading-desc {
+    font-family: var(--font-family);
+    font-size: 0.98rem;
+    line-height: 1.68;
+    color: var(--grey-dark);
+    max-width: 470px;
+    margin-bottom: 0;
+}
+
+.chair-turnaround-pedestal {
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
 }
-.prof-intro h2 {
-    margin-bottom: 16px;
-    font-size: 1.6rem;
+
+.chair-turntable-stage {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 316 / 316;
+    background: #ffffff;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y;
 }
-.prof-line {
+
+.chair-turntable-stage.is-dragging {
+    cursor: grabbing;
+}
+
+.chair-turntable-frames {
+    position: absolute;
+    inset: 0 0 22px 0;
+    background: #ffffff;
+    mix-blend-mode: multiply;
+}
+
+.turnaround-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity, transform;
+}
+
+.turnaround-frame.is-current {
+    opacity: 1;
+}
+
+.turntable-orbit-svg {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 88%;
+    height: auto;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   4. FULL-WIDTH NUMBERED EDITORIAL HIGHLIGHT ROWS (01 - 04)
+   ========================================================================== */
+.editorial-rows-wrap {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    border-top: 1px solid var(--grey-mid);
+}
+
+.setup-card {
+    background-color: var(--white);
+    border-bottom: 1px solid var(--grey-mid);
+    cursor: pointer;
+    transition: background-color 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.setup-row-inner {
+    display: grid;
+    grid-template-columns: 0.32fr 0.5fr 0.18fr;
+    gap: 40px;
+    align-items: center;
+    padding-top: 28px;
+    padding-bottom: 28px;
+}
+
+.setup-num {
+    font-family: var(--font-family);
+    font-size: clamp(1rem, 1.35vw, 1.25rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+    color: var(--black);
+    transition: color 0.28s ease, transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.setup-row-copy h4 {
+    font-family: var(--font-family);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--black);
+    margin-bottom: 6px;
+    transition: color 0.28s ease;
+}
+
+.setup-row-copy p {
+    font-family: var(--font-family);
+    font-size: 0.93rem;
+    line-height: 1.62;
     color: var(--grey-dark);
     margin-bottom: 0;
-    line-height: 1.6;
-    font-weight: 500;
+    max-width: 520px;
+    transition: color 0.28s ease;
 }
+
+.setup-row-preview {
+    justify-self: end;
+    width: 148px;
+    height: 82px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.setup-row-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.setup-card:hover,
+.setup-card:focus-visible,
+.setup-card.is-active {
+    background-color: var(--black);
+    outline: none;
+}
+
+.setup-card:hover .setup-num,
+.setup-card:focus-visible .setup-num,
+.setup-card.is-active .setup-num {
+    color: var(--accent);
+    transform: translateX(4px);
+}
+
+.setup-card:hover .setup-row-copy h4,
+.setup-card:focus-visible .setup-row-copy h4,
+.setup-card.is-active .setup-row-copy h4 {
+    color: var(--white);
+}
+
+.setup-card:hover .setup-row-copy p,
+.setup-card:focus-visible .setup-row-copy p,
+.setup-card.is-active .setup-row-copy p {
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.setup-card:hover .setup-row-preview,
+.setup-card:focus-visible .setup-row-preview,
+.setup-card.is-active .setup-row-preview {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ==========================================================================
+   5. STAGGERED COLLECTION CATEGORY CAROUSEL (Screenshot 2 + Home Categories)
+   ========================================================================== */
+.about-category-carousel-section {
+    overflow: hidden;
+}
+
+.cat-carousel-head {
+    margin-bottom: 36px;
+}
+
+.cat-carousel-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.cat-carousel-progress {
+    flex: 1 1 auto;
+    height: 1px;
+    background: var(--grey-mid);
+    position: relative;
+    overflow: hidden;
+}
+
+.cat-carousel-progress-fill {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--black);
+    transform: scaleX(0.15);
+    transform-origin: left;
+    transition: transform 0.2s ease-out;
+}
+
+.cat-carousel-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.cat-nav-btn {
+    width: 38px;
+    height: 38px;
+    background: var(--black);
+    color: var(--white);
+    border: 1px solid var(--black);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.cat-nav-btn:hover,
+.cat-nav-btn:focus-visible {
+    background: var(--accent);
+    border-color: var(--accent);
+    outline: none;
+}
+
+.cat-carousel-viewport {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    padding-left: max(20px, calc((100vw - 1200px) / 2 + 40px));
+    padding-right: 40px;
+}
+
+.cat-carousel-viewport::-webkit-scrollbar {
+    display: none;
+}
+
+.cat-carousel-viewport.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+}
+
+.cat-carousel-track {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    width: max-content;
+    padding-bottom: 8px;
+}
+
+.cat-stagger-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--black);
+    flex-shrink: 0;
+}
+
+/* Staggered card widths & heights inspired by Screenshot 2 */
+.cat-stagger-card.size-tall    { width: 250px; }
+.cat-stagger-card.size-compact { width: 215px; }
+.cat-stagger-card.size-mid     { width: 235px; }
+.cat-stagger-card.size-short   { width: 210px; }
+.cat-stagger-card.size-feature { width: 310px; }
+
+.cat-stagger-img {
+    width: 100%;
+    overflow: hidden;
+    background: var(--grey-light);
+    margin-bottom: 12px;
+}
+
+.cat-stagger-card.size-tall .cat-stagger-img    { height: 330px; }
+.cat-stagger-card.size-compact .cat-stagger-img { height: 245px; }
+.cat-stagger-card.size-mid .cat-stagger-img     { height: 305px; }
+.cat-stagger-card.size-short .cat-stagger-img   { height: 215px; }
+.cat-stagger-card.size-feature .cat-stagger-img { height: 350px; }
+
+.cat-stagger-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cat-stagger-card:hover .cat-stagger-img img,
+.cat-stagger-card:focus-visible .cat-stagger-img img {
+    transform: scale(1.06);
+}
+
+.cat-stagger-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2px;
+}
+
+.cat-stagger-title {
+    font-family: var(--font-family);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--black);
+    transition: color 0.2s ease;
+}
+
+.cat-stagger-card:hover .cat-stagger-title,
+.cat-stagger-card:focus-visible .cat-stagger-title {
+    color: var(--accent);
+}
+
+/* ==========================================================================
+   6. PROJECT PARTNERS — Clean Hairline Matrix (Home Page Typography)
+   ========================================================================== */
 .prof-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background: var(--border-color);
-    gap: 1px; /* Sharp grid borders */
+    border-top: 1px solid var(--grey-mid);
 }
+
 .prof-item {
-    background: var(--white);
-    padding: 24px 28px;
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--grey-mid);
+    font-family: var(--font-family);
     font-size: 0.95rem;
     font-weight: 600;
     color: var(--black);
     display: flex;
     align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: background-color 0.28s ease, color 0.28s ease, padding-left 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* CTA Block */
+.prof-item:nth-child(odd) {
+    border-right: 1px solid var(--grey-mid);
+}
+
+.prof-marker {
+    flex: 0 0 6px;
+    width: 6px;
+    height: 6px;
+    background: var(--border-color);
+    transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.prof-item:hover,
+.prof-item:focus-visible,
+.prof-item.is-active {
+    background-color: var(--black);
+    color: var(--white);
+    padding-left: 30px;
+    outline: none;
+}
+
+.prof-item:hover .prof-marker,
+.prof-item:focus-visible .prof-marker,
+.prof-item.is-active .prof-marker {
+    background: var(--accent);
+    transform: scale(1.3);
+}
+
+/* ==========================================================================
+   7. CTA SECTION (Home Page Typography & Button Styles)
+   ========================================================================== */
 .about-cta {
-    border-top: 1px solid var(--border-color);
-    padding-top: 64px;
-    margin-bottom: 80px;
+    margin-bottom: 88px;
 }
+
 .cta-box {
-    border: 1px solid var(--black);
-    padding: 48px;
-    background: var(--grey-light);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 0.32fr 0.68fr;
     gap: 40px;
+    align-items: start;
+    padding: 56px 52px;
+    background: var(--grey-light);
+    border: 1px solid var(--border-color);
+    border-left: 6px solid var(--accent);
 }
-.cta-box h2 {
+
+.cta-main-col h2 {
+    font-family: var(--font-family);
+    font-size: clamp(1.75rem, 3vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--black);
     margin-bottom: 12px;
 }
-.cta-box p {
+
+.cta-main-col p {
     max-width: 540px;
-    margin-bottom: 0;
+    font-family: var(--font-family);
     color: var(--grey-dark);
+    line-height: 1.65;
+    margin-bottom: 28px;
 }
+
 .about-buttons {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
-    flex-shrink: 0;
 }
 
-/* Responsive Styles */
-@media (max-width: 900px) {
-    .about-content-grid,
-    .professionals-block {
-        grid-template-columns: 1fr;
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 980px) {
+    .approach-chair-split {
+        gap: 32px;
     }
-    .prof-intro {
-        border-right: none;
-        border-bottom: 1px solid var(--black);
-        padding: 36px 28px;
-    }
+
+    .editorial-section-head,
     .cta-box {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 36px 28px;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .setup-row-inner {
+        grid-template-columns: 150px 1fr;
+        gap: 24px;
+    }
+
+    .setup-row-preview {
+        display: none;
+    }
+
+    .cat-carousel-viewport {
+        padding-left: 28px;
+        padding-right: 28px;
     }
 }
 
-@media (max-width: 768px) {
-    .setup-grid {
+@media (max-width: 680px) {
+    .about-hero-bleed {
+        min-height: 440px;
+        padding: 72px 0 56px;
+    }
+
+    .about-approach-editorial {
+        padding-top: 64px;
+        padding-bottom: 64px;
+    }
+
+    .approach-chair-split {
         grid-template-columns: 1fr;
+        gap: 28px;
     }
-    .section-heading-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
+
+    .chair-turntable-stage {
+        max-width: 320px;
+        margin: 0 auto;
     }
+
+    .about-section {
+        margin-bottom: 80px;
+    }
+
+    .setup-row-inner {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding-top: 24px;
+        padding-bottom: 24px;
+    }
+
     .prof-list {
         grid-template-columns: 1fr;
+    }
+
+    .prof-item:nth-child(odd) {
+        border-right: none;
+    }
+
+    .cat-carousel-viewport {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .cat-stagger-card.size-tall    { width: 205px; }
+    .cat-stagger-card.size-compact { width: 180px; }
+    .cat-stagger-card.size-mid     { width: 195px; }
+    .cat-stagger-card.size-short   { width: 175px; }
+    .cat-stagger-card.size-feature { width: 245px; }
+
+    .cat-stagger-card.size-tall .cat-stagger-img    { height: 265px; }
+    .cat-stagger-card.size-compact .cat-stagger-img { height: 205px; }
+    .cat-stagger-card.size-mid .cat-stagger-img     { height: 250px; }
+    .cat-stagger-card.size-short .cat-stagger-img   { height: 180px; }
+    .cat-stagger-card.size-feature .cat-stagger-img { height: 280px; }
+
+    .cta-box {
+        padding: 36px 24px;
     }
 }
 
@@ -234,102 +697,18 @@
         flex-direction: column;
         width: 100%;
     }
+
     .about-buttons .btn {
         width: 100%;
         text-align: center;
     }
-    .setup-card {
-        padding: 28px 24px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .about-hero-bg,
+    .cat-stagger-img img {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
     }
 }
-
-/* ==========================================================================
-   Orange Accent Sections — matches the gradient treatment used on index.css
-   (hex values hardcoded here since --hero-orange-deep/vivid live in index.css,
-   which this page doesn't load; var(--accent) is already defined in global.css)
-   ========================================================================== */
-
-.cta-box {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    background: linear-gradient(110deg, #c53602 0%, #dc5800 100%);
-    border-color: transparent;
-}
-.cta-box .eyebrow {
-    color: #ffe4d1;
-}
-.cta-box h2 {
-    color: #ffffff;
-}
-.cta-box p {
-    color: rgba(255, 255, 255, 0.85);
-}
-.cta-box .btn-primary {
-    background: #ffffff;
-    color: #7e2401;
-    border-color: #ffffff;
-}
-.cta-box .btn-primary:hover {
-    background: transparent;
-    color: #ffffff;
-    border-color: #ffffff;
-}
-.cta-box .btn-secondary {
-    background: transparent;
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.6);
-}
-.cta-box .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: #ffffff;
-}
-
-.prof-intro {
-    background: linear-gradient(110deg, #c53602 0%, #dc5800 100%);
-    border-right-color: rgba(255, 255, 255, 0.25);
-}
-.prof-intro .eyebrow {
-    color: #ffe4d1;
-}
-.prof-intro h2 {
-    color: #ffffff;
-}
-.prof-intro .prof-line {
-    color: rgba(255, 255, 255, 0.85);
-}
-/* ==========================================================================
-   Interactive transitions (added — hover/focus feedback only)
-   ========================================================================== */
-.about-text-box {
-    transition: box-shadow 0.25s ease, transform 0.25s ease;
-}
-.about-text-box:hover {
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
-    transform: translateY(-4px);
-}
-
-.about-photo {
-    transition: box-shadow 0.25s ease, transform 0.25s ease;
-}
-.about-photo:hover {
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
-    transform: translateY(-4px);
-}
-
-.setup-card {
-    transition: background-color 0.25s ease, transform 0.25s ease;
-}
-.setup-card:hover {
-    background-color: #fffcf9;
-    transform: translateY(-4px);
-}
-
-.prof-item {
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-.prof-item:hover {
-    background-color: var(--grey-light);
-    color: var(--accent);
-}
-

@@ -75,130 +75,284 @@
     </script>
 
 
-<main class="container">
-        <!-- Page Header -->
-        <section class="page-header shipping-hero">
-            <p class="subtext">INTERNATIONAL FURNITURE DELIVERY</p>
-            <h1>CONTRACT FURNITURES : FROM APPROVAL TO ARRIVAL</h1>
-            <p class="hero-desc">We coordinate packing, documentation and international freight for Pactform furniture around your destination, project schedule and agreed delivery scope.</p>
+<main class="shipping-main">
+        <!-- 1. Editorial Hero + Interactive Vertical Delivery Scope Rail Card -->
+        <section class="shipping-hero-section container">
+            <div class="shipping-hero-grid">
+                <div class="shipping-hero-copy">
+                    <p class="subtext">INTERNATIONAL FURNITURE DELIVERY</p>
+                    <h1>
+                        <span class="hero-kicker">CONTRACT FURNITURES :</span>
+                        <span class="hero-display">FROM APPROVAL<br>TO <span class="hero-accent">ARRIVAL</span></span>
+                    </h1>
+                    <p class="hero-desc">We coordinate packing, documentation and international freight for Pactform furniture around your destination, project schedule and agreed delivery scope.</p>
+                </div>
+
+                <!-- Warm-Alabaster Vertical Rail Scope Card (Interactive jump to stages 01-04) -->
+                <div class="scope-rail-card" id="scope-rail-card" aria-hidden="true">
+                    <div class="scope-rail-list">
+                        <div class="scope-rail-track" aria-hidden="true">
+                            <span class="scope-rail-progress" id="scope-rail-progress"></span>
+                        </div>
+
+                        <button type="button" class="scope-rail-item is-active" data-stage="0">
+                            <span class="scope-node"></span>
+                            <span class="scope-label">Export-Grade Packing</span>
+                            <svg class="scope-arrow" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="9 7 17 7 17 15"></polyline>
+                            </svg>
+                        </button>
+
+                        <button type="button" class="scope-rail-item" data-stage="1">
+                            <span class="scope-node"></span>
+                            <span class="scope-label">Full Documentation</span>
+                            <svg class="scope-arrow" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="9 7 17 7 17 15"></polyline>
+                            </svg>
+                        </button>
+
+                        <button type="button" class="scope-rail-item" data-stage="2">
+                            <span class="scope-node"></span>
+                            <span class="scope-label">Flexible Freight Modes</span>
+                            <svg class="scope-arrow" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="9 7 17 7 17 15"></polyline>
+                            </svg>
+                        </button>
+
+                        <button type="button" class="scope-rail-item" data-stage="3">
+                            <span class="scope-node"></span>
+                            <span class="scope-label">Site-Direct Delivery</span>
+                            <svg class="scope-arrow" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="9 7 17 7 17 15"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- Manifest ticker: decorative repeat of the four service labels below -->
-        <div class="manifest-ticker" aria-hidden="true">
-            <div class="ticker-track">
-                <span>Export-Grade Packing</span><span class="tick-sep">&#9670;</span>
-                <span>Full Documentation</span><span class="tick-sep">&#9670;</span>
-                <span>Flexible Freight Modes</span><span class="tick-sep">&#9670;</span>
-                <span>Site-Direct Delivery</span><span class="tick-sep">&#9670;</span>
-                <span>Export-Grade Packing</span><span class="tick-sep">&#9670;</span>
-                <span>Full Documentation</span><span class="tick-sep">&#9670;</span>
-                <span>Flexible Freight Modes</span><span class="tick-sep">&#9670;</span>
-                <span>Site-Direct Delivery</span><span class="tick-sep">&#9670;</span>
-            </div>
-        </div>
-
-        <!-- What's Included (Manifest / Cargo-Tag Layout) -->
-        <section class="shipping-section">
-            <div class="section-heading-row reveal">
-                <div>
+        <!-- 2. What We Coordinate: Interactive 2x2 Architectural Stage Explorer + Stepper -->
+        <section class="shipping-section shipping-coordinate-section container" id="delivery-scope">
+            <div class="coordinate-header">
+                <div class="coordinate-title-col">
                     <span class="eyebrow">DELIVERY SCOPE</span>
                     <h2>WHAT WE COORDINATE</h2>
                 </div>
                 <p class="heading-desc">Pactform coordinates export packing, shipping documentation, international freight and destination delivery according to your project requirements and agreed scope.</p>
             </div>
 
-            <div class="manifest-list">
-                <div class="manifest-item reveal">
-                    <div class="manifest-stub">
-                        <span class="logistics-num">01</span>
+            <div class="coordinate-explorer" id="coordinate-explorer">
+                <div class="manifest-grid">
+                    <div class="manifest-card is-active" data-stage="0" tabindex="0">
+                        <div class="manifest-card-top">
+                            <span class="logistics-num">01</span>
+                        </div>
+                        <div class="logistics-content">
+                            <h4>PACKING : PROTECTED FOR TRANSIT</h4>
+                            <p>Pactform furniture is packed according to its materials, construction, shipping route and freight requirements.</p>
+                        </div>
                     </div>
-                    <div class="logistics-content">
-                        <h4> PACKING : PROTECTED FOR TRANSIT</h4>
-                        <p>Pactform furniture is packed according to its materials, construction, shipping route and freight requirements.</p>
+
+                    <div class="manifest-card" data-stage="1" tabindex="0">
+                        <div class="manifest-card-top">
+                            <span class="logistics-num">02</span>
+                        </div>
+                        <div class="logistics-content">
+                            <h4>DOCUMENTATION : PREPARED FOR SHIPMENT</h4>
+                            <p>We prepare commercial invoices, packing lists and applicable export documents for each agreed shipment.</p>
+                        </div>
+                    </div>
+
+                    <div class="manifest-card" data-stage="2" tabindex="0">
+                        <div class="manifest-card-top">
+                            <span class="logistics-num">03</span>
+                        </div>
+                        <div class="logistics-content">
+                            <h4>FREIGHT : MATCHED TO THE ORDER</h4>
+                            <p>Sea freight typically serves commercial furniture orders, while air freight may be used for samples, replacements and urgent smaller shipments.</p>
+                        </div>
+                    </div>
+
+                    <div class="manifest-card" data-stage="3" tabindex="0">
+                        <div class="manifest-card-top">
+                            <span class="logistics-num">04</span>
+                        </div>
+                        <div class="logistics-content">
+                            <h4>DESTINATION : COORDINATED TO THE AGREED POINT</h4>
+                            <p>Customs support and final-mile delivery can be coordinated where available and included in the project quotation.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="manifest-item reveal">
-                    <div class="manifest-stub">
-                        <span class="logistics-num">02</span>
-                    </div>
-                    <div class="logistics-content">
-                        <h4> DOCUMENTATION : PREPARED FOR SHIPMENT</h4>
-                        <p>We prepare commercial invoices, packing lists and applicable export documents for each agreed shipment.</p>
-                    </div>
-                </div>
-                <div class="manifest-item reveal">
-                    <div class="manifest-stub">
-                        <span class="logistics-num">03</span>
-                    </div>
-                    <div class="logistics-content">
-                        <h4> FREIGHT : MATCHED TO THE ORDER</h4>
-                        <p>Sea freight typically serves commercial furniture orders, while air freight may be used for samples, replacements and urgent smaller shipments.</p>
-                    </div>
-                </div>
-                <div class="manifest-item reveal">
-                    <div class="manifest-stub">
-                        <span class="logistics-num">04</span>
-                    </div>
-                    <div class="logistics-content">
-                        <h4> DESTINATION : COORDINATED TO THE AGREED POINT</h4>
-                        <p>Customs support and final-mile delivery can be coordinated where available and included in the project quotation.</p>
-                    </div>
-                </div>
-            </div>
 
-        </section>
-
-        <!-- Lead Times Section (Split-Flap Departure Board) -->
-        <section class="shipping-section">
-            <div class="transit-block">
-                <div class="transit-intro">
-                    <span class="eyebrow">ESTIMATED TIMELINES</span>
-                    <h2>PRODUCTION LEAD TIMES</h2>
-                    <p>Timelines vary by design, quantity, materials and customisation. Your project quotation will confirm the estimated production period and indicate international transit separately.</p>
-
-                    <hr style="margin: 20px 0;">
-
-                    <p>Production periods are estimates and exclude international transit, customs clearance and final-mile delivery unless stated otherwise in the project quotation.</p>
-
-                </div>
-                <div class="transit-track board">
-                    <div class="time-row reveal">
-                        <div class="time-label">IN-COLLECTION PIECES</div>
-                        <div class="time-value">6 &ndash; 10 Weeks</div>
-                        <div class="time-note">Estimated from deposit and final specification approval</div>
+                <!-- Reference-Style Bottom Progress Track & Prev/Next Stepper -->
+                <div class="coordinate-footer-bar">
+                    <div class="coordinate-progress-track" aria-hidden="true">
+                        <span class="coordinate-progress-fill" id="coordinate-progress-fill"></span>
                     </div>
-                    <div class="time-row reveal">
-                        <div class="time-label">CUSTOM FURNITURE</div>
-                        <div class="time-value">8 &ndash; 14 Weeks</div>
-                        <div class="time-note">Estimated from deposit, drawing approval and sample approval, where required</div>
-                    </div>
-                    <div class="time-row reveal">
-                        <div class="time-label">LARGE OR MULTI-PRODUCT PROJECTS</div>
-                        <div class="time-value">Scoped Individually</div>
-                        <div class="time-note">Planned around quantities, approvals and the project schedule</div>
+                    <div class="coordinate-stepper">
+                        <button type="button" class="stepper-btn" id="stage-prev-btn" aria-label="Previous delivery stage">
+                            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="11 6 5 12 11 18"></polyline>
+                            </svg>
+                        </button>
+                        <button type="button" class="stepper-btn" id="stage-next-btn" aria-label="Next delivery stage">
+                            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="13 6 19 12 13 18"></polyline>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Call to Action (Boarding-Pass / Ticket Layout) -->
-        <section class="shipping-cta">
-            <div class="cta-wrap reveal-scale">
-                <div class="cta-ticket">
-                    <div class="ticket-main">
-                        <span class="eyebrow">Logistics Support</span>
-                        <h2>QUESTIONS ABOUT A SPECIFIC ORDER?</h2>
-                        <p>Send us your site location and target handover date on WhatsApp, and we'll provide a dedicated shipping estimate alongside your quote.</p>
+        <!-- 3. Production Lead Times: Full-Bleed Warm-Alabaster Sheet with Proportional Range Bars -->
+        <section class="shipping-section shipping-leadtimes-band" id="production-lead-times">
+            <div class="container">
+                <div class="leadtimes-layout">
+                    <div class="leadtimes-intro">
+                        <span class="eyebrow">ESTIMATED TIMELINES</span>
+                        <h2>PRODUCTION LEAD TIMES</h2>
+                        <p class="leadtimes-primary">Timelines vary by design, quantity, materials and customisation. Your project quotation will confirm the estimated production period and indicate international transit separately.</p>
+                        <div class="leadtimes-divider" aria-hidden="true"></div>
+                        <p class="leadtimes-disclaimer">Production periods are estimates and exclude international transit, customs clearance and final-mile delivery unless stated otherwise in the project quotation.</p>
                     </div>
-                    <div class="ticket-stub">
-                        <div class="shipping-buttons">
-                            <a href="#" class="btn btn-primary">Message us on WhatsApp</a>
-                            <a href="projects.html" class="btn btn-secondary">Start a project</a>
+
+                    <div class="leadtimes-list">
+                        <div class="leadtime-row is-active" tabindex="0">
+                            <div class="time-label">IN-COLLECTION PIECES</div>
+                            <div class="time-value"><span class="time-figure">6 &ndash; 10</span> <span class="time-unit">Weeks</span></div>
+                            <div class="range-track" aria-hidden="true">
+                                <span class="range-tick tick-start"></span>
+                                <span class="range-tick tick-mid"></span>
+                                <span class="range-tick tick-end"></span>
+                                <span class="range-segment range-collection"></span>
+                            </div>
+                            <div class="time-note">Estimated from deposit and final specification approval</div>
+                        </div>
+
+                        <div class="leadtime-row" tabindex="0">
+                            <div class="time-label">CUSTOM FURNITURE</div>
+                            <div class="time-value"><span class="time-figure">8 &ndash; 14</span> <span class="time-unit">Weeks</span></div>
+                            <div class="range-track" aria-hidden="true">
+                                <span class="range-tick tick-start"></span>
+                                <span class="range-tick tick-mid"></span>
+                                <span class="range-tick tick-end"></span>
+                                <span class="range-segment range-custom"></span>
+                            </div>
+                            <div class="time-note">Estimated from deposit, drawing approval and sample approval, where required</div>
+                        </div>
+
+                        <div class="leadtime-row" tabindex="0">
+                            <div class="time-label">LARGE OR MULTI-PRODUCT PROJECTS</div>
+                            <div class="time-value time-value-text">Scoped Individually</div>
+                            <div class="time-note">Planned around quantities, approvals and the project schedule</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- 4. Logistics Support CTA: Clean Architectural Split with Directional Action Bars -->
+        <section class="shipping-cta container">
+            <div class="cta-editorial-split">
+                <div class="cta-copy-col">
+                    <span class="eyebrow">Logistics Support</span>
+                    <h2>QUESTIONS ABOUT A SPECIFIC ORDER?</h2>
+                    <p>Send us your site location and target handover date on WhatsApp, and we'll provide a dedicated shipping estimate alongside your quote.</p>
+                </div>
+
+                <div class="cta-action-stack">
+                    <a href="#" class="cta-action-bar cta-action-primary">
+                        <span>Message us on WhatsApp</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="9 7 17 7 17 15"></polyline>
+                        </svg>
+                    </a>
+                    <a href="projects.html" class="cta-action-bar cta-action-secondary">
+                        <span>Start a project</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="9 7 17 7 17 15"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                /* Synchronize Hero Vertical Scope Rail + Section 2 Delivery Stage Explorer */
+                const scopeItems = Array.from(document.querySelectorAll('.scope-rail-item'));
+                const scopeProgress = document.getElementById('scope-rail-progress');
+                const stageCards = Array.from(document.querySelectorAll('.manifest-card'));
+                const stageProgressFill = document.getElementById('coordinate-progress-fill');
+                const prevBtn = document.getElementById('stage-prev-btn');
+                const nextBtn = document.getElementById('stage-next-btn');
+                const deliverySection = document.getElementById('delivery-scope');
+
+                let activeStage = 0;
+
+                function setStage(idx) {
+                    activeStage = (idx + 4) % 4;
+                    scopeItems.forEach((item, i) => {
+                        item.classList.toggle('is-active', i === activeStage);
+                        item.classList.toggle('is-passed', i < activeStage);
+                    });
+                    stageCards.forEach((card, i) => {
+                        card.classList.toggle('is-active', i === activeStage);
+                    });
+                    if (scopeProgress) {
+                        scopeProgress.style.height = ((activeStage / 3) * 100) + '%';
+                    }
+                    if (stageProgressFill) {
+                        stageProgressFill.style.width = (((activeStage + 1) / 4) * 100) + '%';
+                    }
+                }
+
+                scopeItems.forEach((item, idx) => {
+                    item.addEventListener('mouseenter', () => setStage(idx));
+                    item.addEventListener('click', () => {
+                        setStage(idx);
+                        if (deliverySection) {
+                            deliverySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                });
+
+                stageCards.forEach((card, idx) => {
+                    card.addEventListener('click', () => setStage(idx));
+                    card.addEventListener('mouseenter', () => setStage(idx));
+                    card.addEventListener('focus', () => setStage(idx));
+                    card.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setStage(idx);
+                        }
+                    });
+                });
+
+                if (prevBtn) prevBtn.addEventListener('click', () => setStage(activeStage - 1));
+                if (nextBtn) nextBtn.addEventListener('click', () => setStage(activeStage + 1));
+
+                setStage(0);
+
+                /* Interactive focus highlight on Production Lead Times rows */
+                const leadRows = Array.from(document.querySelectorAll('.leadtime-row'));
+                leadRows.forEach((row, idx) => {
+                    const activate = () => leadRows.forEach((el, j) => el.classList.toggle('is-active', j === idx));
+                    row.addEventListener('mouseenter', activate);
+                    row.addEventListener('click', activate);
+                    row.addEventListener('focus', activate);
+                });
+            });
+        </script>
     </main>
 
     <!-- Footer -->

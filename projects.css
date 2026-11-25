@@ -1,386 +1,472 @@
-.eyebrow {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    margin-bottom: 8px;
+/* ==========================================================================
+   projects.css — Swiss Editorial Project Architecture
+   Cohesive alabaster, crisp white, matte black, and #ff4400 system:
+   - Two-tone asymmetric START A PROJECT hero + studio consultation frame
+   - Open hairline 01-03 project pillars split
+   - Full-bleed warm-alabaster BOQ enquiry band with directional CTA bar
+   - Clean Custom Contract Furniture split + 2-column What we tailor matrix
+   ========================================================================== */
+
+:root {
+    --proj-paper: #f5f3ef;
+    --proj-line: #e4e0d9;
+    --proj-muted: #7a736d;
 }
+
+.eyebrow,
 .eyebrow-light {
     display: block;
-    font-size: 0.75rem;
+    font-family: var(--font-family);
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--grey-mid);
-    margin-bottom: 12px;
+    letter-spacing: 0.14em;
+    color: var(--proj-muted);
+    margin-bottom: 14px;
 }
 
-/* Section Header Shared Layouts */
-.section-heading-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 32px;
-    margin-bottom: 32px;
-    border-bottom: 1px solid var(--black);
-    padding-bottom: 16px;
-}
-.heading-desc, .section-intro {
-    max-width: 480px;
-    margin-bottom: 0;
-    font-size: 0.95rem;
-    color: var(--grey-dark);
-}
-
-/* Projects Hero */
+/* ==========================================================================
+   1. FULL-WIDTH FULL-HEIGHT HERO (Matches Home Page Hero Scale)
+   ========================================================================== */
 .projects-hero {
-    margin-bottom: 64px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 48px;
-}
-.projects-hero .subtext {
-    display: block;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
-    color: var(--accent);
-}
-.projects-hero .hero-desc {
-    max-width: 720px;
-    font-size: 1.15rem;
-    line-height: 1.6;
-    color: var(--black);
-}
-.designed-around-projects {
-    margin-bottom: 80px;
-}
-.project-pillars-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border: 1px solid var(--border-color);
-    background: var(--border-color);
-    gap: 1px; /* Sharp 1px border lines between boxes */
-}
-.pillar-box {
-    background: var(--white);
-    padding: 36px 28px;
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    margin-top: -60px; /* Flush right beneath sticky navbar, matching index.css */
+    height: 90vh;
+    min-height: 560px;
+    max-height: 820px;
     display: flex;
-    flex-direction: column;
-}
-.pillar-num {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--grey-dark);
-    margin-bottom: 24px;
-    border-bottom: 1px solid var(--grey-light);
-    padding-bottom: 8px;
-}
-.pillar-box h4 {
-    font-size: 1.15rem;
-    margin-bottom: 12px;
-    color: var(--black);
-}
-.pillar-box p {
-    margin-bottom: 0;
-    font-size: 0.95rem;
-    color: var(--grey-dark);
-    line-height: 1.6;
-}
-.custom-hero-block {
+    align-items: flex-end;
+    padding: 88px 0 72px;
+    margin-bottom: 104px;
+    overflow: hidden;
     background-color: var(--black);
-    color: var(--white);
-    padding: 48px 40px;
-    margin-bottom: 64px;
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 40px;
-    align-items: center;
-    border-left: 6px solid var(--accent);
-}
-.custom-hero-content h1 {
-    color: var(--white);
-    font-size: clamp(1.75rem, 3vw, 2.4rem);
-    margin-bottom: 16px;
-}
-.custom-hero-content p {
-    color: var(--grey-mid);
-    max-width: 560px;
-    margin-bottom: 28px;
-}
-.custom-hero-materials {
-    border-left: 1px solid rgba(255, 255, 255, 0.15);
-    padding-left: 32px;
-}
-.custom-hero-materials h5 {
-    color: var(--white);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 12px;
-}
-.custom-hero-materials p {
-    color: #cccccc;
-    font-size: 0.9rem;
-    line-height: 1.8;
-    margin-bottom: 0;
 }
 
-/* Spec Process Grid (3-Step Cards) */
-.change-table {
-    margin-bottom: 80px;
+.projects-hero-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
 }
-.spec-steps-grid {
+
+.projects-hero-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(18, 16, 14, 0.88) 0%,
+        rgba(18, 16, 14, 0.52) 40%,
+        rgba(18, 16, 14, 0.14) 100%
+    );
+}
+
+.projects-hero-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+    animation: heroSubtleZoom 18s ease-out forwards;
+}
+
+@keyframes heroSubtleZoom {
+    from { transform: scale(1.05); }
+    to { transform: scale(1); }
+}
+
+.projects-hero-inner {
+    position: relative;
+    z-index: 2;
+}
+
+.projects-hero-top {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    grid-template-columns: 1.04fr 0.96fr;
+    gap: 64px;
+    align-items: end;
 }
-.spec-step-card {
-    border: 1px solid var(--border-color);
-    padding: 32px 28px;
-    background: var(--white);
-    display: flex;
-    flex-direction: column;
-}
-.spec-step-card.accent-border {
-    border-color: var(--black);
-    background: var(--grey-light);
-}
-.spec-label {
-    font-size: 0.8rem;
+
+.projects-hero-title-col .subtext {
+    display: block;
+    font-family: var(--font-family);
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.16em;
+    color: rgba(255, 255, 255, 0.78);
+    margin-bottom: 18px;
+}
+
+.projects-hero-title-col h1 {
+    font-family: var(--font-family);
+    font-size: clamp(2.8rem, 5.4vw, 4.4rem);
+    font-weight: 800;
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    margin-bottom: 0;
+}
+
+.projects-hero-title-col .hero-accent {
     color: var(--accent);
+}
+
+.projects-hero-desc-col {
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    padding-top: 22px;
+    padding-bottom: 4px;
+}
+
+.projects-hero-desc-col .hero-desc {
+    font-family: var(--font-family);
+    font-size: 1.02rem;
+    line-height: 1.68;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 0;
+    max-width: 500px;
+}
+
+/* ==========================================================================
+   2. DEVELOPED AROUND THE PROJECT — 2-Column Split + Open Hairline 01-03
+   ========================================================================== */
+.projects-designed-section {
+    margin-bottom: 112px;
+}
+
+.designed-split-grid {
+    display: grid;
+    grid-template-columns: 0.44fr 0.56fr;
+    gap: 64px;
+    align-items: start;
+}
+
+.designed-intro-col h2 {
+    font-family: var(--font-family);
+    font-size: clamp(1.8rem, 3vw, 2.45rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: 20px;
+    max-width: 360px;
+}
+
+.designed-intro-col .heading-desc {
+    font-family: var(--font-family);
+    font-size: 0.96rem;
+    line-height: 1.7;
+    color: var(--grey-dark);
+    margin-bottom: 0;
+    max-width: 420px;
+}
+
+.project-pillars-list {
+    border-top: 1px solid var(--black);
+}
+
+.pillar-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    align-items: baseline;
+    padding: 28px 16px 28px 0;
+    border-bottom: 1px solid var(--proj-line);
+    cursor: pointer;
+    transition: background-color 0.25s ease, padding-left 0.25s ease;
+}
+
+.pillar-row:hover,
+.pillar-row:focus-visible,
+.pillar-row.is-active {
+    background-color: #faf9f6;
+    padding-left: 16px;
+    outline: none;
+}
+
+.pillar-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pillar-row:hover::before,
+.pillar-row.is-active::before {
+    transform: scaleY(1);
+}
+
+.pillar-num {
+    font-family: var(--font-family);
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+}
+
+.pillar-body h4 {
+    font-family: var(--font-family);
+    font-size: 0.98rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--black);
+    margin-bottom: 8px;
+}
+
+.pillar-body p {
+    font-family: var(--font-family);
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: var(--grey-dark);
+    margin-bottom: 0;
+    max-width: 520px;
+}
+
+/* ==========================================================================
+   3. COMMERCIAL FURNITURE ENQUIRY — Warm-Alabaster Full-Bleed Split Band
+   ========================================================================== */
+.upload-project-band {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding: 96px 0;
+    margin-bottom: 112px;
+    background-color: var(--proj-paper);
+    border-top: 1px solid var(--proj-line);
+    border-bottom: 1px solid var(--proj-line);
+}
+
+.upload-split-grid {
+    display: grid;
+    grid-template-columns: 0.44fr 0.56fr;
+    gap: 64px;
+    align-items: start;
+}
+
+.upload-title-col h2 {
+    font-family: var(--font-family);
+    font-size: clamp(1.85rem, 3.1vw, 2.55rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: 0;
+    max-width: 400px;
+}
+
+.upload-action-col {
+    border-top: 1px solid var(--black);
+    padding-top: 24px;
+}
+
+.upload-action-col p {
+    font-family: var(--font-family);
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: var(--grey-dark);
+    margin-bottom: 32px;
+    max-width: 540px;
+}
+
+/* Shared Directional Action Bars (Matches Shipping Reference Grammar) */
+.project-action-bar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    padding: 20px 26px;
+    font-family: var(--font-family);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease;
+}
+
+.project-action-bar svg {
+    flex-shrink: 0;
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-action-bar:hover svg,
+.project-action-bar:focus-visible svg {
+    transform: translate(3px, -3px);
+}
+
+.project-action-primary {
+    width: 100%;
+    max-width: 460px;
+    background-color: var(--accent);
+    border: 1px solid var(--accent);
+    color: var(--white);
+}
+
+.project-action-primary:hover,
+.project-action-primary:focus-visible {
+    background-color: var(--black);
+    border-color: var(--black);
+    color: var(--white);
+    outline: none;
+}
+
+.project-action-outline {
+    min-width: 300px;
+    background-color: var(--white);
+    border: 1px solid var(--black);
+    color: var(--black);
+}
+
+.project-action-outline:hover,
+.project-action-outline:focus-visible {
+    background-color: var(--black);
+    border-color: var(--black);
+    color: var(--white);
+    outline: none;
+}
+
+/* ==========================================================================
+   4. CUSTOM CONTRACT FURNITURE + 2-COLUMN HAIRLINE MATERIAL MATRIX
+   ========================================================================== */
+.projects-custom-section {
+    margin-bottom: 96px;
+}
+
+.custom-split-grid {
+    display: grid;
+    grid-template-columns: 0.44fr 0.56fr;
+    gap: 64px;
+    align-items: start;
+}
+
+.custom-hero-content h1 {
+    font-family: var(--font-family);
+    font-size: clamp(1.8rem, 3vw, 2.45rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--black);
+    margin-bottom: 18px;
+}
+
+.custom-hero-content p {
+    font-family: var(--font-family);
+    font-size: 0.96rem;
+    line-height: 1.68;
+    color: var(--grey-dark);
+    margin-bottom: 30px;
+    max-width: 430px;
+}
+
+.custom-hero-materials h5 {
+    font-family: var(--font-family);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--black);
     margin-bottom: 16px;
 }
-.spec-step-card h4 {
-    font-size: 1.2rem;
-    margin-bottom: 12px;
-}
-.spec-step-card p {
-    margin-bottom: 0;
-    font-size: 0.95rem;
-    color: var(--grey-dark);
-}
 
-/* How It Works Section */
-.how-section {
-    margin-bottom: 80px;
-}
-.how-grid {
+.tailor-grid {
+    list-style: none;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--border-color);
-    border: 1px solid var(--border-color);
-    margin-bottom: 32px;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 36px;
+    border-top: 1px solid var(--proj-line);
 }
-.step-item {
-    background: var(--white);
-    padding: 32px 28px;
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-}
-.step-item.highlight-step {
-    background: #fffdfa;
-    border-left: 3px solid var(--accent);
-}
-.step-num {
-    flex: 0 0 36px;
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: var(--black);
-    background: var(--grey-light);
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.step-content h4 {
-    margin-bottom: 6px;
-    font-size: 1.05rem;
-}
-.step-content p {
-    margin: 0;
+
+.tailor-grid li {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--proj-line);
+    font-family: var(--font-family);
     font-size: 0.92rem;
+    font-weight: 500;
     color: var(--grey-dark);
-    line-height: 1.5;
+    transition: color 0.2s ease, border-color 0.2s ease, padding-left 0.22s ease;
 }
-.step-star {
-    color: var(--accent);
-    font-size: 0.9rem;
-}
-.guarantee-banner {
-    background-color: var(--grey-light);
-    padding: 24px 32px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 1.05rem;
-    border: 1px solid var(--black);
-    border-left: 6px solid var(--accent);
+
+.tailor-grid li:hover {
     color: var(--black);
-}
-.guarantee-banner span {
-    font-weight: 800;
-    color: var(--accent);
-    letter-spacing: 0.05em;
+    border-bottom-color: var(--accent);
+    padding-left: 6px;
 }
 
-/* Projects CTA Block */
-.projects-cta {
-    border-top: 1px solid var(--border-color);
-    padding-top: 64px;
-    margin-bottom: 80px;
-}
-.cta-box {
-    border: 1px solid var(--black);
-    padding: 48px;
-    background: var(--grey-light);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 40px;
-}
-.cta-box h2 {
-    margin-bottom: 12px;
-}
-.cta-box p {
-    max-width: 560px;
-    margin-bottom: 0;
-    color: var(--grey-dark);
-}
-
-/* Page visual placeholders (previously inline-styled fixed heights, non-responsive) */
-.projects-designed-section { padding-top: 4rem; }
-.projects-visual { width: 100%; }
-.projects-visual-hero { margin-top: 3rem; height: 450px; }
-.projects-visual-ffe { margin-bottom: 3rem; height: 350px; }
-.projects-custom-hero { padding-bottom: 4rem; }
-.projects-visual-custom { margin-bottom: 4rem; height: 500px; }
-
-/* Upload project / BOQ block (previously inline-styled, non-responsive) */
-.upload-project-block {
-    background-color: var(--grey-light);
-    padding: 5rem 2rem;
-    margin: 5rem 0;
-    text-align: center;
-}
-.upload-project-inner { max-width: 600px; margin: 0 auto; }
-.upload-project-inner h2 { margin-bottom: 1rem; }
-.upload-project-inner p { margin-bottom: 2rem; }
-.upload-project-buttons { justify-content: center; }
-
-/* Responsive adjustments */
-@media (max-width: 900px) {
-    .project-pillars-grid,
-    .spec-steps-grid {
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 960px) {
+    .projects-hero-top,
+    .designed-split-grid,
+    .upload-split-grid,
+    .custom-split-grid {
         grid-template-columns: 1fr;
+        gap: 28px;
     }
-    .custom-hero-block {
-        grid-template-columns: 1fr;
-        padding: 36px 28px;
+
+    .designed-intro-col h2,
+    .upload-title-col h2 {
+        max-width: 100%;
     }
-    .custom-hero-materials {
-        border-left: none;
-        border-top: 1px solid rgba(255, 255, 255, 0.15);
-        padding-left: 0;
-        padding-top: 24px;
-    }
-    .cta-box {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 32px 24px;
-    }
-    .projects-visual-hero { height: 320px; margin-top: 2rem; }
-    .projects-visual-ffe { height: 260px; margin-bottom: 2rem; }
-    .projects-visual-custom { height: 320px; margin-bottom: 2.5rem; }
-    .upload-project-block { padding: 3.5rem 1.5rem; margin: 3.5rem 0; }
 }
 
-@media (max-width: 768px) {
-    .how-grid {
-        grid-template-columns: 1fr;
+@media (max-width: 720px) {
+    .projects-hero {
+        height: 82vh;
+        min-height: 480px;
+        padding: 72px 0 48px;
     }
-    .section-heading-row {
-        flex-direction: column;
-        align-items: flex-start;
+
+    .projects-hero,
+    .projects-designed-section,
+    .upload-project-band {
+        margin-bottom: 80px;
+    }
+
+    .upload-project-band {
+        padding: 72px 0;
+    }
+
+    .pillar-row {
+        grid-template-columns: 32px 1fr;
         gap: 12px;
+        padding: 22px 10px 22px 0;
+    }
+
+    .tailor-grid {
+        grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 600px) {
-    .projects-hero .hero-buttons {
-        flex-direction: column;
+    .project-action-primary,
+    .project-action-outline {
+        width: 100%;
+        min-width: 0;
+        padding: 18px 20px;
     }
-    .projects-hero .hero-buttons .btn { width: 100%; text-align: center; }
-    .step-item {
-        padding: 24px 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .projects-hero-bg,
+    .pillar-row::before,
+    .project-action-bar svg {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
     }
-    .projects-visual-hero { height: 220px; margin-top: 1.5rem; }
-    .projects-visual-ffe { height: 200px; margin-bottom: 1.5rem; }
-    .projects-visual-custom { height: 220px; margin-bottom: 2rem; }
-    .upload-project-block { padding: 2.5rem 1.25rem; margin: 2.5rem 0; }
-    .upload-project-buttons .btn { width: 100%; text-align: center; }
-}
-/* ==========================================================================
-   Interactive transitions (added — hover/focus feedback only)
-   ========================================================================== */
-.pillar-box {
-    transition: background-color 0.25s ease, transform 0.25s ease;
-}
-.pillar-box:hover {
-    background-color: #fffcf9;
-    transform: translateY(-4px);
-}
-
-.spec-step-card {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.spec-step-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-}
-
-.step-item {
-    transition: background-color 0.25s ease;
-}
-.step-item:hover {
-    background-color: #fffcf9;
-}
-
-/* ==========================================================================
-   Hero ghost text — large faint background heading behind the page title
-   ========================================================================== */
-.projects-hero {
-    position: relative;
-    overflow: visible;
-    isolation: isolate;
-}
-.hero-ghost {
-    position: absolute;
-    top: -0.4em;
-    left: -0.03em;
-    z-index: -1;
-    font-size: clamp(4.5rem, 14vw, 11rem);
-    font-weight: 800;
-    line-height: 0.85;
-    letter-spacing: -0.02em;
-    color: var(--grey-light);
-    text-transform: uppercase;
-    white-space: nowrap;
-    pointer-events: none;
-    user-select: none;
-}
-.projects-visual-hero {
-    position: relative;
-    width: 100%; /* Mengubah dari 100vw menjadi 100% agar mengikuti kontainer */
-    border-radius: 0;
-    
-    /* INI TAMBAHAN UNTUK MEMANJANGKAN FOTO KE BAWAH */
-    height: 70vh !important; 
-    min-height: 550px !important; 
 }

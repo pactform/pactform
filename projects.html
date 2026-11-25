@@ -72,71 +72,132 @@
     </script>
 
 
-<main class="container">
-        <section class="page-header projects-hero">
-            <p class="subtext">PROJECT ENQUIRIES</p>
-            <h1>START A PROJECT</h1>
-            <p class="hero-desc">Share your furniture requirements, quantities, destination and project schedule. We’ll review the brief, identify the appropriate collection or custom solution and outline the next steps.</p>
-            
-            <div class="img-box projects-visual projects-visual-hero">
-                <img src="project.jpg" alt="Expansive view of a completed, premium commercial hospitality space" style="width: 100%; height: 100%; object-fit: cover;">
+<main class="projects-main">
+        <!-- 1. Full-Width Full-Height Hero (Matches Home Page Hero Scale) -->
+        <section class="projects-hero">
+            <div class="projects-hero-media">
+                <img src="project.jpg" alt="Expansive view of a completed, premium commercial hospitality space" class="projects-hero-bg" decoding="async">
+            </div>
+
+            <div class="container projects-hero-inner">
+                <div class="projects-hero-top">
+                    <div class="projects-hero-title-col">
+                        <p class="subtext">PROJECT ENQUIRIES</p>
+                        <h1>START A<br><span class="hero-accent">PROJECT</span></h1>
+                    </div>
+
+                    <div class="projects-hero-desc-col">
+                        <p class="hero-desc">Share your furniture requirements, quantities, destination and project schedule. We’ll review the brief, identify the appropriate collection or custom solution and outline the next steps.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section class="designed-around-projects projects-designed-section">
-            <div class="section-heading-row">
-                <div>
+        <!-- 2. Project Furniture: 2-Column Split with Open Hairline Numbered Rows (01 - 03) -->
+        <section class="projects-designed-section container">
+            <div class="designed-split-grid">
+                <div class="designed-intro-col">
                     <span class="eyebrow">PROJECT FURNITURE</span>
                     <h2>DEVELOPED AROUND THE PROJECT</h2>
+                    <p class="heading-desc">From individual pieces to multi-product furniture schedules, we coordinate selection, specification, custom development and production around the space, quantities and project requirements.</p>
                 </div>
-                <p class="heading-desc">From individual pieces to multi-product furniture schedules, we coordinate selection, specification, custom development and production around the space, quantities and project requirements.</p>
-            </div>
-            <div class="project-pillars-grid">
-                <div class="pillar-box">
-                    <span class="pillar-num">01</span>
-                    <h4>SPECIFIED FOR THE SETTING</h4>
-                    <p>Materials, finishes and construction details are considered around the furniture’s intended setting, function and expected use.</p>
-                </div>
-                <div class="pillar-box">
-                    <span class="pillar-num">02</span>
-                    <h4>ONE APPROVED STANDARD</h4>
-                    <p>Approved drawings, samples and finish references establish the standard used to guide production and quality control.</p>
-                </div>
-                <div class="pillar-box">
-                    <span class="pillar-num">03</span>
-                    <h4>PLANNED AROUND THE PROJECT</h4>
-                    <p>Production and delivery estimates are coordinated around approvals, quantities, destination and the required project schedule.</p>
+
+                <div class="project-pillars-list">
+                    <div class="pillar-row is-active" tabindex="0">
+                        <span class="pillar-num">01</span>
+                        <div class="pillar-body">
+                            <h4>SPECIFIED FOR THE SETTING</h4>
+                            <p>Materials, finishes and construction details are considered around the furniture’s intended setting, function and expected use.</p>
+                        </div>
+                    </div>
+
+                    <div class="pillar-row" tabindex="0">
+                        <span class="pillar-num">02</span>
+                        <div class="pillar-body">
+                            <h4>ONE APPROVED STANDARD</h4>
+                            <p>Approved drawings, samples and finish references establish the standard used to guide production and quality control.</p>
+                        </div>
+                    </div>
+
+                    <div class="pillar-row" tabindex="0">
+                        <span class="pillar-num">03</span>
+                        <div class="pillar-body">
+                            <h4>PLANNED AROUND THE PROJECT</h4>
+                            <p>Production and delivery estimates are coordinated around approvals, quantities, destination and the required project schedule.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="upload-project-block">
-            <div class="upload-project-inner">
-                <span class="eyebrow">COMMERCIAL FURNITURE ENQUIRY</span>
-                <h2>Submit Your Furniture Schedule &amp; BOQ</h2>
-                <p>Send your furniture requirements, quantities, specifications, project destination and required delivery timeline. Drawings, a Bill of Quantities and material references can be attached where available.</p>
-                <div class="hero-buttons upload-project-buttons">
-                    <a href="#upload-modal" class="btn btn-primary">REQUEST A PROJECT REVIEW</a>
+        <!-- 3. Commercial Furniture Enquiry: Full-Bleed Warm-Alabaster Split Band -->
+        <section class="upload-project-band" id="upload-modal">
+            <div class="container">
+                <div class="upload-split-grid">
+                    <div class="upload-title-col">
+                        <span class="eyebrow">COMMERCIAL FURNITURE ENQUIRY</span>
+                        <h2>Submit Your Furniture Schedule &amp; BOQ</h2>
+                    </div>
+
+                    <div class="upload-action-col">
+                        <p>Send your furniture requirements, quantities, specifications, project destination and required delivery timeline. Drawings, a Bill of Quantities and material references can be attached where available.</p>
+                        <a href="#upload-modal" class="project-action-bar project-action-primary">
+                            <span>REQUEST A PROJECT REVIEW</span>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="9 7 17 7 17 15"></polyline>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="custom-hero-block projects-custom-hero">
+        <!-- 4. Custom Contract Furniture + Clean 2-Column Material Matrix -->
+        <section class="projects-custom-section container">
+            <div class="custom-split-grid">
+                <div class="custom-hero-content">
+                    <span class="eyebrow-light">CUSTOM CONTRACT FURNITURE</span>
+                    <h1>Sometimes the perfect piece doesn't exist yet.</h1>
+                    <p>Adapt a Pactform design or develop an original piece around your space, quantities and project requirements.</p>
+                    <a href="custom.html" class="project-action-bar project-action-outline">
+                        <span>EXPLORE CUSTOM FURNITURE</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="9 7 17 7 17 15"></polyline>
+                        </svg>
+                    </a>
+                </div>
 
-            <div class="custom-hero-content">
-                <span class="eyebrow-light">CUSTOM CONTRACT FURNITURE</span>
-                <h1>Sometimes the perfect piece doesn't exist yet.</h1>
-                <p>Adapt a Pactform design or develop an original piece around your space, quantities and project requirements.</p>
-                <div class="hero-buttons">
-                    <a href="custom.html" class="btn btn-primary">EXPLORE CUSTOM FURNITURE</a>
+                <div class="custom-hero-materials">
+                    <h5>What we tailor:</h5>
+                    <ul class="tailor-grid">
+                        <li>Upholstery fabrics</li>
+                        <li>Genuine leather</li>
+                        <li>Performance textiles</li>
+                        <li>Timber species</li>
+                        <li>Wood stains</li>
+                        <li>Powder-coated metal finishes</li>
+                        <li>Stone tops</li>
+                        <li>High-pressure laminates</li>
+                        <li>Exact dimensions</li>
+                        <li>Custom branding</li>
+                    </ul>
                 </div>
             </div>
-            
-            <div class="custom-hero-materials">
-                <h5>What we tailor:</h5>
-                <p>Upholstery fabrics &bull; Genuine leather &bull; Performance textiles &bull; Timber species &bull; Wood stains &bull; Powder-coated metal finishes &bull; Stone tops &bull; High-pressure laminates &bull; Exact dimensions &bull; Custom branding</p>
-            </div>
         </section>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const pillarRows = Array.from(document.querySelectorAll('.pillar-row'));
+                pillarRows.forEach((row, idx) => {
+                    const activate = () => pillarRows.forEach((el, j) => el.classList.toggle('is-active', j === idx));
+                    row.addEventListener('mouseenter', activate);
+                    row.addEventListener('click', activate);
+                    row.addEventListener('focus', activate);
+                });
+            });
+        </script>
     </main>
 
     <!-- Footer -->

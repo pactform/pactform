@@ -65,9 +65,66 @@
         targets.forEach(function (el) { observer.observe(el); });
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
+    function initSmartFloatingActions() {
+        var fabs = Array.prototype.slice.call(document.querySelectorAll('.whatsapp-sticky, .updates-sticky'));
+        if (!fabs.length) return;
+
+        var footer = document.querySelector('footer');
+        var mainNav = document.getElementById('main-nav');
+        var listModal = document.getElementById('list-modal');
+        var footerInView = false;
+        var ticking = false;
+
+        function updateFabVisibility() {
+            ticking = false;
+            var maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+            var showThreshold = Math.min(220, Math.round(maxScroll * 0.22));
+            var nearTop = window.scrollY < showThreshold;
+            var navOpen = !!(mainNav && mainNav.classList.contains('open'));
+            var drawerOpen = !!(listModal && !listModal.classList.contains('hidden'));
+            var shouldHide = nearTop || footerInView || navOpen || drawerOpen;
+
+            fabs.forEach(function (el) {
+                el.classList.toggle('sticky-fab-hidden', shouldHide);
+            });
+        }
+
+        function requestUpdate() {
+            if (!ticking) {
+                ticking = true;
+                window.requestAnimationFrame(updateFabVisibility);
+            }
+        }
+
+        if (footer && 'IntersectionObserver' in window) {
+            var footerObs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    footerInView = entry.isIntersecting;
+                });
+                requestUpdate();
+            }, { threshold: 0.08 });
+            footerObs.observe(footer);
+        }
+
+        if (typeof MutationObserver !== 'undefined') {
+            var stateObs = new MutationObserver(requestUpdate);
+            if (mainNav) stateObs.observe(mainNav, { attributes: true, attributeFilter: ['class'] });
+            if (listModal) stateObs.observe(listModal, { attributes: true, attributeFilter: ['class'] });
+        }
+
+        window.addEventListener('scroll', requestUpdate, { passive: true });
+        window.addEventListener('resize', requestUpdate);
+        updateFabVisibility();
+    }
+
+    function boot() {
         init();
+        initSmartFloatingActions();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
     }
 })();
