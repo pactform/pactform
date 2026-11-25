@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pactform - Product</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="product.css">
+    <link rel="stylesheet" href="preloader.css?v=3.0">
+    <link rel="stylesheet" href="scroll-reveal.css">
+</head>
+<body class="product-detail-page">
+
+    <div class="site-preloader" id="site-preloader">
+        <div class="preloader-logo-wrap">
+            <img class="preloader-logo-full" src="Logo Pactform.png" alt="Pactform">
+        </div>
+    </div>
+    <script src="preloader.js"></script>
+
+    <header>
+        <div class="container header-inner">
+            <div class="logo"><a href="index.html"><img src="Logo Pactform.png" alt="Pactform" class="logo-img"></a></div>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="collection.html" class="active-link">collections</a></li>
+                    <li><a href="custom.html">custom</a></li>
+                    <li><a href="shipping.html">shipping</a></li>
+                    <li><a href="projects.html">projects</a></li>
+                    <li class="nav-list-item"><button class="btn btn-primary" id="toggle-list-btn-mobile">Your list</button></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="btn btn-secondary" id="toggle-list-btn">Your list</button>
+            </div>
+        </div>
+    </header>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+        <span></span><span></span><span></span>
+    </button>
+    <div class="nav-overlay hidden" id="nav-overlay"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navToggle = document.getElementById('nav-toggle');
+            const mainNav = document.getElementById('main-nav');
+            const navOverlay = document.getElementById('nav-overlay');
+            if (!navToggle || !mainNav || !navOverlay) return;
+            function openNav() {
+                mainNav.classList.add('open');
+                navToggle.classList.add('open');
+                navToggle.setAttribute('aria-expanded', 'true');
+                navOverlay.classList.remove('hidden');
+                requestAnimationFrame(() => navOverlay.classList.add('visible'));
+            }
+            window.__pactformCloseNav = null;
+            function closeNav() {
+                mainNav.classList.remove('open');
+                navToggle.classList.remove('open');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navOverlay.classList.remove('visible');
+                setTimeout(() => navOverlay.classList.add('hidden'), 300);
+            }
+            window.__pactformCloseNav = closeNav;
+            navToggle.addEventListener('click', () => mainNav.classList.contains('open') ? closeNav() : openNav());
+            navOverlay.addEventListener('click', closeNav);
+            mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+            window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNav(); });
+        });
+    </script>
+
+    <main>
+        <!-- Breadcrumb & Back Navigation -->
+        <div class="prod-topbar">
+            <div class="container prod-topbar-inner">
+                <nav class="prod-breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span class="prod-breadcrumb-sep" aria-hidden="true">/</span>
+                    <a href="collection.html">Collections</a>
+                    <span class="prod-breadcrumb-sep" id="bc-cat-sep" aria-hidden="true">/</span>
+                    <a href="collection.html" id="bc-category-link">Category</a>
+                    <span class="prod-breadcrumb-sep" aria-hidden="true">/</span>
+                    <span class="prod-breadcrumb-current" id="bc-product-name">Product</span>
+                </nav>
+                <a href="collection.html" class="prod-back-link" id="back-to-category">&larr; Back</a>
+            </div>
+        </div>
+
+        <!-- Product Showroom -->
+        <section class="prod-showroom-band" id="product-showroom">
+            <div class="container">
+                <div class="prod-showroom-grid">
+                    <!-- Left: Gallery + Available Angles -->
+                    <div class="prod-gallery-col">
+                        <div class="prod-gallery-stage" id="gallery-stage">
+                            <img class="prod-gallery-img" id="gallery-main-img" src="" alt="">
+                            <div class="prod-gallery-placeholder hidden" id="gallery-placeholder">Photo coming soon</div>
+                            <button type="button" class="prod-gallery-arrow prod-gallery-prev" id="gallery-prev" aria-label="Previous angle">&lsaquo;</button>
+                            <button type="button" class="prod-gallery-arrow prod-gallery-next" id="gallery-next" aria-label="Next angle">&rsaquo;</button>
+                        </div>
+
+                        <div class="prod-gallery-meta">
+                            <p class="prod-gallery-caption" id="gallery-caption"></p>
+                            <span class="prod-gallery-counter" id="gallery-counter"></span>
+                        </div>
+
+                        <div class="prod-thumbs-grid" id="gallery-thumbs" role="tablist" aria-label="Product angles"></div>
+                    </div>
+
+                    <!-- Right: Product Info, Specs & Enquiry -->
+                    <div class="prod-details-col">
+                        <div class="prod-eyebrow-row">
+                            <span class="prod-ref-id" id="product-id-label"></span>
+                            <span class="prod-location-tag" id="product-location-label"></span>
+                        </div>
+
+                        <h1 class="prod-title" id="product-name"></h1>
+                        <p class="prod-desc hidden" id="product-desc"></p>
+                        <div class="prod-tags-row" id="product-tags"></div>
+
+                        <dl class="prod-spec-list">
+                            <div class="prod-spec-row">
+                                <dt class="prod-spec-label">Product ID</dt>
+                                <dd class="prod-spec-value" id="spec-id"></dd>
+                            </div>
+                            <div class="prod-spec-row">
+                                <dt class="prod-spec-label">Rough dimensions</dt>
+                                <dd class="prod-spec-value" id="spec-dims"></dd>
+                            </div>
+                            <div class="prod-spec-row">
+                                <dt class="prod-spec-label">Materials</dt>
+                                <dd class="prod-spec-value" id="spec-materials"></dd>
+                            </div>
+                            <div class="prod-spec-row">
+                                <dt class="prod-spec-label">Good for</dt>
+                                <dd class="prod-spec-value" id="spec-goodfor"></dd>
+                            </div>
+                        </dl>
+
+                        <div class="prod-actions">
+                            <button type="button" class="btn btn-primary" id="add-to-list-btn">Add to list</button>
+                            <a href="#" class="btn btn-secondary" id="ask-piece-btn" target="_blank" rel="noopener noreferrer">Ask about this piece</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Not Found Fallback -->
+        <section class="prod-not-found container hidden" id="product-not-found">
+            <h1>Piece not found</h1>
+            <p>We could not find the requested furniture piece in our catalogue.</p>
+            <a href="collection.html" class="btn btn-primary">Return to Collections</a>
+        </section>
+
+        <!-- Related Pieces in Same Category -->
+        <section class="prod-related-band hidden" id="related-section" aria-labelledby="related-heading">
+            <div class="container">
+                <div class="prod-related-head">
+                    <h2 class="prod-related-title" id="related-heading">More from this category</h2>
+                    <a href="collection.html" class="prod-related-all" id="related-view-all">View all &rarr;</a>
+                </div>
+                <div class="prod-related-grid" id="related-grid"></div>
+            </div>
+        </section>
+
+        <!-- Custom Work CTA: preserved existing copywriting -->
+        <section class="prod-custom-band" aria-labelledby="prod-custom-heading">
+            <div class="container">
+                <div class="prod-custom-grid">
+                    <h2 class="prod-custom-heading" id="prod-custom-heading">Sometimes the perfect piece doesn't exist yet</h2>
+                    <div>
+                        <p class="prod-custom-body">Found a chair online? Saved an Instagram post? Spotted a hotel lobby while travelling? Take a screenshot and send it over.</p>
+                        <div class="prod-custom-actions">
+                            <a href="custom.html" class="btn btn-primary">Show me custom work</a>
+                            <a href="projects.html" class="btn btn-secondary">Start a project</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <img loading="lazy" decoding="async" src="Logo Pactform.png" alt="Pactform" class="logo-img footer-logo-img">
+                <p>International contract furniture for restaurants, hotels, workplaces and commercial interiors.</p>
+                <p class="footer-sub">Produced through selected international manufacturing partners under our specifications and quality controls.</p>
+            </div>
+
+            <div class="footer-col">
+                <h5>Company</h5>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="collection.html">Collections</a></li>
+                    <li><a href="custom.html">Custom</a></li>
+                    <li><a href="shipping.html">Shipping</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                </ul>
+            </div>
+
+
+            <div class="footer-col footer-contact">
+                <h5>Get in touch</h5>
+                <p class="footer-sub">Whether you're collecting ideas or ready to order, we'd like to hear about your project.</p>
+                <a href="#" class="btn btn-primary">Contact Sales</a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Pactform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <a href="#" class="updates-sticky" aria-label="Get Product Updates">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span>Get Product Updates</span>
+    </a>
+
+    <a href="https://wa.me/62xxxxxxxxxx" class="whatsapp-sticky" aria-label="Chat on WhatsApp" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="34" height="34" fill="currentColor">
+            <path d="M476.9 161.1C435 119.1 379.2 96 319.9 96C197.5 96 97.9 195.6 97.9 318C97.9 357.1 108.1 395.3 127.5 429L96 544L213.7 513.1C246.1 530.8 282.6 540.1 319.8 540.1L319.9 540.1C442.2 540.1 544 440.5 544 318.1C544 258.8 518.8 203.1 476.9 161.1zM319.9 502.7C286.7 502.7 254.2 493.8 225.9 477L219.2 473L149.4 491.3L168 423.2L163.6 416.2C145.1 386.8 135.4 352.9 135.4 318C135.4 216.3 218.2 133.5 320 133.5C369.3 133.5 415.6 152.7 450.4 187.6C485.2 222.5 506.6 268.8 506.5 318.1C506.5 419.9 421.6 502.7 319.9 502.7zM421.1 364.5C415.6 361.7 388.3 348.3 383.2 346.5C378.1 344.6 374.4 343.7 370.7 349.3C367 354.9 356.4 367.3 353.1 371.1C349.9 374.8 346.6 375.3 341.1 372.5C308.5 356.2 287.1 343.4 265.6 306.5C259.9 296.7 271.3 297.4 281.9 276.2C283.7 272.5 282.8 269.3 281.4 266.5C280 263.7 268.9 236.4 264.3 225.3C259.8 214.5 255.2 216 251.8 215.8C248.6 215.6 244.9 215.6 241.2 215.6C237.5 215.6 231.5 217 226.4 222.5C221.3 228.1 207 241.5 207 268.8C207 296.1 226.9 322.5 229.6 326.2C232.4 329.9 268.7 385.9 324.4 410C359.6 425.2 373.4 426.5 391 423.9C401.7 422.3 423.8 410.5 428.4 397.5C433 384.5 433 373.4 431.6 371.1C430.3 368.6 426.6 367.2 421.1 364.5z"/>
+        </svg>
+    </a>
+
+    <div class="drawer-overlay hidden" id="drawer-overlay"></div>
+    <div class="your-list-modal hidden" id="list-modal">
+        <div class="modal-header">
+            <h3>Your list</h3>
+            <button class="close-btn" id="close-modal-btn" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="list-items" id="list-items"></div>
+        </div>
+        <div class="modal-actions">
+            <a href="#" class="btn btn-primary">Send to WhatsApp</a>
+            <button class="btn btn-secondary">Download PDF</button>
+            <button class="btn btn-secondary" id="copy-link-btn">Copy share link</button>
+        </div>
+    </div>
+
+    <script src="catalog-content.js"></script>
+    <script src="catalog-data.js"></script>
+    <script src="your-list.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const catalog = window.PactformCatalog;
+            const listApi = window.PactformList;
+            if (!catalog) return;
+
+            const RESTORE_FLAG = 'pactform-restore-category';
+            const params = new URLSearchParams(window.location.search);
+            const rawId = params.get('id') || params.get('product') || params.get('slug') || '';
+            const fromParam = params.get('from') || '';
+
+            const product = catalog.getProduct(rawId);
+
+            const showroomEl = document.getElementById('product-showroom');
+            const notFoundEl = document.getElementById('product-not-found');
+            const relatedSection = document.getElementById('related-section');
+
+            if (!product) {
+                showroomEl.classList.add('hidden');
+                notFoundEl.classList.remove('hidden');
+                return;
+            }
+
+            function escapeHtml(str) {
+                return String(str || '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;');
+            }
+
+            // Resolve category context for breadcrumb & Back navigation
+            const activeCategory = catalog.getPrimaryCategoryForProduct(product, fromParam);
+            const catUrl = activeCategory ? 'category.html?type=' + encodeURIComponent(activeCategory.slug) : 'collection.html';
+
+            document.title = 'Pactform - ' + product.name;
+
+            const bcCatLink = document.getElementById('bc-category-link');
+            const bcCatSep = document.getElementById('bc-cat-sep');
+            const bcProdName = document.getElementById('bc-product-name');
+            const backLink = document.getElementById('back-to-category');
+
+            if (activeCategory) {
+                bcCatLink.textContent = activeCategory.name;
+                bcCatLink.href = catUrl;
+                backLink.innerHTML = '&larr; Back to ' + escapeHtml(activeCategory.name);
+                backLink.href = catUrl;
+            } else {
+                bcCatLink.classList.add('hidden');
+                bcCatSep.classList.add('hidden');
+                backLink.innerHTML = '&larr; Back to Collections';
+                backLink.href = 'collection.html';
+            }
+            bcProdName.textContent = product.name;
+
+            // Ensure returning to category listing restores exact category, filters, search, count, and scroll position
+            function handleReturnToCategory(e) {
+                try { sessionStorage.setItem(RESTORE_FLAG, '1'); } catch (err) {}
+                let cameFromSameCategory = false;
+                try {
+                    if (document.referrer) {
+                        const refUrl = new URL(document.referrer);
+                        const refType = refUrl.searchParams.get('type') || refUrl.searchParams.get('category');
+                        const isCatPage = /\/category(\.html)?\/?$/.test(refUrl.pathname);
+                        if (isCatPage && activeCategory && catalog.resolveCategorySlug(refType) === activeCategory.slug) {
+                            cameFromSameCategory = true;
+                        }
+                    }
+                } catch (err) {}
+
+                if (cameFromSameCategory && history.length > 1) {
+                    e.preventDefault();
+                    history.back();
+                }
+            }
+            backLink.addEventListener('click', handleReturnToCategory);
+            bcCatLink.addEventListener('click', handleReturnToCategory);
+
+            // Populate Product Specs & Metadata
+            document.getElementById('product-id-label').textContent = 'REF. ' + (product.code || product.id);
+            document.getElementById('product-location-label').textContent = product.location || '';
+            document.getElementById('product-name').textContent = product.name;
+
+            const descEl = document.getElementById('product-desc');
+            if (product.desc && !/^Lorem ipsum/i.test(product.desc.trim())) {
+                descEl.textContent = product.desc;
+                descEl.classList.remove('hidden');
+            }
+
+            const tagsEl = document.getElementById('product-tags');
+            const cleanTags = Array.from(new Set([]
+                .concat(product.materials || [])
+                .concat(product.styles || [])
+                .concat(product.features || [])
+            )).filter(Boolean);
+            tagsEl.innerHTML = cleanTags.map(t => '<span class="prod-tag">' + escapeHtml(t) + '</span>').join('');
+            if (!cleanTags.length) tagsEl.classList.add('hidden');
+
+            document.getElementById('spec-id').textContent = product.id + (product.code && product.code !== product.id ? ' (' + product.code + ')' : '');
+            document.getElementById('spec-dims').textContent = product.dims || 'Available on enquiry';
+            document.getElementById('spec-materials').textContent = product.materialsText || (product.materials || []).join(', ') || 'Available on enquiry';
+            document.getElementById('spec-goodfor').textContent = product.goodFor || 'Commercial & hospitality interiors';
+
+            // Ask about this piece (pre-filled WhatsApp enquiry with Product Name & ID)
+            const askBtn = document.getElementById('ask-piece-btn');
+            const waNum = (window.PACTFORM_WA_NUMBER && String(window.PACTFORM_WA_NUMBER).trim()) || '62xxxxxxxxxx';
+            const askMsg = 'Hi Pactform, I would like to ask about ' + product.name + ' (ID: ' + product.id + ').';
+            askBtn.href = 'https://wa.me/' + encodeURIComponent(waNum) + '?text=' + encodeURIComponent(askMsg);
+
+            // Add to List integration (persistent across pages via PactformList)
+            const addBtn = document.getElementById('add-to-list-btn');
+            function syncAddBtn() {
+                if (!listApi) return;
+                const saved = listApi.hasItem(product.id);
+                addBtn.textContent = saved ? 'In your list \u2713' : 'Add to list';
+                addBtn.setAttribute('aria-pressed', saved ? 'true' : 'false');
+            }
+            syncAddBtn();
+            if (listApi) listApi.subscribe(syncAddBtn);
+
+            addBtn.addEventListener('click', () => {
+                if (!listApi) return;
+                if (listApi.hasItem(product.id)) {
+                    listApi.openDrawer();
+                } else {
+                    listApi.addItem({
+                        id: product.id,
+                        name: product.name,
+                        meta: product.materialsText || product.goodFor || '',
+                        href: 'product.html?id=' + encodeURIComponent(product.id) + (activeCategory ? '&from=' + encodeURIComponent(activeCategory.slug) : '')
+                    }, { openDrawer: true });
+                }
+            });
+
+            // --- Interactive Multi-Angle Gallery ---
+            const slides = catalog.buildProductSlides(product);
+            let currentSlide = 0;
+
+            const mainImg = document.getElementById('gallery-main-img');
+            const placeholderEl = document.getElementById('gallery-placeholder');
+            const prevBtn = document.getElementById('gallery-prev');
+            const nextBtn = document.getElementById('gallery-next');
+            const captionEl = document.getElementById('gallery-caption');
+            const counterEl = document.getElementById('gallery-counter');
+            const thumbsEl = document.getElementById('gallery-thumbs');
+
+            function showSlide(index) {
+                if (!slides.length) return;
+                currentSlide = ((index % slides.length) + slides.length) % slides.length;
+                const slide = slides[currentSlide];
+
+                mainImg.classList.remove('hidden');
+                placeholderEl.classList.add('hidden');
+                mainImg.src = slide.img;
+                mainImg.alt = product.name + ' — angle ' + (currentSlide + 1);
+                captionEl.textContent = slide.caption || '';
+                counterEl.textContent = String(currentSlide + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+
+                thumbsEl.querySelectorAll('.prod-thumb-btn').forEach((btn, i) => {
+                    const active = i === currentSlide;
+                    btn.classList.toggle('is-active', active);
+                    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+                });
+            }
+
+            mainImg.addEventListener('error', () => {
+                mainImg.classList.add('hidden');
+                placeholderEl.classList.remove('hidden');
+            });
+
+            if (slides.length === 0) {
+                mainImg.classList.add('hidden');
+                placeholderEl.classList.remove('hidden');
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+                captionEl.textContent = 'Photography coming soon.';
+                counterEl.textContent = '';
+                thumbsEl.classList.add('hidden');
+            } else {
+                if (slides.length === 1) {
+                    prevBtn.classList.add('hidden');
+                    nextBtn.classList.add('hidden');
+                    thumbsEl.classList.add('hidden');
+                } else {
+                    thumbsEl.innerHTML = slides.map((s, i) =>
+                        '<button type="button" class="prod-thumb-btn' + (i === 0 ? ' is-active' : '') + '" role="tab" aria-selected="' + (i === 0 ? 'true' : 'false') + '" aria-label="View angle ' + (i + 1) + '" data-slide="' + i + '">' +
+                            '<img src="' + escapeHtml(s.img) + '" alt="" loading="lazy" decoding="async">' +
+                        '</button>'
+                    ).join('');
+
+                    thumbsEl.addEventListener('click', (e) => {
+                        const btn = e.target.closest('.prod-thumb-btn');
+                        if (!btn) return;
+                        showSlide(Number(btn.dataset.slide));
+                    });
+
+                    prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+                    nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+
+                    window.addEventListener('keydown', (e) => {
+                        if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+                        if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
+                        if (e.key === 'ArrowRight') showSlide(currentSlide + 1);
+                    });
+                }
+                showSlide(0);
+            }
+
+            // --- Related Pieces from Same Category ---
+            if (activeCategory) {
+                const siblings = catalog.getProductsForCategory(activeCategory.slug)
+                    .filter(p => p.id !== product.id && p.hasPhotos)
+                    .slice(0, 4);
+
+                if (siblings.length > 0) {
+                    relatedSection.classList.remove('hidden');
+                    document.getElementById('related-heading').textContent = 'More in ' + activeCategory.name;
+                    const viewAll = document.getElementById('related-view-all');
+                    viewAll.textContent = 'View all ' + activeCategory.name + ' \u2192';
+                    viewAll.href = catUrl;
+
+                    const relGrid = document.getElementById('related-grid');
+                    relGrid.innerHTML = siblings.map(s => {
+                        const sHref = 'product.html?id=' + encodeURIComponent(s.id) + '&from=' + encodeURIComponent(activeCategory.slug);
+                        const meta = [s.location, (s.materials || [])[0]].filter(Boolean).join(' \u00B7 ');
+                        return '<a href="' + sHref + '" class="prod-related-card">' +
+                            '<div class="prod-related-media"><img src="' + escapeHtml(s.images[0]) + '" alt="' + escapeHtml(s.name) + '" loading="lazy" decoding="async"></div>' +
+                            '<h3 class="prod-related-name">' + escapeHtml(s.name) + '</h3>' +
+                            (meta ? '<p class="prod-related-meta">' + escapeHtml(meta) + '</p>' : '') +
+                        '</a>';
+                    }).join('');
+                }
+            }
+        });
+    </script>
+    <script src="scroll-reveal.js"></script>
+</body>
+</html>

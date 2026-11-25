@@ -270,6 +270,7 @@
         </div>
     </div>
 
+    <script src="site-content.js"></script>
     <!-- Scripts -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -321,8 +322,8 @@
                 }).catch(() => {});
             });
 
-            // Carousel Logic
-            const carouselData = [
+            // Carousel Logic (supports Admin overrides via site-content.js / draft preview)
+            const defaultCarouselData = [
                 {
                     title: "International Furniture for Hospitality & Commercial Spaces",
                     mobileTitle: "Furniture for hospitality & commercial spaces.",
@@ -381,6 +382,18 @@
                     btn2Link: "projects.html"
                 },
             ];
+
+            let carouselData = defaultCarouselData;
+            try {
+                let siteContent = window.PACTFORM_SITE_CONTENT || null;
+                if (localStorage.getItem('pactform-admin-preview') === '1') {
+                    const draft = JSON.parse(localStorage.getItem('pactform-admin-site-draft') || 'null');
+                    if (draft) siteContent = draft;
+                }
+                if (siteContent && Array.isArray(siteContent.homeSlides) && siteContent.homeSlides.length > 0) {
+                    carouselData = siteContent.homeSlides;
+                }
+            } catch (e) {}
 
             let currentSlide = 0;
             const titleEl = document.getElementById('carousel-title');
@@ -516,6 +529,8 @@
     <!-- ... kode modal dan lainnya ... -->
 
     <!-- Interactive Floating Collection Explorer -->
+    <script src="catalog-content.js"></script>
+    <script src="catalog-data.js"></script>
     <script src="floating-collection.js"></script>
 </body>
 </html>

@@ -418,3 +418,220 @@ header:has(nav#main-nav.open) {
 .remove-item-btn:hover svg {
     transform: scale(1.15);
 }
+
+/* ==========================================================================
+   Get Product Updates Modal (Shared across all pages via product-updates.js)
+   ========================================================================== */
+.updates-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 26, 0.48);
+    z-index: 240;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.24s ease;
+}
+
+.updates-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.updates-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -48%);
+    width: min(500px, calc(100vw - 32px));
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    background: var(--white);
+    border: 1px solid #d8d3ca;
+    border-top: 4px solid var(--accent);
+    z-index: 250;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.24s ease, transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.updates-modal.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+}
+
+.updates-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid #e5e0d8;
+    background: #f5f3ef;
+}
+
+.updates-eyebrow {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+}
+
+.updates-modal-header h3 {
+    font-size: 1.25rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin: 0;
+}
+
+.updates-modal-body {
+    padding: 24px 28px 28px;
+}
+
+.updates-intro {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--grey-dark);
+    margin: 0 0 22px;
+}
+
+.updates-field {
+    margin-bottom: 18px;
+}
+
+.updates-field label {
+    display: block;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--black);
+    margin-bottom: 8px;
+}
+
+.updates-req {
+    color: var(--accent);
+}
+
+.updates-opt {
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+    color: #7c766e;
+}
+
+.updates-field input {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 0.92rem;
+    color: var(--black);
+    background: var(--white);
+    border: 1px solid #c8c2b8;
+    outline: none;
+    transition: border-color 0.18s ease;
+}
+
+.updates-field input:focus {
+    border-color: var(--black);
+}
+
+.updates-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.updates-chip {
+    padding: 7px 12px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--black);
+    background: #f5f3ef;
+    border: 1px solid #d5cfc6;
+    cursor: pointer;
+    transition: background-color 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+}
+
+.updates-chip:hover {
+    border-color: var(--black);
+}
+
+.updates-chip.is-active {
+    background: var(--black);
+    border-color: var(--black);
+    color: var(--white);
+}
+
+.updates-feedback {
+    font-size: 0.84rem;
+    line-height: 1.45;
+    margin: 0 0 16px;
+}
+
+.updates-feedback.is-error {
+    color: #c62828;
+}
+
+.updates-actions {
+    margin-top: 22px;
+}
+
+.updates-submit-btn {
+    width: 100%;
+}
+
+.updates-submit-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.updates-success {
+    padding: 16px 0 4px;
+}
+
+.updates-success-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--accent);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.updates-success h4 {
+    font-size: 1.15rem;
+    color: var(--black);
+    margin: 0 0 8px;
+}
+
+.updates-success p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--grey-dark);
+    margin: 0 0 22px;
+}
+
+body.updates-modal-open .whatsapp-sticky,
+body.updates-modal-open .updates-sticky {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+@media (max-width: 600px) {
+    .updates-modal-header {
+        padding: 20px 20px 16px;
+    }
+    .updates-modal-body {
+        padding: 20px;
+    }
+}

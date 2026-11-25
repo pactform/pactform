@@ -1,573 +1,566 @@
-/* collection.css */
-.collection-section { margin-bottom: 80px; }
-.section-intro { color: var(--grey-dark); max-width: 700px; margin-bottom: 24px; }
-
-.category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px; }
-
-.category-card { display: block; text-decoration: none; color: inherit; }
-.category-card h4 { margin-bottom: 4px; }
-.category-count { margin: 0; font-size: 0.85rem; color: var(--grey-dark); }
-
-.category-card.full-width { grid-column: 1 / -1; }
-
-.category-photo { height: 180px; margin-bottom: 12px; position: relative; overflow: hidden; }
-.category-card.full-width .category-photo { height: 140px; }
-
-/* Rotation frames: stacked and crossfaded, so the outer box/label/link stay fixed */
-.rotate-img { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
-.rotate-img.active { opacity: 1; }
-
-@media (max-width: 900px) {
-    .category-grid { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 600px) {
-    .category-grid { grid-template-columns: 1fr; }
-}
-
 /* ==========================================================================
-   Interactive transitions (added — hover/focus feedback only)
+   collection.css
+   Main Collections Directory — Architectural Swiss-editorial layout.
+   Zero gradients, zero rounded cards, sharp edges, generous intentional space.
+   Sections: 01 Browse by Space | 02 Chairs | 03 Tables | 04 Storage
    ========================================================================== */
-.category-card {
+
+:root {
+    --col-surface-white: #ffffff;
+    --col-surface-warm: #f5f3ef;
+    --col-ink: #1a1a1a;
+    --col-ink-muted: #5a554f;
+    --col-hairline: #e2ddd5;
+    --col-hairline-strong: #c8c2b8;
+}
+
+html:has(body.collections-directory-page),
+body.collections-directory-page {
+    overflow-x: clip;
+}
+
+body.collections-directory-page header {
+    margin-bottom: 0;
+}
+
+body.collections-directory-page footer {
+    margin-top: 0;
+}
+
+/* Keep directory headings and category labels crisp on instant navigation */
+body.collections-directory-page .col-intro-band .scroll-reveal,
+body.collections-directory-page .col-band .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* ---------- Editorial Page Header Band ---------- */
+.col-intro-band {
+    background-color: var(--col-surface-white);
+    padding: clamp(44px, 6vw, 84px) 0 clamp(36px, 5vw, 60px);
+    border-bottom: 1px solid var(--col-hairline);
+}
+
+.col-intro-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px 48px;
+}
+
+.col-intro-title {
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+    color: var(--col-ink);
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.col-intro-nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px 26px;
+    padding-bottom: 6px;
+}
+
+.col-jump-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--col-ink);
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--col-hairline-strong);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.col-jump-link:hover,
+.col-jump-link:focus-visible {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    outline: none;
+}
+
+.col-jump-arrow {
+    font-size: 0.88rem;
     transition: transform 0.25s ease;
 }
-.category-card:hover {
-    transform: translateY(-4px);
-}
-.category-photo {
-    transition: box-shadow 0.25s ease;
-}
-.category-card:hover .category-photo {
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
-}
-/* ==========================================================================
-   Collection Toolbar (Filter & Search Keywords)
-   ========================================================================== */
-.collection-toolbar {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 32px;
-    align-items: center;
+
+.col-jump-link:hover .col-jump-arrow {
+    transform: translateY(3px);
 }
 
-.collection-filter-btn {
-    min-width: 140px;
-    text-align: center;
-    background-color: var(--white);
-    border: 1px solid var(--accent);
-    color: var(--black);
-    font-weight: 600;
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-}
-.collection-filter-btn:hover {
-    background-color: var(--accent);
-    color: var(--white);
-    transform: translateY(-2px);
+/* ---------- Shared Section Bands ---------- */
+.col-band {
+    padding: clamp(52px, 6.5vw, 96px) 0;
 }
 
-.collection-search-wrap {
-    flex-grow: 1;
+.col-band-warm {
+    background-color: var(--col-surface-warm);
+    border-bottom: 1px solid var(--col-hairline);
 }
 
-.collection-search-input {
-    width: 100%;
-    padding: 12px 16px;
-    background-color: var(--white);
-    border: 1px solid var(--accent);
-    color: var(--black);
-    font-family: inherit;
-    font-size: 0.9rem;
-    outline: none;
-    box-sizing: border-box;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+.col-band-white {
+    background-color: var(--col-surface-white);
+    border-bottom: 1px solid var(--col-hairline);
 }
 
-.collection-search-input:focus {
-    border-color: var(--black);
-    box-shadow: 0 0 0 3px rgba(197, 54, 2, 0.15);
-}
-
-.collection-search-input::placeholder {
-    color: var(--black);
-    font-weight: 600;
-    letter-spacing: 0.05em;
-}
-
-@media (max-width: 600px) {
-    .collection-toolbar {
-        flex-direction: column;
-        align-items: stretch;
-    }
-}
-/* ==========================================================================
-   Floating Filter Menu Styling
-   ========================================================================== */
-.filter-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 998;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-.filter-overlay.visible {
-    opacity: 1;
-    visibility: visible;
-}
-
-.floating-filter-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.95);
-    background-color: var(--white);
-    width: 90%;
-    max-width: 680px;
-    max-height: 85vh;
-    overflow-y: auto;
-    z-index: 999;
-    padding: 32px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    border-radius: 0; /* Menjaga konsistensi gaya tajam */
-}
-
-.floating-filter-modal:not(.hidden) {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, -50%) scale(1);
-}
-
-.filter-modal-header {
+.col-section-head {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 12px;
-}
-.filter-modal-header h3 {
-    margin: 0;
-    font-size: 1.25rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    align-items: baseline;
+    gap: 20px;
+    padding-bottom: 22px;
+    margin-bottom: clamp(28px, 4vw, 48px);
+    border-bottom: 1px solid var(--col-hairline);
 }
 
-.filter-group {
-    margin-bottom: 20px;
-}
-.filter-group label {
-    display: block;
-    font-size: 0.75rem;
+.col-section-eyebrow {
+    font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--grey-dark);
-    margin-bottom: 10px;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
 }
 
-.filter-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+.col-section-heading {
+    font-size: clamp(1.5rem, 2.5vw, 2.15rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.12;
+    color: var(--col-ink);
+    margin: 0;
 }
 
-.filter-chips .chip {
-    background-color: var(--white);
-    border: 1px solid #ccc;
-    padding: 8px 16px;
-    font-size: 0.85rem;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-.filter-chips .chip:hover,
-.filter-chips .chip.active {
-    background-color: var(--black);
-    color: var(--white);
-    border-color: var(--black);
-}
-
-/* ==========================================================================
-   Filter modal footer (Clear all / Show results) + empty state for the
-   category grid when active filters match nothing
-   ========================================================================== */
-.filter-modal-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 8px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-
-.category-grid .category-card.hidden {
-    display: none !important;
-}
-
-.category-grid + .empty-state {
-    margin-top: 32px;
-}
-
-.link-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    text-decoration: underline;
+.col-section-count {
+    font-size: 0.78rem;
     font-weight: 600;
-    color: var(--black);
-    cursor: pointer;
-    font-size: inherit;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--col-ink-muted);
+    white-space: nowrap;
+}
+
+/* ---------- Category Tile Base ---------- */
+.col-tile {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--col-ink);
+    position: relative;
+}
+
+.col-tile:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 6px;
+}
+
+.col-tile-media {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #e9e5de;
+}
+
+.col-tile-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.col-tile:hover .col-tile-media img,
+.col-tile:focus-visible .col-tile-media img {
+    transform: scale(1.038);
+}
+
+.col-tile-meta {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--col-hairline);
+    transition: border-color 0.25s ease;
+}
+
+.col-tile:hover .col-tile-meta,
+.col-tile:focus-visible .col-tile-meta {
+    border-bottom-color: var(--col-ink);
+}
+
+.col-tile-text {
+    min-width: 0;
+}
+
+.col-tile-name {
+    font-size: clamp(1.02rem, 1.3vw, 1.2rem);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    color: var(--col-ink);
+    margin: 0;
     transition: color 0.2s ease;
 }
-.link-btn:hover {
+
+.col-tile:hover .col-tile-name,
+.col-tile:focus-visible .col-tile-name {
     color: var(--accent);
 }
 
-.empty-state {
-    text-align: center;
-    padding: 40px 0;
+.col-tile-sub {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--col-ink-muted);
+    margin: 6px 0 0;
+    max-width: 44ch;
 }
 
-/* ==========================================================================
-   Custom Work CTA Section (added — sits before the footer)
-   ========================================================================== */
-.custom-cta-section {
-    padding-top: 48px;
-    border-top: 1px solid #eee;
-}
-
-.custom-cta-section h3 {
-    margin: 0 0 12px;
-}
-
-.custom-cta-text {
-    color: var(--grey-dark);
-    max-width: 700px;
-    margin: 0 0 24px;
-}
-
-.custom-cta-actions {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-}
-
-.custom-cta-actions .btn {
-    text-decoration: none;
+.col-tile-count {
     display: inline-block;
-}
-
-@media (max-width: 600px) {
-    .custom-cta-actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .custom-cta-actions .btn {
-        text-align: center;
-    }
-}
-/* ==========================================================================
-   Hero ghost text — large faint background heading behind the section title
-   ========================================================================== */
-.collection-section {
-    position: relative;
-    overflow: visible;
-    isolation: isolate;
-    padding-top: 4px;
-}
-.hero-ghost {
-    position: absolute;
-    top: -0.4em;
-    left: -0.03em;
-    z-index: -1;
-    font-size: clamp(4.5rem, 14vw, 11rem);
-    font-weight: 800;
-    line-height: 0.85;
-    letter-spacing: -0.02em;
-    color: var(--grey-light);
+    margin-top: 4px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    white-space: nowrap;
-    pointer-events: none;
-    user-select: none;
+    color: var(--col-ink-muted);
 }
 
-/* ==========================================================================
-   Category card tags — auto-sliding marquee (many tags won't fit on one line)
-   ========================================================================== */
-/* Fix: prevent the marquee's intrinsic content width from stretching the
-   CSS grid column/card — grid items default to min-width:auto which lets
-   nowrap flex content blow up the track, so it's pinned back to 0 here. */
-.category-card {
-    min-width: 0;
-}
-.category-tags-marquee {
-    margin-top: 10px;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
-    mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
-}
-.category-tags-track {
-    display: flex;
-    gap: 6px;
-    width: max-content;
-    animation: category-tags-slide 18s linear infinite;
-}
-.category-card:hover .category-tags-track {
-    animation-play-state: paused;
-}
-.category-tag-chip {
+.col-tile-arrow {
     flex: 0 0 auto;
-    background: #f4f4f4;
-    padding: 4px 10px;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #111;
-    white-space: nowrap;
-}
-@keyframes category-tags-slide {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-}
-
-/* ==========================================================================
-   Card footer row — product name + location tag (INDOOR / OUTDOOR /
-   COVERED OUTDOOR) side by side, tag pinned to the right edge.
-   ========================================================================== */
-.category-card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-.category-card-footer h4 {
-    margin: 0;
-}
-.category-location-tag {
-    flex: 0 0 auto;
-    background: var(--grey-light);
-    color: var(--black);
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 5px 10px;
-    white-space: nowrap;
-}
-.category-location-tag.is-outdoor {
-    background: #E8792A;
-    color: var(--white);
-}
-.category-location-tag.is-covered {
-    background: var(--black);
-    color: var(--white);
-}
-
-/* ==========================================================================
-   Load More — paginates the category grid instead of showing all cards
-   at once
-   ========================================================================== */
-.category-grid .category-card.load-more-hidden {
-    display: none !important;
-}
-.load-more-wrap {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-}
-.load-more-btn {
-    min-width: 200px;
-}
-.load-more-btn.hidden {
-    display: none;
-}
-
-/* ==========================================================================
-   Card info-tag overlay — moved over from the category.html product carousel
-   (name / location tag on top, material-style-type-goodfor tags below),
-   now used as the footer of each collection grid card.
-   ========================================================================== */
-.carousel-info-overlay {
-    margin-top: 16px;
-    margin-bottom: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.overlay-top-row {
-    display: flex;
-    gap: 12px;
-    justify-content: space-between;
-}
-.overlay-top-row .overlay-tag {
-    flex: 0 0 auto;
-}
-.category-card .overlay-tag-name {
-    margin: 0;
-}
-
-.overlay-bottom-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 3px;
-}
-.overlay-bottom-row .overlay-tag {
-    flex: 1 1 0;
-    min-width: 0;
-    justify-content: center;
-    text-align: center;
-    white-space: normal; /* wrap onto a 2nd line instead of truncating with "..." */
-    overflow: visible;
-    text-overflow: clip;
-    line-height: 1.15;
-    padding: 6px 3px;
-    font-size: 0.52rem;
-    letter-spacing: 0;
-}
-
-.overlay-tag {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 14px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--white);
-    text-align: center;
-    text-transform: uppercase;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
-    font-family: inherit;
-    line-height: 1.2;
-}
-
-/* Top row (name + location): no background box, plain black uppercase text */
-.overlay-tag-name,
-.overlay-tag-location {
-    background-color: transparent;
-    color: var(--black);
-    padding: 0;
-}
-.overlay-tag-location.is-outdoor,
-.overlay-tag-location.is-covered,
-.overlay-tag-location.is-indoor {
-    background-color: transparent;
-    color: var(--black);
-}
-
-/* Bottom row (material/style/type/goodfor tags): light grey background,
-   black uppercase text, clamped to 2 lines max for long labels */
-.overlay-tag-info {
-    background-color: var(--grey-light);
-    color: var(--black);
-}
-.overlay-bottom-row .overlay-tag-info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-@media (max-width: 700px) {
-    .carousel-info-overlay { margin-top: 12px; gap: 6px; }
-    .overlay-tag { font-size: 0.68rem; padding: 5px 10px; }
-}
-
-/* Mobile/tablet: keep the exact same layout as desktop (2 tags on top,
-   4 tags on the bottom row) — just shrink font/padding so everything still
-   fits, instead of restacking into single-column rows. */
-@media (max-width: 900px) and (min-width: 601px) {
-    .overlay-tag { font-size: 0.65rem; padding: 6px 6px; }
-}
-
-@media (max-width: 600px) {
-    .overlay-tag { font-size: 0.6rem; padding: 5px 4px; letter-spacing: 0; }
-    .overlay-top-row { gap: 6px; }
-    .overlay-bottom-row { gap: 4px; }
-}
-
-@media (max-width: 380px) {
-    .overlay-tag { font-size: 0.55rem; padding: 4px 3px; }
-}
-
-/* ==========================================================================
-   Category card photo nav — dot pill (bottom-center) + prev/next arrows,
-   added on top of the existing rotate-img crossfade. Generated dynamically
-   per card by JS, so no card markup needed to change.
-   ========================================================================== */
-.category-photo-nav {
-    position: absolute;
-    left: 50%;
-    bottom: 12px;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    z-index: 2;
-}
-.category-photo-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-}
-.category-photo-dot:hover {
-    background: rgba(255, 255, 255, 0.8);
-}
-.category-photo-dot.active {
-    background: #fff;
-    transform: scale(1.25);
-}
-
-.category-photo-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.35);
-    color: #fff;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 2;
-    font-size: 1rem;
+    font-size: 1.15rem;
     line-height: 1;
-    opacity: 0;
-    transition: opacity 0.2s ease, background-color 0.2s ease;
-}
-.category-photo:hover .category-photo-arrow {
-    opacity: 1;
-}
-.category-photo-arrow.prev { left: 8px; }
-.category-photo-arrow.next { right: 8px; }
-.category-photo-arrow:hover {
-    background: rgba(0, 0, 0, 0.55);
+    color: var(--col-ink);
+    padding-top: 2px;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
 }
 
+.col-tile:hover .col-tile-arrow,
+.col-tile:focus-visible .col-tile-arrow {
+    transform: translateX(5px);
+    color: var(--accent);
+}
+
+/* ---------- 01. Browse by Space (3 items: Asymmetric 12-Col Spread) ---------- */
+.space-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(20px, 2.5vw, 36px);
+    row-gap: clamp(36px, 5vw, 60px);
+    align-items: start;
+}
+
+.space-tile-1 { grid-column: 1 / span 8; }
+.space-tile-1 .col-tile-media { aspect-ratio: 16 / 10; }
+
+.space-tile-2 { grid-column: 9 / span 4; }
+.space-tile-2 .col-tile-media { aspect-ratio: 4 / 5; }
+
+.space-index-note {
+    grid-column: 1 / span 3;
+    padding-top: 16px;
+    border-top: 1px solid var(--col-hairline-strong);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.space-index-num {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.space-index-caption {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--col-ink-muted);
+    margin: 0;
+}
+
+.space-tile-3 { grid-column: 4 / span 9; }
+.space-tile-3 .col-tile-media { aspect-ratio: 21 / 10; }
+
+/* ---------- Generic editorial grid (any number of categories) ---------- */
+.dir-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(18px, 2.4vw, 34px);
+    row-gap: clamp(36px, 4.8vw, 60px);
+    align-items: start;
+}
+
+.dir-grid .dir-tile {
+    grid-column: span var(--span, 6);
+}
+
+.dir-grid .dir-tile .col-tile-media {
+    aspect-ratio: var(--ar, 4 / 3);
+    max-height: 640px;
+}
+/* ---------- 04. Storage (1 signature split feature) ---------- */
+.storage-feature {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(20px, 2.5vw, 36px);
+    row-gap: 24px;
+    align-items: stretch;
+    text-decoration: none;
+    color: var(--col-ink);
+}
+
+.storage-feature:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 6px;
+}
+
+.storage-feature-copy {
+    grid-column: 1 / span 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0 12px;
+    border-top: 1px solid var(--col-hairline-strong);
+    border-bottom: 1px solid var(--col-hairline);
+    transition: border-bottom-color 0.25s ease;
+}
+
+.storage-feature:hover .storage-feature-copy {
+    border-bottom-color: var(--col-ink);
+}
+
+.storage-feature-title {
+    font-size: clamp(1.3rem, 2vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--col-ink);
+    margin: 0 0 8px;
+    transition: color 0.2s ease;
+}
+
+.storage-feature:hover .storage-feature-title {
+    color: var(--accent);
+}
+
+.storage-feature-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 24px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--col-ink);
+}
+
+.storage-feature:hover .storage-feature-cta .col-tile-arrow {
+    transform: translateX(5px);
+    color: var(--accent);
+}
+
+.storage-feature-media {
+    grid-column: 5 / span 8;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: #e9e5de;
+}
+
+.storage-feature-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.storage-feature:hover .storage-feature-media img {
+    transform: scale(1.038);
+}
+
+/* ---------- Custom Work CTA Band ---------- */
+.col-custom-band {
+    background-color: var(--col-surface-warm);
+    padding: clamp(56px, 7vw, 96px) 0;
+}
+
+.col-custom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 32px 64px;
+    align-items: start;
+    padding-top: 32px;
+    border-top: 1px solid var(--col-hairline-strong);
+}
+
+.col-custom-heading {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.14;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+    color: var(--col-ink);
+    margin: 0;
+}
+
+.col-custom-body {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--col-ink-muted);
+    margin: 0 0 28px;
+    max-width: 52ch;
+}
+
+.col-custom-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* ---------- Responsive: Tablet (<= 960px) ---------- */
+@media (max-width: 960px) {
+    .col-intro-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .space-grid,
+    .dir-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        row-gap: 36px;
+    }
+
+    .space-tile-1,
+    .dir-grid .dir-tile-lead {
+        grid-column: 1 / -1;
+    }
+
+    .space-tile-2,
+    .space-tile-3,
+    .dir-grid .dir-tile {
+        grid-column: auto;
+    }
+
+    .dir-grid .dir-tile.dir-tile-lead {
+        grid-column: 1 / -1;
+    }
+
+    .space-index-note {
+        display: none;
+    }
+
+    .space-grid .col-tile-media,
+    .dir-grid .dir-tile .col-tile-media {
+        aspect-ratio: 4 / 3;
+    }
+
+    .space-tile-1 .col-tile-media,
+    .dir-grid .dir-tile-lead .col-tile-media {
+        aspect-ratio: 16 / 9;
+    }
+
+    .storage-feature {
+        grid-template-columns: 1fr;
+    }
+
+    .storage-feature-copy {
+        grid-column: auto;
+        order: 2;
+        padding-top: 0;
+        border-top: none;
+    }
+
+    .storage-feature-media {
+        grid-column: auto;
+        order: 1;
+        aspect-ratio: 16 / 10;
+    }
+
+    .col-custom-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+/* ---------- Responsive: Mobile (<= 600px) ---------- */
 @media (max-width: 600px) {
-    .category-photo-arrow {
-        opacity: 1;
-        width: 24px;
-        height: 24px;
-        font-size: 0.85rem;
+    .col-intro-nav {
+        gap: 12px 18px;
+    }
+
+    .space-grid {
+        grid-template-columns: 1fr;
+        row-gap: 30px;
+    }
+
+    .space-tile-1 .col-tile-media,
+    .space-tile-2 .col-tile-media,
+    .space-tile-3 .col-tile-media {
+        aspect-ratio: 4 / 3;
+    }
+
+    .dir-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 14px;
+        row-gap: 28px;
+    }
+
+    .dir-grid .dir-tile.dir-tile-lead {
+        grid-column: 1 / -1;
+    }
+
+    .dir-grid .dir-tile-lead .col-tile-media {
+        aspect-ratio: 16 / 10;
+    }
+
+    .col-tile-meta {
+        padding-top: 12px;
+        padding-bottom: 10px;
+        gap: 8px;
+    }
+
+    .col-tile-name {
+        font-size: 0.94rem;
+    }
+
+    .col-tile-sub {
+        display: none;
+    }
+
+    .col-custom-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .col-tile-media img,
+    .storage-feature-media img,
+    .col-tile-arrow,
+    .col-jump-arrow {
+        transition: none;
+    }
+    .col-tile:hover .col-tile-media img,
+    .storage-feature:hover .storage-feature-media img {
+        transform: none;
+    }
+    .col-tile:hover .col-tile-arrow,
+    .storage-feature:hover .storage-feature-cta .col-tile-arrow {
+        transform: none;
     }
 }

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="preloader.css?v=3.0">
     <link rel="stylesheet" href="scroll-reveal.css">
 </head>
-<body>
+<body class="category-listing-page">
 
     <div class="site-preloader" id="site-preloader">
         <div class="preloader-logo-wrap">
@@ -70,55 +70,93 @@
         });
     </script>
 
-    <main class="container">
-        <a href="collection.html" class="back-btn" id="back-btn" aria-label="Back to collection">&larr; Back</a>
+    <main>
+        <!-- Category Header + Breadcrumb -->
+        <section class="cat-header-band">
+            <div class="container">
+                <nav class="cat-breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span class="cat-breadcrumb-sep" aria-hidden="true">/</span>
+                    <a href="collection.html">Collections</a>
+                    <span class="cat-breadcrumb-sep" aria-hidden="true">/</span>
+                    <span class="cat-breadcrumb-current" id="breadcrumb-category">Collection</span>
+                </nav>
 
-        <section class="product-showcase" style="margin-top: 40px;">
-            
-            <!-- Bagian Judul & Caption dipindah ke atas foto -->
-            <div style="text-align: left; margin-bottom: 24px;">
-                <h3 id="carousel-product-name" style="margin-bottom: 8px;">[SELECTED PRODUCT NAME]</h3>
-                <p id="carousel-caption" style="color: var(--grey-dark); margin: 0;"></p>
+                <div class="cat-title-row">
+                    <h1 class="cat-heading" id="category-heading">Collection</h1>
+                    <div class="cat-desc-wrap" id="category-desc-wrap">
+                        <p class="cat-subtext" id="category-subtext"></p>
+                        <p class="cat-intro" id="category-intro"></p>
+                    </div>
+                </div>
             </div>
 
-            <div class="category-carousel-container" id="big-carousel">
-                <img id="carousel-main-img" src="" alt="Product Image" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0;">
-                
-                <button class="carousel-arrow" id="prev-slide" aria-label="Previous image">&lt;</button>
-                <span class="img-label carousel-img-label" id="carousel-img-label"></span>
-                <button class="carousel-arrow" id="next-slide" aria-label="Next image">&gt;</button>
-            </div>
-
-            <div class="carousel-dots" id="carousel-dots"></div>
-        </section>
-
-
-        <section class="product-info" id="product-info">
-            <h2 id="product-name">[PRODUCT NAME]</h2>
-            <div class="tag-pill-row" id="product-tags"></div>
-            <p id="product-desc"></p>
-            <div class="spec-table">
-                <div class="spec-row"><div class="spec-label">Rough dimensions</div><div class="spec-value" id="spec-dims"></div></div>
-                <div class="spec-row"><div class="spec-label">Materials</div><div class="spec-value" id="spec-materials"></div></div>
-                <div class="spec-row"><div class="spec-label">Good for</div><div class="spec-value" id="spec-goodfor"></div></div>
-            </div>
-            <div class="product-actions">
-                <button class="btn btn-primary" id="add-to-list-btn">Add to list</button>
-                <a href="#" class="btn btn-secondary">Ask about this piece</a>
+            <!-- Minimal Category Switcher -->
+            <div class="cat-switcher-wrap">
+                <div class="container">
+                    <nav class="cat-switcher-scroll" id="category-switcher" aria-label="Switch furniture category"></nav>
+                </div>
             </div>
         </section>
 
-        <section class="thumbnail-section">
-            <div class="thumbnail-row" id="thumbnail-row"></div>
-            <p class="empty-state hidden" id="empty-state">No pieces match these filters yet. <button class="link-btn" id="empty-clear">Clear filters</button></p>
+        <!-- Catalogue Controls + Dynamic Grid -->
+        <section class="cat-catalog-band">
+            <div class="container">
+                <div class="cat-toolbar" id="cat-toolbar">
+                    <div class="cat-toolbar-left">
+                        <span class="cat-results-count" id="results-count" aria-live="polite"></span>
+                        <button type="button" class="cat-filter-toggle hidden" id="filter-toggle-btn" aria-expanded="false" aria-controls="filter-panel">
+                            <span>Filters</span>
+                            <span class="cat-filter-badge hidden" id="filter-badge">0</span>
+                        </button>
+                        <button type="button" class="cat-clear-inline hidden" id="clear-all-btn">Clear all</button>
+                    </div>
+                    <div class="cat-search-wrap">
+                        <input type="search" class="cat-search-input" id="category-search" placeholder="Search pieces, materials..." aria-label="Search pieces in this category">
+                        <button type="button" class="cat-search-clear hidden" id="search-clear-btn" aria-label="Clear search">&times;</button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Category-Aware Filter Panel -->
+                <div class="cat-filter-panel hidden" id="filter-panel" role="region" aria-label="Filter options">
+                    <div class="cat-filter-groups" id="filter-groups"></div>
+                </div>
+
+                <!-- Active Filter Pills -->
+                <div class="cat-active-strip hidden" id="active-filter-strip"></div>
+
+                <!-- Product Grid -->
+                <div class="cat-product-grid" id="product-grid"></div>
+
+                <!-- Load More Pagination -->
+                <div class="cat-load-more-wrap hidden" id="load-more-wrap">
+                    <p class="cat-load-more-status" id="load-more-status"></p>
+                    <button type="button" class="btn btn-secondary" id="load-more-btn">Load more pieces</button>
+                </div>
+
+                <!-- Honest Empty State (0 items in category or 0 filter matches) -->
+                <div class="cat-empty-state hidden" id="empty-state">
+                    <span class="cat-empty-eyebrow" id="empty-eyebrow">Catalogue</span>
+                    <h2 class="cat-empty-title" id="empty-title"></h2>
+                    <p class="cat-empty-body" id="empty-body"></p>
+                    <div class="cat-empty-actions" id="empty-actions"></div>
+                </div>
+            </div>
         </section>
 
-        <section class="custom-section custom-teaser-small">
-            <h2>Sometimes the perfect piece doesn't exist yet</h2>
-            <p class="section-intro">Found a chair online? Saved an Instagram post? Spotted a hotel lobby while travelling? Take a screenshot and send it over.</p>
-            <div class="custom-buttons">
-                <a href="custom.html" class="btn btn-primary">Show me custom work</a>
-                <a href="projects.html" class="btn btn-secondary">Start a project</a>
+        <!-- Custom Work CTA: preserved existing copywriting -->
+        <section class="cat-custom-band" aria-labelledby="cat-custom-heading">
+            <div class="container">
+                <div class="cat-custom-grid">
+                    <h2 class="cat-custom-heading" id="cat-custom-heading">Sometimes the perfect piece doesn't exist yet</h2>
+                    <div>
+                        <p class="cat-custom-body">Found a chair online? Saved an Instagram post? Spotted a hotel lobby while travelling? Take a screenshot and send it over.</p>
+                        <div class="cat-custom-actions">
+                            <a href="custom.html" class="btn btn-primary">Show me custom work</a>
+                            <a href="projects.html" class="btn btn-secondary">Start a project</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -181,1713 +219,572 @@
         </div>
     </div>
 
+    <script src="catalog-content.js"></script>
+    <script src="catalog-data.js"></script>
+    <script src="your-list.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
+            const catalog = window.PactformCatalog;
+            const listApi = window.PactformList;
+            if (!catalog) return;
 
-        const CATEGORIES = {
-            'commercial': { name: 'Commercial', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor': { name: 'Outdoor', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office': { name: 'Office', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-chairs': { name: 'Dining chairs', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-stools': { name: 'Bar stools', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-seating': { name: 'Booth seating', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables': { name: 'Tables', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-8': { name: 'Chair 0131 - 0140', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            // Each of these is its own numbered collection card with its own
-            // photo folder (kursi/, meja/, sofa/, etc). Keyed by folder name
-            // so the photos resolve correctly, same pattern as commercial-8 above.
-            'kursi': { name: 'Chair 0141 - 0150', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'meja': { name: 'Chair 0151 - 0160', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'sofa': { name: 'Chair 0161 - 0170', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'kayu': { name: 'Chair 0171 - 0180', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'besi': { name: 'Chair 0181 - 0190', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'rotan': { name: 'Chair 0191 - 0200', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'hitam': { name: 'Chair 0201 - 0210', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'stainless': { name: 'Chair 0211 - 0220', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'wood': { name: 'Chair 0221 - 0230', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'metal': { name: 'Chair 0231 - 0240', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'fabric': { name: 'Chair 0241 - 0250', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'rattan': { name: 'Chair 0251 - 0260', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'beach': { name: 'Chair 0261 - 0270', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'pillow': { name: 'Chair 0271 - 0280', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'chair': { name: 'Chair 0281 - 0290', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'stool': { name: 'Chair 0291 - 0300', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'bench': { name: 'Chair 0301 - 0310', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-stools-26': { name: 'Chair 0311 - 0320', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-seating-27': { name: 'Chair 0321 - 0330', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-28': { name: 'Chair 0331 - 0340', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-29': { name: 'Chair 0341 - 0350', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-30': { name: 'Chair 0351 - 0360', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-31': { name: 'Chair 0361 - 0370', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-chairs-32': { name: 'Chair 0371 - 0380', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-stools-33': { name: 'Chair 0381 - 0390', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-seating-34': { name: 'Chair 0391 - 0400', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-35': { name: 'Chair 0401 - 0410', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-36': { name: 'Chair 0411 - 0420', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-37': { name: 'Chair 0421 - 0430', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-38': { name: 'Chair 0431 - 0440', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-chairs-39': { name: 'Chair 0441 - 0450', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-stools-40': { name: 'Chair 0451 - 0460', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-seating-41': { name: 'Chair 0461 - 0470', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-42': { name: 'Chair 0471 - 0480', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-43': { name: 'Chair 0481 - 0490', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-44': { name: 'Chair 0491 - 0500', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-45': { name: 'Chair 0501 - 0510', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-46': { name: 'Chair 0511 - 0520', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-47': { name: 'Chair 0521 - 0530', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-48': { name: 'Chair 0531 - 0540', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-49': { name: 'Chair 0541 - 0550', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-50': { name: 'Chair 0551 - 0560', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-51': { name: 'Chair 0561 - 0570', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-52': { name: 'Chair 0571 - 0580', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-53': { name: 'Chair 0581 - 0590', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-54': { name: 'Chair 0591 - 0600', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-55': { name: 'Chair 0601 - 0610', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-56': { name: 'Chair 0611 - 0620', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-57': { name: 'Chair 0621 - 0630', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-58': { name: 'Chair 0631 - 0640', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-59': { name: 'Chair 0641 - 0650', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-60': { name: 'Chair 0651 - 0660', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-61': { name: 'Chair 0661 - 0670', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-62': { name: 'Chair 0671 - 0680', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-63': { name: 'Chair 0681 - 0690', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-64': { name: 'Chair 0691 - 0700', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-65': { name: 'Chair 0701 - 0710', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-66': { name: 'Chair 0711 - 0720', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-67': { name: 'Chair 0721 - 0730', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-68': { name: 'Chair 0731 - 0740', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-69': { name: 'Chair 0741 - 0750', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-70': { name: 'Chair 0751 - 0760', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-71': { name: 'Chair 0761 - 0770', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-72': { name: 'Chair 0771 - 0780', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-73': { name: 'Chair 0781 - 0790', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-74': { name: 'Chair 0791 - 0800', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-75': { name: 'Chair 0801 - 0810', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-76': { name: 'Chair 0811 - 0820', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-77': { name: 'Chair 0821 - 0830', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-78': { name: 'Chair 0831 - 0840', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-79': { name: 'Chair 0841 - 0850', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-80': { name: 'Chair 0851 - 0860', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-81': { name: 'Chair 0861 - 0870', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-82': { name: 'Chair 0871 - 0880', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-83': { name: 'Chair 0881 - 0890', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-84': { name: 'Chair 0891 - 0900', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-85': { name: 'Chair 0901 - 0910', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-86': { name: 'Chair 0911 - 0920', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-87': { name: 'Chair 0921 - 0930', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-88': { name: 'Chair 0931 - 0940', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-89': { name: 'Chair 0941 - 0950', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-90': { name: 'Chair 0951 - 0960', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-91': { name: 'Chair 0961 - 0970', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-92': { name: 'Chair 0971 - 0980', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-93': { name: 'Chair 0981 - 0990', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-94': { name: 'Chair 0991 - 1000', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-95': { name: 'Chair 1001 - 1010', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-96': { name: 'Chair 1011 - 1020', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-97': { name: 'Chair 1021 - 1030', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-98': { name: 'Chair 1031 - 1040', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-99': { name: 'Chair 1041 - 1050', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-100': { name: 'Chair 1051 - 1060', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-101': { name: 'Chair 1061 - 1070', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-102': { name: 'Chair 1071 - 1080', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-103': { name: 'Chair 1081 - 1090', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-104': { name: 'Chair 1091 - 1100', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-105': { name: 'Chair 1101 - 1110', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-106': { name: 'Chair 1111 - 1120', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-107': { name: 'Chair 1121 - 1130', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-108': { name: 'Chair 1131 - 1140', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-            'dining-109': { name: 'Chair 1141 - 1150', subtext: "The piece your guest judges first and remembers least. It has to be right.", intro: "These are built for the sort of week that would finish an ordinary dining chair." },
-            'bar-110': { name: 'Chair 1151 - 1160', subtext: "For counters, bars and high tables that see a full shift on their feet.", intro: "Stackable and non-stackable options, built to the height and durability standards." },
-            'booth-111': { name: 'Chair 1161 - 1170', subtext: "Fixed and modular booths for restaurants, cafes and hotel dining rooms.", intro: "Upholstered to commercial fire-safety standards, and built to order." },
-            'tables-112': { name: 'Chair 1171 - 1180', subtext: "The anchor piece of any dining, meeting or lounge space.", intro: "From coffee tables to communal dining tables." },
-            'commercial-113': { name: 'Chair 1181 - 1190', subtext: "General-purpose seating and tables built for high-traffic, everyday commercial use.", intro: "For restaurants, cafes and function rooms that need consistency across a large order." },
-            'outdoor-114': { name: 'Chair 1191 - 1200', subtext: "Weatherproof by design, for terraces, pool decks and al fresco dining.", intro: "Built to handle sun, rain and salt air without losing shape or finish." },
-            'office-115': { name: 'Chair 1201 - 1210', subtext: "From reception to boardroom, seating and tables suited to a working day.", intro: "Comfortable enough for long meetings, durable enough for daily rotation." },
-        };
+            const STATE_KEY = 'pactform-category-state-v1';
+            const RESTORE_FLAG = 'pactform-restore-category';
+            const PAGE_SIZE = 16;
 
-        const PRODUCTS = [
-            { slug: 'oslo-dining-chair', category: 'dining-chairs', name: 'Chair 0091 - 0100', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'riva-stack-chair', category: 'commercial', name: 'Chair 008 - 0070', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'lagoon-lounge-chair', category: 'outdoor', name: 'Chair 0071 - 0080', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'copenhagen-armchair', category: 'office', name: 'Chair 0081 - 0090', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'anchor-bar-stool', category: 'bar-stools', name: 'Chair 0101 - 0110', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'harbor-booth', category: 'booth-seating', name: 'Chair 0111 - 0120', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'camber-dining-table', category: 'tables', name: 'Chair 0121 - 0130', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'garden-stack-chair', category: 'commercial-8', name: 'Chair 0131 - 0140', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['sculptural', 'tailored', 'warm contemporary', 'soft & rounded'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            // Same 11 duplicate collection cards as the CATEGORIES additions
-            // above — each reuses its twin product's materials/styles/desc
-            // (the card content on collection.html is identical to the twin
-            // too), only slug/category/name differ so the right photo folder
-            // and product name are shown.
-            { slug: 'kursi-outdoor-chair', category: 'kursi', name: 'Chair 0141 - 0150', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'meja-office-chair', category: 'meja', name: 'Chair 0151 - 0160', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'sofa-dining-chair', category: 'sofa', name: 'Chair 0161 - 0170', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'kayu-bar-stool', category: 'kayu', name: 'Chair 0171 - 0180', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'besi-booth', category: 'besi', name: 'Chair 0181 - 0190', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'rotan-dining-table', category: 'rotan', name: 'Chair 0191 - 0200', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'hitam-commercial-chair', category: 'hitam', name: 'Chair 0201 - 0210', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'stainless-outdoor-chair', category: 'stainless', name: 'Chair 0211 - 0220', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'wood-office-chair', category: 'wood', name: 'Chair 0221 - 0230', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'metal-dining-chair', category: 'metal', name: 'Chair 0231 - 0240', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'fabric-bar-stool', category: 'fabric', name: 'Chair 0241 - 0250', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'rattan-booth', category: 'rattan', name: 'Chair 0251 - 0260', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'beach-dining-table', category: 'beach', name: 'Chair 0261 - 0270', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'pillow-commercial-chair', category: 'pillow', name: 'Chair 0271 - 0280', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'chair-outdoor-lounge', category: 'chair', name: 'Chair 0281 - 0290', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'stool-office-chair', category: 'stool', name: 'Chair 0291 - 0300', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'bench-dining-chair', category: 'bench', name: 'Chair 0301 - 0310', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-stools-26-stool', category: 'bar-stools-26', name: 'Chair 0311 - 0320', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-seating-27-booth', category: 'booth-seating-27', name: 'Chair 0321 - 0330', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-28-table', category: 'tables-28', name: 'Chair 0331 - 0340', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-29-chair', category: 'commercial-29', name: 'Chair 0341 - 0350', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-30-chair', category: 'outdoor-30', name: 'Chair 0351 - 0360', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-31-chair', category: 'office-31', name: 'Chair 0361 - 0370', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'dining-chairs-32-chair', category: 'dining-chairs-32', name: 'Chair 0371 - 0380', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-stools-33-stool', category: 'bar-stools-33', name: 'Chair 0381 - 0390', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-seating-34-booth', category: 'booth-seating-34', name: 'Chair 0391 - 0400', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-35-table', category: 'tables-35', name: 'Chair 0401 - 0410', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-36-chair', category: 'commercial-36', name: 'Chair 0411 - 0420', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-37-chair', category: 'outdoor-37', name: 'Chair 0421 - 0430', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-38-chair', category: 'office-38', name: 'Chair 0431 - 0440', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'dining-chairs-39-chair', category: 'dining-chairs-39', name: 'Chair 0441 - 0450', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-stools-40-stool', category: 'bar-stools-40', name: 'Chair 0451 - 0460', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-seating-41-booth', category: 'booth-seating-41', name: 'Chair 0461 - 0470', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-42-table', category: 'tables-42', name: 'Chair 0471 - 0480', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-43-chair', category: 'commercial-43', name: 'Chair 0481 - 0490', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-44-chair', category: 'outdoor-44', name: 'Chair 0491 - 0500', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-45-chair', category: 'office-45', name: 'Chair 0501 - 0510', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'dining-46-chair', category: 'dining-46', name: 'Chair 0511 - 0520', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-47-stool', category: 'bar-47', name: 'Chair 0521 - 0530', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-48-booth', category: 'booth-48', name: 'Chair 0531 - 0540', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-49-table', category: 'tables-49', name: 'Chair 0541 - 0550', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-50-chair', category: 'commercial-50', name: 'Chair 0551 - 0560', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-51-chair', category: 'outdoor-51', name: 'Chair 0561 - 0570', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-52-chair', category: 'office-52', name: 'Chair 0571 - 0580', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'dining-53-chair', category: 'dining-53', name: 'Chair 0581 - 0590', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-54-chair', category: 'bar-54', name: 'Chair 0591 - 0600', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-55-chair', category: 'booth-55', name: 'Chair 0601 - 0610', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-56-chair', category: 'tables-56', name: 'Chair 0611 - 0620', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-57-chair', category: 'commercial-57', name: 'Chair 0621 - 0630', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-58-chair', category: 'outdoor-58', name: 'Chair 0631 - 0640', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-59-chair', category: 'office-59', name: 'Chair 0641 - 0650', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'dining-60-chair', category: 'dining-60', name: 'Chair 0651 - 0660', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-61-chair', category: 'bar-61', name: 'Chair 0661 - 0670', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-62-chair', category: 'booth-62', name: 'Chair 0671 - 0680', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-63-chair', category: 'tables-63', name: 'Chair 0681 - 0690', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-64-chair', category: 'commercial-64', name: 'Chair 0691 - 0700', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-65-chair', category: 'outdoor-65', name: 'Chair 0701 - 0710', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-66-chair', category: 'office-66', name: 'Chair 0711 - 0720', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'dining-67-chair', category: 'dining-67', name: 'Chair 0721 - 0730', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-68-chair', category: 'bar-68', name: 'Chair 0731 - 0740', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-69-chair', category: 'booth-69', name: 'Chair 0741 - 0750', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-70-chair', category: 'tables-70', name: 'Chair 0751 - 0760', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-71-chair', category: 'commercial-71', name: 'Chair 0761 - 0770', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-72-chair', category: 'outdoor-72', name: 'Chair 0771 - 0780', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-73-chair', category: 'office-73', name: 'Chair 0781 - 0790', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'dining-74-chair', category: 'dining-74', name: 'Chair 0791 - 0800', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-75-chair', category: 'bar-75', name: 'Chair 0801 - 0810', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-76-chair', category: 'booth-76', name: 'Chair 0811 - 0820', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-77-chair', category: 'tables-77', name: 'Chair 0821 - 0830', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-78-chair', category: 'commercial-78', name: 'Chair 0831 - 0840', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-79-chair', category: 'outdoor-79', name: 'Chair 0841 - 0850', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-80-chair', category: 'office-80', name: 'Chair 0851 - 0860', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'dining-81-chair', category: 'dining-81', name: 'Chair 0861 - 0870', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-82-chair', category: 'bar-82', name: 'Chair 0871 - 0880', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-83-chair', category: 'booth-83', name: 'Chair 0881 - 0890', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-84-chair', category: 'tables-84', name: 'Chair 0891 - 0900', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-85-chair', category: 'commercial-85', name: 'Chair 0901 - 0910', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-86-chair', category: 'outdoor-86', name: 'Chair 0911 - 0920', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-87-chair', category: 'office-87', name: 'Chair 0921 - 0930', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'dining-88-chair', category: 'dining-88', name: 'Chair 0931 - 0940', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-89-chair', category: 'bar-89', name: 'Chair 0941 - 0950', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-90-chair', category: 'booth-90', name: 'Chair 0951 - 0960', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-91-chair', category: 'tables-91', name: 'Chair 0961 - 0970', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-92-chair', category: 'commercial-92', name: 'Chair 0971 - 0980', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-93-chair', category: 'outdoor-93', name: 'Chair 0981 - 0990', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-94-chair', category: 'office-94', name: 'Chair 0991 - 1000', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'dining-95-chair', category: 'dining-95', name: 'Chair 1001 - 1010', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-96-chair', category: 'bar-96', name: 'Chair 1011 - 1020', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-97-chair', category: 'booth-97', name: 'Chair 1021 - 1030', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-98-chair', category: 'tables-98', name: 'Chair 1031 - 1040', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-99-chair', category: 'commercial-99', name: 'Chair 1041 - 1050', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-100-chair', category: 'outdoor-100', name: 'Chair 1051 - 1060', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-101-chair', category: 'office-101', name: 'Chair 1061 - 1070', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'dining-102-chair', category: 'dining-102', name: 'Chair 1071 - 1080', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-103-chair', category: 'bar-103', name: 'Chair 1081 - 1090', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-104-chair', category: 'booth-104', name: 'Chair 1091 - 1100', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-105-chair', category: 'tables-105', name: 'Chair 1101 - 1110', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-106-chair', category: 'commercial-106', name: 'Chair 1111 - 1120', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-107-chair', category: 'outdoor-107', name: 'Chair 1121 - 1130', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-108-chair', category: 'office-108', name: 'Chair 1131 - 1140', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' },
-            { slug: 'dining-109-chair', category: 'dining-109', name: 'Chair 1141 - 1150', materials: ['rattan', 'steel'], styles: ['industrial', 'scandinavian'], badges: ['Rattan & Cane', 'Steel', 'Industrial', 'Stackable'], desc: "A light, stackable frame that holds its own through a full dinner service.", dims: 'approx. W450 x D520 x H820 mm', materialsText: 'Hand-woven rattan seat and back, powder-coated steel frame', goodFor: 'Restaurants, cafes, indoor dining' },
-            { slug: 'bar-110-chair', category: 'bar-110', name: 'Chair 1151 - 1160', materials: ['steel', 'upholstered'], styles: ['industrial'], badges: ['Rattan & Cane', 'Solid Timber', 'Fabric Upholstery', 'Mid-century Inspired', 'Classic', 'Organic', 'Lightweight', 'Decorative', 'Residential', 'Hotel & Resort'], desc: "A counter-height stool with a padded seat.", dims: 'approx. W400 x D400 x H750 mm', materialsText: 'Solid timber frame, cane/rattan backrest, fabric upholstered seat', goodFor: 'Dining areas, lounges, restaurants & cafés' },
-            { slug: 'booth-111-chair', category: 'booth-111', name: 'Chair 1161 - 1170', materials: ['upholstered'], styles: ['mid-century'], badges: ['Vinyl Upholstery', 'Fire-rated foam'], desc: "A fixed banquette booth, upholstered to commercial standards.", dims: 'approx. W1800 x D700 x H1100 mm', materialsText: 'Performance vinyl upholstery', goodFor: 'Restaurants, diners' },
-            { slug: 'tables-112-chair', category: 'tables-112', name: 'Chair 1171 - 1180', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "A communal dining table with a gently curved edge.", dims: 'approx. W1600 x D850 x H750 mm', materialsText: 'Solid ash top, solid timber legs', goodFor: 'Restaurants, communal dining' },
-            { slug: 'commercial-113-chair', category: 'commercial-113', name: 'Chair 1181 - 1190', materials: ['timber veneer', 'stainless steel', 'vinyl upholstery'], styles: ['industrial'], badges: ['Timber Veneer', 'Stainless Steel', 'Vinyl Upholstery', 'Sculptural', 'Tailored', 'Warm Contemporary', 'Soft & Rounded', 'Lounge Chairs & Armchairs', 'Restaurant & Cafe', 'Bar & Lounge', 'Hotel & Resort'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W440 x D500 x H800 mm', materialsText: 'Powder-coated steel, molded seat, vinyl upholstery', goodFor: 'Restaurant & Cafe, Bar & Lounge, Hotel & Resort' },
-            { slug: 'outdoor-114-chair', category: 'outdoor-114', name: 'Chair 1191 - 1200', materials: ['rattan'], styles: ['tropical'], badges: ['Rattan & Cane', 'Tropical'], desc: "A low, deep chair built for terraces and poolside bars.", dims: 'approx. W700 x D800 x H750 mm', materialsText: 'Weather-resistant synthetic rattan, hardwood frame', goodFor: 'Pool decks, resort lobbies' },
-            { slug: 'office-115-chair', category: 'office-115', name: 'Chair 1201 - 1210', materials: ['solid-timber'], styles: ['scandinavian'], badges: ['Solid Timber', 'Scandinavian'], desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", dims: 'approx. W560 x D560 x H780 mm', materialsText: 'Solid oak frame, natural finish', goodFor: 'Lobbies, waiting areas' }
-        ];
+            // --- Route resolution & legacy product link backwards compatibility ---
+            const urlParams = new URLSearchParams(window.location.search);
+            const rawType = urlParams.get('type') || urlParams.get('category') || '';
+            const explicitProduct = urlParams.get('product');
 
-        // ==========================================================================
-        // OVERLAY INFO (Data untuk 4 kotak di bawah foto)
-        // ==========================================================================
-        const OVERLAY_INFO = {
-            'riva-stack-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'lagoon-lounge-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'copenhagen-armchair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'oslo-dining-chair': {
-                location: "Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'anchor-bar-stool': {
-                location: "Indoor",
-                type: "LOUNGE CHAIRS & ARMCHAIRS",
-                materials: ["Solid Timber", "Rattan & Cane", "Fabric Upholstery"],
-                styles: ["Mid-century Inspired", "Classic", "Organic"],
-                goodFor: ["RESTAURANT & CAFÉ", "HOTEL & RESORT", "RESIDENTIAL"]
-            },
-            'harbor-booth': {
-                location: "Covered Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'camber-dining-table': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'garden-stack-chair': {
-                location: "Outdoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'kursi-outdoor-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'meja-office-chair': {
-                location: "Covered Outdoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'sofa-dining-chair': {
-                location: "Indoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'kayu-bar-stool': {
-                location: "Outdoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'besi-booth': {
-                location: "Indoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'rotan-dining-table': {
-                location: "Covered Outdoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'hitam-commercial-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'stainless-outdoor-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'wood-office-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'metal-dining-chair': {
-                location: "Covered Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'fabric-bar-stool': {
-                location: "Indoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'rattan-booth': {
-                location: "Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'beach-dining-table': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'pillow-commercial-chair': {
-                location: "Covered Outdoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'chair-outdoor-lounge': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'stool-office-chair': {
-                location: "Outdoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'bench-dining-chair': {
-                location: "Indoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-stools-26-stool': {
-                location: "Covered Outdoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-seating-27-booth': {
-                location: "Indoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-28-table': {
-                location: "Outdoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-29-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-30-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-31-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'dining-chairs-32-chair': {
-                location: "Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-stools-33-stool': {
-                location: "Indoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-seating-34-booth': {
-                location: "Covered Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-35-table': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-36-chair': {
-                location: "Outdoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-37-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-38-chair': {
-                location: "Covered Outdoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'dining-chairs-39-chair': {
-                location: "Indoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-stools-40-stool': {
-                location: "Outdoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-seating-41-booth': {
-                location: "Indoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-42-table': {
-                location: "Covered Outdoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-43-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-44-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-45-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'dining-46-chair': {
-                location: "Covered Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-47-stool': {
-                location: "Indoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-48-booth': {
-                location: "Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-49-table': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-50-chair': {
-                location: "Covered Outdoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-51-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-52-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'dining-53-chair': {
-                location: "Covered Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-54-chair': {
-                location: "Indoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-55-chair': {
-                location: "Covered Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-56-chair': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-57-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-58-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-59-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'dining-60-chair': {
-                location: "Covered Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-61-chair': {
-                location: "Indoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-62-chair': {
-                location: "Covered Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-63-chair': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-64-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-65-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-66-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'dining-67-chair': {
-                location: "Covered Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-68-chair': {
-                location: "Indoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-69-chair': {
-                location: "Covered Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-70-chair': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-71-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-72-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-73-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'dining-74-chair': {
-                location: "Covered Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-75-chair': {
-                location: "Indoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-76-chair': {
-                location: "Covered Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-77-chair': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-78-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-79-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-80-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'dining-81-chair': {
-                location: "Covered Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-82-chair': {
-                location: "Indoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-83-chair': {
-                location: "Covered Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-84-chair': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-85-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-86-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-87-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'dining-88-chair': {
-                location: "Covered Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-89-chair': {
-                location: "Indoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-90-chair': {
-                location: "Covered Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-91-chair': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-92-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-93-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-94-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'dining-95-chair': {
-                location: "Covered Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-96-chair': {
-                location: "Indoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-97-chair': {
-                location: "Covered Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-98-chair': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-99-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-100-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-101-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'dining-102-chair': {
-                location: "Covered Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-103-chair': {
-                location: "Indoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-104-chair': {
-                location: "Covered Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-105-chair': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-106-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-107-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-108-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
-            },
-            'dining-109-chair': {
-                location: "Covered Outdoor",
-                type: "Dining chairs",
-                materials: ["Rattan & Cane", "Steel", "Industrial"],
-                styles: ["Industrial", "Scandinavian"],
-                goodFor: ["Restaurants", "cafes", "indoor dining"]
-            },
-            'bar-110-chair': {
-                location: "Indoor",
-                type: "Bar stools",
-                materials: ["Steel", "Fabric Upholstery", "Stackable"],
-                styles: ["Industrial"],
-                goodFor: ["Bars", "high tables"]
-            },
-            'booth-111-chair': {
-                location: "Covered Outdoor",
-                type: "Booth seating",
-                materials: ["Vinyl Upholstery", "Fire-rated foam"],
-                styles: ["Mid-century"],
-                goodFor: ["Restaurants", "diners"]
-            },
-            'tables-112-chair': {
-                location: "Indoor",
-                type: "Tables",
-                materials: ["Solid Timber", "Scandinavian"],
-                styles: ["Scandinavian"],
-                goodFor: ["Restaurants", "communal dining"]
-            },
-            'commercial-113-chair': {
-                location: "Indoor",
-                type: "Lounge Chairs & Armchairs",
-                materials: ["Timber Veneer", "Stainless Steel", "Vinyl Upholstery"],
-                styles: ["Sculptural", "Tailored", "Warm Contemporary", "Soft & Rounded"],
-                goodFor: ["Restaurant & Cafe", "Bar & Lounge", "Hotel & Resort"]
-            },
-            'outdoor-114-chair': {
-                location: "Outdoor",
-                type: "Outdoor",
-                materials: ["Rattan & Cane"],
-                styles: ["Tropical"],
-                goodFor: ["Pool decks", "resort lobbies"]
-            },
-            'office-115-chair': {
-                location: "Indoor",
-                type: "Office",
-                materials: ["Solid timber"],
-                styles: ["Scandinavian"],
-                goodFor: ["Lobbies", "waiting areas"]
+            // If someone hits a legacy product URL (e.g. ?category=commercial-8 or ?product=oslo-dining-chair),
+            // route seamlessly to product.html so old links never break.
+            if (explicitProduct) {
+                const prod = catalog.getProduct(explicitProduct);
+                if (prod) {
+                    const resolvedCat = catalog.resolveCategorySlug(rawType);
+                    const fromParam = resolvedCat ? '&from=' + encodeURIComponent(resolvedCat) : '';
+                    window.location.replace('product.html?id=' + encodeURIComponent(prod.id) + fromParam);
+                    return;
+                }
             }
-        };
-
-        // Tiap halaman produk mengikuti isi kartunya di collection.html:
-        // Good for, tag pill, dan 4 kotak overlay diambil dari OVERLAY_INFO.
-        PRODUCTS.forEach(p => {
-            const info = OVERLAY_INFO[p.slug];
-            if (!info) return;
-            p.goodFor = info.goodFor.join(', ');
-            p.badges = Array.from(new Set([].concat(info.materials, info.styles, [info.type], info.goodFor)));
-        });
-
-        // ==========================================================================
-        // DESKRIPSI FOTO (mudah diedit per produk, per foto)
-        // ==========================================================================
-        const PHOTO_CAPTIONS = {
-            'oslo-dining-chair': [
-                { caption: 'Front view — hand-woven rattan back and steel frame in full profile.' },
-                { caption: 'Side profile showing the slim steel legs and stacking clearance.' },
-                { caption: 'Back view of the rattan weave pattern across the backrest.' },
-                { caption: 'Close detail of the rattan seat weave and steel joinery.' },
-                { caption: 'Top-down view of the seat shape and backrest curve.' },
-                { caption: 'Close-up on the powder-coated steel frame finish.' },
-                { caption: 'Set around a restaurant dining table.' },
-                { caption: 'Paired with a small round table in a cafe corner.' },
-                { caption: 'Placed in a hotel lobby seating nook.' },
-                { caption: 'Used as casual seating in an office breakout area.' },
-                { caption: 'Styled in a minimalist dining room.' }
-            ],
-            'riva-stack-chair': [
-                { caption: 'Product photography on plain ground, close-up view.' },
-                { caption: 'Product photography on plain ground, close-up view.' },
-                { caption: 'Product photography on plain ground, close-up view.' },
-                { caption: 'Product photography on plain ground, close-up view.' },
-                { caption: 'Product photography on plain ground, close-up view.' },
-                { caption: 'Product photography on plain ground, close-up view.' },
-                { caption: '' },
-                { caption: '' },
-                { caption: '' },
-                { caption: '' },
-                { caption: '' }
-            ],
-            'lagoon-lounge-chair': [
-                { caption: 'Front view of the low, deep rattan seat.' },
-                { caption: 'Side profile showing the chair\'s relaxed recline.' },
-                { caption: 'Back view of the woven rattan backrest.' },
-                { caption: 'Detail of the synthetic rattan weave.' },
-                { caption: 'Top-down view of the wide, deep seat.' },
-                { caption: 'Close-up on the hardwood frame joints.' },
-                { caption: 'Set beside a restaurant\'s outdoor terrace.' },
-                { caption: 'Placed on a cafe patio.' },
-                { caption: 'Arranged by a hotel lobby water feature.' },
-                { caption: 'Used in an office outdoor break area.' },
-                { caption: 'Styled poolside in a resort setting.' }
-            ],
-            'copenhagen-armchair': [
-                { caption: 'Front view of the solid oak frame and armrests.' },
-                { caption: 'Side profile showing the chair\'s gentle curves.' },
-                { caption: 'Back view of the oak backrest.' },
-                { caption: 'Detail of the natural oak grain finish.' },
-                { caption: 'Top-down view of the seat and armrest shape.' },
-                { caption: 'Close-up on the joinery at the armrest.' },
-                { caption: 'Placed near a restaurant\'s entrance.' },
-                { caption: 'Set in a quiet cafe reading corner.' },
-                { caption: 'Arranged in a hotel lobby seating group.' },
-                { caption: 'Used in an office waiting area.' },
-                { caption: 'Styled in a bright Scandinavian-inspired room.' }
-            ],
-            'anchor-bar-stool': [
-                { caption: 'Front view of the upholstered seat and steel frame.' },
-                { caption: 'Side profile showing counter-height proportions.' },
-                { caption: 'Back view of the frame and footrest.' },
-                { caption: 'Detail of the upholstered seat pad stitching.' },
-                { caption: 'Top-down view of the round seat.' },
-                { caption: 'Close-up on the steel footrest and frame finish.' },
-                { caption: 'Lined along a restaurant bar counter.' },
-                { caption: 'Set at a cafe\'s high counter.' },
-                { caption: 'Placed at a hotel lobby bar.' },
-                { caption: 'Used at a standing-height office table.' },
-                { caption: 'Styled at a home bar counter.' }
-            ],
-            'harbor-booth': [
-                { caption: 'Front view of the upholstered banquette.' },
-                { caption: 'Side profile showing the booth\'s fixed frame.' },
-                { caption: 'Back view of the booth\'s structural panel.' },
-                { caption: 'Detail of the performance vinyl upholstery.' },
-                { caption: 'Top-down view of the booth seating layout.' },
-                { caption: 'Close-up on the seam and stitching detail.' },
-                { caption: 'Fitted along a restaurant wall.' },
-                { caption: 'Set in a cafe corner booth.' },
-                { caption: 'Placed in a hotel dining nook.' },
-                { caption: 'Used as an office lounge banquette.' },
-                { caption: 'Styled in a mid-century diner interior.' }
-            ],
-            'camber-dining-table': [
-                { caption: 'Front view of the curved ash tabletop.' },
-                { caption: 'Side profile showing the table\'s leg design.' },
-                { caption: 'Back view of the table\'s underside framing.' },
-                { caption: 'Detail of the solid ash grain and curved edge.' },
-                { caption: 'Top-down view of the full tabletop surface.' },
-                { caption: 'Close-up on the leg-to-top joinery.' },
-                { caption: 'Set as the centrepiece of a restaurant dining room.' },
-                { caption: 'Used as a communal cafe table.' },
-                { caption: 'Placed in a hotel breakfast room.' },
-                { caption: 'Styled as an office communal table.' },
-                { caption: 'Set in a warm Scandinavian dining space.' }
-            ],
-            'garden-stack-chair': [
-                { caption: 'Product photography on plain ground, close-up view.' },
-                { caption: 'Product photography on plain ground, close-up view.' },
-                { caption: 'Product photography on plain ground, close-up view.' },
-                { caption: 'Product photography on plain ground, close-up view.' },
-                { caption: 'Product photography on plain ground, close-up view.' },
-                { caption: 'Product photography on plain ground, close-up view.' },
-                { caption: '' },
-                { caption: '' },
-                { caption: '' },
-                { caption: '' }
-            ]
-        };
-
-        const params = new URLSearchParams(window.location.search);
-        // Collection cards link with suffixed slugs like "bar-stools-12" or
-        // "outdoor-9" (the number just keeps each card's URL unique). Those
-        // exact strings aren't keys in CATEGORIES, so without this fallback
-        // they'd all resolve to the default 'dining-chairs' category. Strip
-        // a trailing "-<number>" and match against the base category name
-        // before giving up and using the default.
-        function resolveCategoryParam(raw) {
-            if (!raw) return null;
-            if (CATEGORIES[raw]) return raw;
-            const base = raw.replace(/-\d+$/, '');
-            if (CATEGORIES[base]) return base;
-            return null;
-        }
-        let currentCategory = resolveCategoryParam(params.get('category')) || 'dining-chairs';
-        const activeMaterials = new Set((params.get('materials') || '').split(',').filter(Boolean));
-        const activeStyles = new Set((params.get('styles') || '').split(',').filter(Boolean));
-        let currentProduct = null;
-        let currentSlide = 0;
-        let currentSlides = [];
-
-        const bigCarousel = document.getElementById('big-carousel');
-        const carouselImgLabel = document.getElementById('carousel-img-label');
-        const carouselProductName = document.getElementById('carousel-product-name');
-        const carouselCaption = document.getElementById('carousel-caption');
-        const carouselDots = document.getElementById('carousel-dots');
-        const productInfo = document.getElementById('product-info');
-        const productName = document.getElementById('product-name');
-        const productTags = document.getElementById('product-tags');
-        const productDesc = document.getElementById('product-desc');
-        const specDims = document.getElementById('spec-dims');
-        const specMaterials = document.getElementById('spec-materials');
-        const specGoodfor = document.getElementById('spec-goodfor');
-        const thumbnailRow = document.getElementById('thumbnail-row');
-        const emptyState = document.getElementById('empty-state');
-        const productShowcase = document.querySelector('.product-showcase');
-        const addToListBtn = document.getElementById('add-to-list-btn');
-        const overlayProductName = document.getElementById('overlay-product-name');
-        const overlayLocation = document.getElementById('overlay-location');
-        const overlayMaterials = document.getElementById('overlay-materials');
-        const overlayStyles = document.getElementById('overlay-styles');
-        const overlayType = document.getElementById('overlay-type');
-        const overlayGoodfor = document.getElementById('overlay-goodfor');
-        let overlayIntervals = [];
-
-        function clearOverlayIntervals() {
-            overlayIntervals.forEach(id => clearInterval(id));
-            overlayIntervals = [];
-        }
-
-        function startCyclingText(el, items, delay) {
-            if (!el || !items || items.length === 0) return;
-            let i = 0;
-            el.textContent = items[0];
-            if (items.length > 1) {
-                const id = setInterval(() => {
-                    i = (i + 1) % items.length;
-                    el.textContent = items[i];
-                }, delay);
-                overlayIntervals.push(id);
+            if (rawType && !catalog.resolveCategorySlug(rawType)) {
+                const legacyProd = catalog.getProduct(rawType);
+                if (legacyProd) {
+                    window.location.replace('product.html?id=' + encodeURIComponent(legacyProd.id));
+                    return;
+                }
             }
-        }
 
-        function getOverlayData(product) {
-            const custom = OVERLAY_INFO[product.slug] || {};
-            const catName = CATEGORIES[product.category] ? CATEGORIES[product.category].name : '';
-            return {
-                location: custom.location || catName,
-                type: custom.type || catName,
-                materials: custom.materials || product.badges.slice(0, 3),
-                styles: custom.styles || product.styles.map(s => s.charAt(0).toUpperCase() + s.slice(1)),
-                goodFor: custom.goodFor || (product.goodFor || '').split(',').map(s => s.trim()).filter(Boolean)
-            };
-        }
+            const FALLBACK_SLUG = (catalog.getCategories()[0] || {}).slug || '';
+            let currentSlug = catalog.resolveCategorySlug(rawType) || FALLBACK_SLUG;
+            let searchQuery = '';
+            const activeFilters = {};
+            catalog.getFilters().forEach(f => { activeFilters[f.key] = new Set(); });
+            let visibleCount = PAGE_SIZE;
+            let filterPanelOpen = false;
+            let clickedProductId = null;
 
-        function renderOverlay(product) {
-            clearOverlayIntervals();
-            const data = getOverlayData(product);
-            if (overlayProductName) overlayProductName.textContent = product.name;
-            if (overlayLocation) overlayLocation.textContent = data.location;
-            if (overlayType) overlayType.textContent = data.type; // Kotak 3 (Tetap Statis)
-            startCyclingText(overlayMaterials, data.materials, 2000); // Kotak 1 (Berganti tiap 2 detik)
-            startCyclingText(overlayStyles, data.styles, 2000); // Kotak 2 (Berganti tiap 2 detik)
-            startCyclingText(overlayGoodfor, data.goodFor, 2000); // Kotak 4 (Berganti tiap 2 detik)
-        }
+            // DOM refs
+            const breadcrumbEl = document.getElementById('breadcrumb-category');
+            const headingEl = document.getElementById('category-heading');
+            const descWrapEl = document.getElementById('category-desc-wrap');
+            const subtextEl = document.getElementById('category-subtext');
+            const introEl = document.getElementById('category-intro');
+            const switcherEl = document.getElementById('category-switcher');
+            const toolbarEl = document.getElementById('cat-toolbar');
+            const resultsCountEl = document.getElementById('results-count');
+            const filterToggleBtn = document.getElementById('filter-toggle-btn');
+            const filterBadgeEl = document.getElementById('filter-badge');
+            const clearAllBtn = document.getElementById('clear-all-btn');
+            const searchInput = document.getElementById('category-search');
+            const searchClearBtn = document.getElementById('search-clear-btn');
+            const filterPanelEl = document.getElementById('filter-panel');
+            const filterGroupsEl = document.getElementById('filter-groups');
+            const activeStripEl = document.getElementById('active-filter-strip');
+            const gridEl = document.getElementById('product-grid');
+            const loadMoreWrap = document.getElementById('load-more-wrap');
+            const loadMoreStatus = document.getElementById('load-more-status');
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            const emptyStateEl = document.getElementById('empty-state');
+            const emptyEyebrow = document.getElementById('empty-eyebrow');
+            const emptyTitle = document.getElementById('empty-title');
+            const emptyBody = document.getElementById('empty-body');
+            const emptyActions = document.getElementById('empty-actions');
 
-        function getFilteredProducts() {
-            return PRODUCTS.filter(p => {
-                if (p.category !== currentCategory) return false;
-                if (activeMaterials.size && ![...activeMaterials].every(m => p.materials.includes(m))) return false;
-                if (activeStyles.size && ![...activeStyles].every(s => p.styles.includes(s))) return false;
-                return true;
+            function escapeHtml(str) {
+                return String(str || '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;');
+            }
+
+            function countActiveFilters() {
+                return Object.values(activeFilters).reduce((sum, set) => sum + set.size, 0);
+            }
+
+            function resetFilterState() {
+                searchQuery = '';
+                if (searchInput) searchInput.value = '';
+                Object.keys(activeFilters).forEach(k => activeFilters[k].clear());
+                visibleCount = PAGE_SIZE;
+            }
+
+            function serializeFilters() {
+                const out = {};
+                Object.keys(activeFilters).forEach(k => {
+                    if (activeFilters[k].size > 0) out[k] = Array.from(activeFilters[k]);
+                });
+                return out;
+            }
+
+            function restoreFiltersObj(obj) {
+                Object.keys(activeFilters).forEach(k => {
+                    activeFilters[k].clear();
+                    if (obj && Array.isArray(obj[k])) {
+                        obj[k].forEach(v => activeFilters[k].add(v));
+                    }
+                });
+            }
+
+            function saveBrowseState(anchorCard) {
+                try {
+                    const card = anchorCard || Array.from(gridEl.querySelectorAll('.cat-product-card')).find(c => c.getBoundingClientRect().bottom > 0);
+                    const state = {
+                        category: currentSlug,
+                        query: searchQuery,
+                        filters: serializeFilters(),
+                        visibleCount: visibleCount,
+                        scrollY: window.scrollY,
+                        anchorId: card ? card.dataset.productId : null,
+                        anchorTop: card ? card.getBoundingClientRect().top : null
+                    };
+                    sessionStorage.setItem(STATE_KEY, JSON.stringify(state));
+                } catch (e) {}
+            }
+
+            // Build minimal category switcher bar
+            function renderSwitcher() {
+                let html = '';
+                let renderedGroups = 0;
+                catalog.getGroups().forEach(g => {
+                    const cats = catalog.getCategories(g.key);
+                    if (!cats.length) return;
+                    if (renderedGroups > 0) html += '<span class="cat-switch-divider" aria-hidden="true"></span>';
+                    renderedGroups++;
+                    cats.forEach(c => {
+                        html += '<a href="category.html?type=' + encodeURIComponent(c.slug) + '" class="cat-switch-tab' + (c.slug === currentSlug ? ' is-active' : '') + '" data-slug="' + escapeHtml(c.slug) + '">' + escapeHtml(c.name) + '</a>';
+                    });
+                });
+
+                switcherEl.innerHTML = html;
+
+                // Ensure active tab is scrolled neatly into view without shifting window scroll or clipping edge tabs
+                const activeTab = switcherEl.querySelector('.cat-switch-tab.is-active');
+                if (activeTab && switcherEl.scrollWidth > switcherEl.clientWidth + 2) {
+                    const tabRect = activeTab.getBoundingClientRect();
+                    const wrapRect = switcherEl.getBoundingClientRect();
+                    const relLeft = switcherEl.scrollLeft + (tabRect.left - wrapRect.left);
+                    const targetLeft = relLeft - (wrapRect.width / 2) + (tabRect.width / 2);
+                    const maxScroll = switcherEl.scrollWidth - switcherEl.clientWidth;
+                    switcherEl.scrollLeft = Math.max(0, Math.min(maxScroll, targetLeft));
+                } else {
+                    switcherEl.scrollLeft = 0;
+                }
+            }
+
+            function renderCategoryHeader(cat) {
+                document.title = 'Pactform - ' + cat.name;
+                breadcrumbEl.textContent = cat.name;
+                headingEl.textContent = cat.name;
+
+                if (cat.subtext || cat.intro) {
+                    descWrapEl.classList.remove('hidden');
+                    subtextEl.textContent = cat.subtext || '';
+                    subtextEl.classList.toggle('hidden', !cat.subtext);
+                    introEl.textContent = cat.intro || '';
+                    introEl.classList.toggle('hidden', !cat.intro);
+                } else {
+                    descWrapEl.classList.add('hidden');
+                }
+                searchInput.placeholder = 'Search in ' + cat.name + '...';
+            }
+
+            function renderFilterPanel(categoryProducts) {
+                const groups = catalog.getAvailableFilters(categoryProducts, currentSlug);
+
+                if (groups.length === 0) {
+                    filterToggleBtn.classList.add('hidden');
+                    filterPanelEl.classList.add('hidden');
+                    filterPanelOpen = false;
+                    filterToggleBtn.setAttribute('aria-expanded', 'false');
+                    filterGroupsEl.innerHTML = '';
+                    return;
+                }
+
+                filterToggleBtn.classList.remove('hidden');
+                const activeCount = countActiveFilters();
+                filterToggleBtn.classList.toggle('has-active', activeCount > 0);
+                filterBadgeEl.textContent = String(activeCount);
+                filterBadgeEl.classList.toggle('hidden', activeCount === 0);
+
+                filterGroupsEl.innerHTML = groups.map(group => {
+                    const chips = group.options.map(opt => {
+                        const isActive = activeFilters[group.key] && activeFilters[group.key].has(opt.value);
+                        return '<button type="button" class="cat-filter-chip' + (isActive ? ' is-active' : '') + '" data-filter-key="' + escapeHtml(group.key) + '" data-filter-val="' + escapeHtml(opt.value) + '" aria-pressed="' + (isActive ? 'true' : 'false') + '">' +
+                            '<span>' + escapeHtml(opt.value) + '</span>' +
+                            '<span class="cat-filter-chip-count">' + opt.count + '</span>' +
+                        '</button>';
+                    }).join('');
+                    return '<div class="cat-filter-group">' +
+                        '<h3 class="cat-filter-group-label">' + escapeHtml(group.label) + '</h3>' +
+                        '<div class="cat-filter-options">' + chips + '</div>' +
+                    '</div>';
+                }).join('');
+            }
+
+            function renderActivePills() {
+                const pills = [];
+                Object.keys(activeFilters).forEach(key => {
+                    activeFilters[key].forEach(val => {
+                        pills.push({ key, val });
+                    });
+                });
+
+                if (pills.length === 0) {
+                    activeStripEl.classList.add('hidden');
+                    activeStripEl.innerHTML = '';
+                    return;
+                }
+
+                activeStripEl.classList.remove('hidden');
+                activeStripEl.innerHTML = pills.map(p =>
+                    '<button type="button" class="cat-active-pill" data-remove-key="' + escapeHtml(p.key) + '" data-remove-val="' + escapeHtml(p.val) + '" aria-label="Remove filter ' + escapeHtml(p.val) + '">' +
+                        '<span>' + escapeHtml(p.val) + '</span>' +
+                        '<span aria-hidden="true">&times;</span>' +
+                    '</button>'
+                ).join('');
+            }
+
+            function syncListButtons() {
+                if (!listApi) return;
+                gridEl.querySelectorAll('.cat-list-btn').forEach(btn => {
+                    const id = btn.dataset.productId;
+                    const saved = listApi.hasItem(id);
+                    btn.classList.toggle('is-saved', saved);
+                    btn.textContent = saved ? 'In list \u2713' : '+ List';
+                    btn.setAttribute('aria-pressed', saved ? 'true' : 'false');
+                });
+            }
+
+            function renderProducts(cat) {
+                const categoryProducts = catalog.getProductsForCategory(currentSlug);
+                const totalInCategory = categoryProducts.length;
+
+                // Category has 0 products in catalog data -> honest, calm empty state
+                if (totalInCategory === 0) {
+                    toolbarEl.classList.add('hidden');
+                    filterPanelEl.classList.add('hidden');
+                    activeStripEl.classList.add('hidden');
+                    gridEl.innerHTML = '';
+                    gridEl.classList.add('hidden');
+                    loadMoreWrap.classList.add('hidden');
+
+                    emptyStateEl.classList.remove('hidden');
+                    emptyEyebrow.textContent = cat.name;
+                    emptyTitle.textContent = 'Catalogue pieces for ' + cat.name + ' are being prepared.';
+                    emptyBody.textContent = 'We do not have individual ' + cat.name.toLowerCase() + ' listed online yet. Explore our other categories or share your project brief and we will recommend or develop pieces to specification.';
+                    emptyActions.innerHTML =
+                        '<a href="collection.html" class="btn btn-secondary">All collections</a>' +
+                        '<a href="custom.html" class="btn btn-primary">Explore custom work</a>' +
+                        '<a href="projects.html" class="btn btn-secondary">Start a project</a>';
+                    return;
+                }
+
+                toolbarEl.classList.remove('hidden');
+                gridEl.classList.remove('hidden');
+                renderFilterPanel(categoryProducts);
+                renderActivePills();
+
+                const filtered = catalog.filterProducts(categoryProducts, {
+                    query: searchQuery,
+                    filters: activeFilters
+                });
+
+                const hasCriteria = countActiveFilters() > 0 || searchQuery.trim().length > 0;
+                clearAllBtn.classList.toggle('hidden', !hasCriteria);
+                searchClearBtn.classList.toggle('hidden', searchQuery.length === 0);
+
+                if (hasCriteria) {
+                    resultsCountEl.textContent = filtered.length + ' of ' + totalInCategory + (totalInCategory === 1 ? ' piece' : ' pieces');
+                } else {
+                    resultsCountEl.textContent = totalInCategory + (totalInCategory === 1 ? ' piece' : ' pieces');
+                }
+
+                if (filtered.length === 0) {
+                    gridEl.innerHTML = '';
+                    loadMoreWrap.classList.add('hidden');
+                    emptyStateEl.classList.remove('hidden');
+                    emptyEyebrow.textContent = 'No matches';
+                    emptyTitle.textContent = 'No pieces match your current selection.';
+                    emptyBody.textContent = 'Try clearing one or more filters or adjusting your search keywords to see all available pieces in ' + cat.name + '.';
+                    emptyActions.innerHTML = '<button type="button" class="btn btn-primary" id="empty-reset-btn">Clear filters &amp; search</button>';
+                    const resetBtn = document.getElementById('empty-reset-btn');
+                    if (resetBtn) {
+                        resetBtn.addEventListener('click', () => {
+                            resetFilterState();
+                            renderProducts(cat);
+                        });
+                    }
+                    return;
+                }
+
+                emptyStateEl.classList.add('hidden');
+
+                const slice = filtered.slice(0, visibleCount);
+                const frag = document.createDocumentFragment();
+
+                slice.forEach((p, idx) => {
+                    const card = document.createElement('article');
+                    card.className = 'cat-product-card';
+                    card.dataset.productId = p.id;
+
+                    const href = 'product.html?id=' + encodeURIComponent(p.id) + '&from=' + encodeURIComponent(currentSlug);
+                    const primaryImg = p.images && p.images[0] ? p.images[0] : '';
+                    const altImg = p.images && p.images[1] ? p.images[1] : '';
+                    const isSaved = listApi && listApi.hasItem(p.id);
+                    const metaParts = [];
+                    if (p.location) metaParts.push(p.location);
+                    if (p.materials && p.materials.length) metaParts.push(p.materials[0]);
+                    const metaLine = metaParts.join(' \u00B7 ');
+
+                    let mediaHtml = '';
+                    if (primaryImg) {
+                        mediaHtml =
+                            '<img class="cat-product-img cat-product-img-primary" src="' + escapeHtml(primaryImg) + '" alt="' + escapeHtml(p.name) + '" loading="' + (idx < 4 ? 'eager' : 'lazy') + '" decoding="async">' +
+                            (altImg ? '<img class="cat-product-img cat-product-img-alt" data-hover-src="' + escapeHtml(altImg) + '" alt="" aria-hidden="true" decoding="async">' : '');
+                    } else {
+                        mediaHtml = '<div class="cat-photo-placeholder">Photo coming soon</div>';
+                    }
+
+                    card.innerHTML =
+                        '<a href="' + href + '" class="cat-product-link">' +
+                            '<div class="cat-product-media">' + mediaHtml + '</div>' +
+                        '</a>' +
+                        '<div class="cat-product-footer">' +
+                            '<div class="cat-product-info">' +
+                                '<a href="' + href + '" class="cat-product-link">' +
+                                    '<h2 class="cat-product-name">' + escapeHtml(p.name) + '</h2>' +
+                                    (metaLine ? '<p class="cat-product-meta">' + escapeHtml(metaLine) + '</p>' : '') +
+                                '</a>' +
+                            '</div>' +
+                            '<button type="button" class="cat-list-btn' + (isSaved ? ' is-saved' : '') + '" data-product-id="' + escapeHtml(p.id) + '" aria-pressed="' + (isSaved ? 'true' : 'false') + '">' +
+                                (isSaved ? 'In list \u2713' : '+ List') +
+                            '</button>' +
+                        '</div>';
+
+                    // Lazy-load secondary hover angle only when hovered or focused
+                    if (altImg) {
+                        const hydrateAlt = () => {
+                            const altEl = card.querySelector('.cat-product-img-alt');
+                            if (!altEl || altEl.dataset.loaded) return;
+                            altEl.dataset.loaded = '1';
+                            altEl.addEventListener('load', () => card.classList.add('has-alt-loaded'), { once: true });
+                            altEl.src = altEl.dataset.hoverSrc;
+                        };
+                        card.addEventListener('pointerenter', hydrateAlt, { once: true });
+                        card.addEventListener('focusin', hydrateAlt, { once: true });
+                    }
+
+                    // Handle unexpected missing image cleanly
+                    const primEl = card.querySelector('.cat-product-img-primary');
+                    if (primEl) {
+                        primEl.addEventListener('error', () => {
+                            const mediaBox = card.querySelector('.cat-product-media');
+                            if (mediaBox) mediaBox.innerHTML = '<div class="cat-photo-placeholder">Photo coming soon</div>';
+                        }, { once: true });
+                    }
+
+                    frag.appendChild(card);
+                });
+
+                gridEl.innerHTML = '';
+                gridEl.appendChild(frag);
+
+                // Progressive Load More
+                const remaining = filtered.length - slice.length;
+                if (remaining > 0) {
+                    loadMoreWrap.classList.remove('hidden');
+                    loadMoreStatus.textContent = 'Showing ' + slice.length + ' of ' + filtered.length + ' pieces';
+                    loadMoreBtn.textContent = 'Load more pieces (' + remaining + ' remaining)';
+                } else {
+                    loadMoreWrap.classList.add('hidden');
+                }
+            }
+
+            function loadCategory(slug, opts) {
+                const cat = catalog.getCategory(slug) || catalog.getCategory(FALLBACK_SLUG);
+                if (!cat) return;
+                currentSlug = cat.slug;
+                if (!opts || !opts.keepFilters) {
+                    resetFilterState();
+                }
+                if (!opts || !opts.skipHistory) {
+                    const nextUrl = 'category.html?type=' + encodeURIComponent(currentSlug);
+                    if (opts && opts.pushHistory) {
+                        history.pushState({ category: currentSlug }, '', nextUrl);
+                    } else {
+                        history.replaceState({ category: currentSlug }, '', nextUrl);
+                    }
+                }
+                renderSwitcher();
+                renderCategoryHeader(cat);
+                renderProducts(cat);
+            }
+
+            // --- Event Wiring ---
+            switcherEl.addEventListener('click', (e) => {
+                const tab = e.target.closest('.cat-switch-tab');
+                if (!tab) return;
+                e.preventDefault();
+                const nextSlug = tab.dataset.slug;
+                if (nextSlug === currentSlug) return;
+                loadCategory(nextSlug, { pushHistory: true });
             });
-        }
 
-        function clearAllFilters() {
-            activeMaterials.clear();
-            activeStyles.clear();
-            onFiltersChanged();
-        }
+            window.addEventListener('popstate', () => {
+                const p = new URLSearchParams(window.location.search);
+                const s = catalog.resolveCategorySlug(p.get('type') || p.get('category')) || FALLBACK_SLUG;
+                loadCategory(s, { skipHistory: true });
+            });
 
-        function onFiltersChanged() {
-            const filtered = getFilteredProducts();
-            renderThumbnails(filtered);
-            if (filtered.length === 0) {
-                productShowcase.classList.add('hidden');
-                productInfo.classList.add('hidden');
-                emptyState.classList.remove('hidden');
+            filterToggleBtn.addEventListener('click', () => {
+                filterPanelOpen = !filterPanelOpen;
+                filterPanelEl.classList.toggle('hidden', !filterPanelOpen);
+                filterToggleBtn.setAttribute('aria-expanded', filterPanelOpen ? 'true' : 'false');
+            });
+
+            filterGroupsEl.addEventListener('click', (e) => {
+                const chip = e.target.closest('.cat-filter-chip');
+                if (!chip) return;
+                const key = chip.dataset.filterKey;
+                const val = chip.dataset.filterVal;
+                if (!activeFilters[key]) return;
+                if (activeFilters[key].has(val)) activeFilters[key].delete(val);
+                else activeFilters[key].add(val);
+                visibleCount = PAGE_SIZE;
+                renderProducts(catalog.getCategory(currentSlug));
+            });
+
+            activeStripEl.addEventListener('click', (e) => {
+                const pill = e.target.closest('.cat-active-pill');
+                if (!pill) return;
+                const key = pill.dataset.removeKey;
+                const val = pill.dataset.removeVal;
+                if (activeFilters[key]) activeFilters[key].delete(val);
+                visibleCount = PAGE_SIZE;
+                renderProducts(catalog.getCategory(currentSlug));
+            });
+
+            clearAllBtn.addEventListener('click', () => {
+                resetFilterState();
+                renderProducts(catalog.getCategory(currentSlug));
+            });
+
+            searchInput.addEventListener('input', () => {
+                searchQuery = searchInput.value;
+                visibleCount = PAGE_SIZE;
+                renderProducts(catalog.getCategory(currentSlug));
+            });
+
+            searchClearBtn.addEventListener('click', () => {
+                searchQuery = '';
+                searchInput.value = '';
+                visibleCount = PAGE_SIZE;
+                renderProducts(catalog.getCategory(currentSlug));
+                searchInput.focus();
+            });
+
+            loadMoreBtn.addEventListener('click', () => {
+                visibleCount += PAGE_SIZE;
+                renderProducts(catalog.getCategory(currentSlug));
+            });
+
+            // Save browse state before opening a Product Detail Page; handle Add to List inline
+            gridEl.addEventListener('click', (e) => {
+                const listBtn = e.target.closest('.cat-list-btn');
+                if (listBtn) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const p = catalog.getProduct(listBtn.dataset.productId);
+                    if (p && listApi) {
+                        const added = listApi.toggleItem({
+                            id: p.id,
+                            name: p.name,
+                            meta: p.materialsText || p.goodFor || '',
+                            href: 'product.html?id=' + encodeURIComponent(p.id) + '&from=' + encodeURIComponent(currentSlug)
+                        });
+                        if (added) {
+                            listBtn.textContent = 'In list \u2713';
+                            listBtn.classList.add('is-saved');
+                        }
+                    }
+                    return;
+                }
+
+                const link = e.target.closest('.cat-product-link');
+                if (link) {
+                    const card = link.closest('.cat-product-card');
+                    clickedProductId = card ? card.dataset.productId : null;
+                    saveBrowseState(card);
+                }
+            });
+
+            if (listApi) {
+                listApi.subscribe(syncListButtons);
+            }
+
+            window.addEventListener('pagehide', () => {
+                const card = clickedProductId ? gridEl.querySelector('.cat-product-card[data-product-id="' + CSS.escape(clickedProductId) + '"]') : null;
+                saveBrowseState(card);
+            });
+
+            // --- Initial Load + Back Navigation State & Scroll Restoration ---
+            let shouldRestore = false;
+            try {
+                const navEntry = performance.getEntriesByType('navigation')[0];
+                shouldRestore = sessionStorage.getItem(RESTORE_FLAG) === '1' || (navEntry && navEntry.type === 'back_forward');
+                sessionStorage.removeItem(RESTORE_FLAG);
+            } catch (e) {}
+
+            let savedState = null;
+            if (shouldRestore) {
+                try { savedState = JSON.parse(sessionStorage.getItem(STATE_KEY)); } catch (e) {}
+            }
+
+            if (savedState && savedState.category === currentSlug) {
+                searchQuery = savedState.query || '';
+                searchInput.value = searchQuery;
+                restoreFiltersObj(savedState.filters);
+                visibleCount = Math.max(PAGE_SIZE, Number(savedState.visibleCount) || PAGE_SIZE);
+                loadCategory(currentSlug, { keepFilters: true, skipHistory: false });
+
+                if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+                const computeTargetY = () => {
+                    if (savedState.anchorId && typeof savedState.anchorTop === 'number') {
+                        const anchorEl = gridEl.querySelector('.cat-product-card[data-product-id="' + CSS.escape(savedState.anchorId) + '"]');
+                        if (anchorEl) {
+                            return Math.max(0, anchorEl.getBoundingClientRect().top + window.scrollY - savedState.anchorTop);
+                        }
+                    }
+                    return Number(savedState.scrollY) || 0;
+                };
+
+                let restoring = true;
+                const stopRestore = () => {
+                    restoring = false;
+                    ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(ev => window.removeEventListener(ev, stopRestore));
+                };
+                ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(ev => window.addEventListener(ev, stopRestore, { passive: true }));
+
+                const startTs = performance.now();
+                const restoreLoop = () => {
+                    if (!restoring) return;
+                    const y = computeTargetY();
+                    if (Math.abs(window.scrollY - y) > 1) {
+                        window.scrollTo({ top: y, left: 0, behavior: 'instant' });
+                    }
+                    if (performance.now() - startTs > 2500) stopRestore();
+                    else requestAnimationFrame(restoreLoop);
+                };
+                restoreLoop();
             } else {
-                productShowcase.classList.remove('hidden');
-                productInfo.classList.remove('hidden');
-                emptyState.classList.add('hidden');
-                const stillValid = currentProduct && filtered.some(p => p.slug === currentProduct.slug);
-                selectProduct(stillValid ? currentProduct.slug : filtered[0].slug);
+                loadCategory(currentSlug, { keepFilters: false, skipHistory: false });
             }
-            updateUrl();
-        }
-        document.getElementById('empty-clear').addEventListener('click', clearAllFilters);
-
-        function renderThumbnails(list) {
-            thumbnailRow.innerHTML = '';
-            
-            const folderMap = {
-                'dining-chairs': 'dining',
-                'bar-stools': 'bar',
-                'booth-seating': 'booth',
-                'tables': 'tables',
-                'commercial-8': 'garden',
-                'dining-chairs-32': 'stools-33',
-                'bar-stools-33': 'dining-chairs-32'
-            };
-
-            list.forEach(p => {
-                const thumb = document.createElement('button');
-                thumb.className = 'thumbnail';
-                thumb.type = 'button';
-                thumb.classList.toggle('selected', currentProduct && currentProduct.slug === p.slug);
-                
-                const folderName = folderMap[p.category] || p.category;
-                
-                let thumbImg = folderName + '/' + (PHOTO_PREFIX[p.category] || 'foto') + '1.' + (PHOTO_EXT[p.category] || 'webp');
-                
-                thumb.innerHTML = '<div class="img-box thumbnail-photo">' + 
-                    '<img loading="lazy" decoding="async" src="' + thumbImg + '" alt="' + p.name + '" style="width: 100%; height: 100%; object-fit: cover;">' + 
-                    '</div>' +
-                    '<h5>' + p.name + '</h5>' +
-                    '<p class="thumbnail-tags">' + p.badges.slice(0, 2).join(' · ') + '</p>';
-                
-                thumb.addEventListener('click', () => selectProduct(p.slug));
-                thumbnailRow.appendChild(thumb);
-            });
-        }
-
-        // Awalan nama file foto per folder (default: 'foto')
-        const PHOTO_PREFIX = { 'commercial-50': 'mer' };
-        // Folder yang fotonya berformat .png (selain itu default .webp)
-        const PHOTO_EXT = { 'commercial-78': 'png', 'outdoor-79': 'png', 'office-80': 'png', 'dining-81': 'png', 'bar-82': 'png', 'booth-83': 'png', 'tables-84': 'png', 'commercial-85': 'png', 'outdoor-86': 'png', 'office-87': 'png', 'dining-88': 'png', 'bar-89': 'png', 'booth-90': 'png', 'tables-91': 'png', 'commercial-92': 'png', 'outdoor-93': 'png', 'office-94': 'png', 'dining-95': 'png', 'bar-96': 'png', 'booth-97': 'png', 'tables-98': 'png', 'commercial-99': 'png', 'outdoor-100': 'png', 'office-101': 'png', 'dining-102': 'png', 'bar-103': 'png', 'booth-104': 'png', 'tables-105': 'png', 'commercial-106': 'png', 'outdoor-107': 'png', 'office-108': 'png', 'dining-109': 'png', 'bar-110': 'png', 'booth-111': 'png', 'tables-112': 'png', 'commercial-113': 'png', 'outdoor-114': 'png', 'office-115': 'png' };
-
-        const PHOTO_COUNTS = {
-            'office': 10,
-            'bar-stools': 10,
-            'booth-seating': 10,
-            'outdoor': 10,
-            'dining-chairs': 10,
-            'commercial': 11,
-            'tables': 10,
-            'garden': 10,
-            'commercial-8': 10,
-            'kursi': 10,
-            'meja': 10,
-            'sofa': 10,
-            'kayu': 10,
-            'besi': 10,
-            'rotan': 10,
-            'hitam': 10,
-            'stainless': 10,
-            'wood': 10,
-            'metal': 10,
-            'fabric': 10,
-            'rattan': 10,
-            'beach': 10,
-            'chair': 10,
-            'pillow': 10,
-            'stool': 10,
-            'bench': 10,
-            'bar-stools-26': 8,
-            'booth-seating-27': 10,
-            'tables-28': 10,
-            'commercial-29': 10,
-            'outdoor-30': 10,
-            'office-31': 10,
-            'dining-chairs-32': 10,
-            'bar-stools-33': 10,
-            'booth-seating-34': 10,
-            'tables-35': 10,
-            'commercial-36': 10,
-            'outdoor-37': 10,
-            'office-38': 10,
-            'dining-chairs-39': 10,
-            'bar-stools-40': 10,
-            'booth-seating-41': 10,
-            'tables-42': 10,
-            'commercial-43': 10,
-            'outdoor-44': 10,
-            'stools-33': 10,
-            'dining-chairs-32': 10,
-            'booth-seating-34': 10,
-            'tables-35': 10,
-            'commercial-36': 10,
-            'outdoor-37': 10,
-            'office-38': 10,
-            'dining-chairs-39': 10,
-            'bar-stools-40': 10,
-            'booth-seating-41': 10,
-            'tables-42': 10,
-            'commercial-43': 10,
-            'outdoor-44': 10,
-            'office-45': 10,
-            'dining-46': 10,
-            'bar-47': 10,
-            'booth-48': 10,
-            'tables-49': 10,
-            'commercial-50': 10,
-            'outdoor-51': 10,
-            'office-52': 10,
-            'dining-53': 10,
-            'bar-54': 10,
-            'booth-55': 10,
-            'tables-56': 10,
-            'commercial-57': 10,
-            'outdoor-58': 10,
-            'office-59': 10,
-            'dining-60': 10,
-            'bar-61': 10,
-            'booth-62': 10,
-            'tables-63': 10,
-            'commercial-64': 10,
-            'outdoor-65': 10,
-            'office-66': 10,
-            'dining-67': 10,
-            'bar-68': 10,
-            'booth-69': 10,
-            'tables-70': 10,
-            'commercial-71': 10,
-            'outdoor-72': 10,
-            'office-73': 10,
-            'dining-74': 10,
-            'bar-75': 10,
-            'booth-76': 10,
-            'tables-77': 10,
-            'commercial-78': 10,
-            'outdoor-79': 10,
-            'office-80': 10,
-            'dining-81': 10,
-            'bar-82': 10,
-            'booth-83': 10,
-            'tables-84': 10,
-            'commercial-85': 10,
-            'outdoor-86': 10,
-            'office-87': 10,
-            'dining-88': 10,
-            'bar-89': 10,
-            'booth-90': 10,
-            'tables-91': 10,
-            'commercial-92': 10,
-            'outdoor-93': 10,
-            'office-94': 10,
-            'dining-95': 10,
-            'bar-96': 10,
-            'booth-97': 10,
-            'tables-98': 10,
-            'commercial-99': 10,
-            'outdoor-100': 10,
-            'office-101': 10,
-            'dining-102': 10,
-            'bar-103': 10,
-            'booth-104': 10,
-            'tables-105': 10,
-            'commercial-106': 10,
-            'outdoor-107': 10,
-            'office-108': 10,
-            'dining-109': 10,
-            'bar-110': 10,
-            'booth-111': 10,
-            'tables-112': 10,
-            'commercial-113': 10,
-            'outdoor-114': 10,
-            'office-115': 10,
-        };
-
-        function buildSlides(product) {
-            const shots = ['front', 'side', 'back', 'detail', 'top', 'close-up'];
-            const settings = ['a restaurant', 'a cafe', 'a hotel lobby', 'an office', 'a modern interior'];
-            const captions = PHOTO_CAPTIONS[product.slug] || [];
-            const totalPhotos = PHOTO_COUNTS[product.category] || (shots.length + settings.length);
-            const slides = [];
-
-            const folderMap = {
-                'dining-chairs': 'dining',
-                'bar-stools': 'bar',
-                'booth-seating': 'booth',
-                'tables': 'tables',
-                'commercial-8': 'garden',
-                'dining-chairs-32': 'stools-33',
-                'bar-stools-33': 'dining-chairs-32'
-            };
-            const folderName = folderMap[product.category] || product.category;
-
-            // Split slides roughly in half between "product photo" and
-            // "interior" captions. The word lists (shots/settings) are
-            // cycled with % instead of capping the count to their length,
-            // so totalPhotos always produces exactly that many slides —
-            // even past 6 or 5, e.g. outdoor's 12.
-            const shotCount = Math.ceil(totalPhotos / 2);
-            const settingCount = totalPhotos - shotCount;
-
-            for (let i = 0; i < shotCount; i++) {
-                const n = i + 1;
-                const custom = captions[i];
-                const shotWord = shots[i % shots.length];
-                const caption = custom && custom.caption !== undefined ? custom.caption : 'Product photography on plain ground — ' + shotWord + ' view.';
-                
-                let imgPath = folderName + '/' + (PHOTO_PREFIX[product.category] || 'foto') + n + '.' + (PHOTO_EXT[product.category] || 'webp');
-
-                slides.push({ label: 'PRODUCT PHOTO — ' + product.name + ' (' + n + '/' + shotCount + ')', caption: caption, img: imgPath });
-            }
-
-            for (let i = 0; i < settingCount; i++) {
-                const n = i + 1 + shotCount;
-                const custom = captions[shotCount + i];
-                const settingWord = settings[i % settings.length];
-                const caption = custom && custom.caption !== undefined ? custom.caption : 'Visualised in ' + settingWord + '.';
-                
-                let imgPath = folderName + '/' + (PHOTO_PREFIX[product.category] || 'foto') + n + '.' + (PHOTO_EXT[product.category] || 'webp');
-
-                slides.push({ label: 'INTERIOR — ' + product.name + ' (' + (i + 1) + '/' + settingCount + ')', caption: caption, img: imgPath });
-            }
-
-            return slides;
-        }
-
-        function renderCarousel() {
-            carouselDots.innerHTML = '';
-            currentSlides.forEach((_, i) => {
-                const dot = document.createElement('div');
-                dot.classList.add('dot');
-                if (i === currentSlide) dot.classList.add('active');
-                dot.addEventListener('click', () => { currentSlide = i; updateCarousel(); });
-                carouselDots.appendChild(dot);
-            });
-            updateCarousel();
-        }
-
-        function updateCarousel() {
-            const slide = currentSlides[currentSlide];
-            carouselImgLabel.textContent = slide.label;
-            carouselProductName.textContent = currentProduct.name;
-            carouselCaption.textContent = slide.caption;
-            
-            const mainImg = document.getElementById('carousel-main-img');
-            if (mainImg) {
-                mainImg.src = slide.img;
-            }
-
-            document.querySelectorAll('#carousel-dots .dot').forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
-        }
-
-        document.getElementById('prev-slide').addEventListener('click', () => {
-            currentSlide = (currentSlide - 1 + currentSlides.length) % currentSlides.length;
-            updateCarousel();
         });
-        document.getElementById('next-slide').addEventListener('click', () => {
-            currentSlide = (currentSlide + 1) % currentSlides.length;
-            updateCarousel();
-        });
-
-        function selectProduct(slug) {
-            currentProduct = PRODUCTS.find(p => p.slug === slug);
-            currentSlide = 0;
-            currentSlides = buildSlides(currentProduct);
-            renderCarousel();
-
-            productName.textContent = currentProduct.name;
-            productDesc.textContent = currentProduct.desc;
-            specDims.textContent = currentProduct.dims;
-            specMaterials.textContent = currentProduct.materialsText;
-            specGoodfor.textContent = currentProduct.goodFor;
-            productTags.innerHTML = currentProduct.badges.map(b => '<span class="tag-pill static">' + b + '</span>').join('');
-            renderOverlay(currentProduct);
-
-            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('selected'));
-            renderThumbnails(getFilteredProducts());
-            updateUrl();
-        }
-
-        const listItems = [];
-        const trashIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
-        const listItemsEl = document.getElementById('list-items');
-        
-        function renderListItems() {
-            if (listItems.length === 0) {
-                listItemsEl.innerHTML = '<p class="list-empty">Your list is empty.</p>';
-                return;
-            }
-            listItemsEl.innerHTML = listItems.map((item, i) =>
-                '<div class="list-item" data-index="' + i + '"><div class="list-item-main"><h4>' + item.name + '</h4><p>' + item.meta + '</p></div>' +
-                '<button class="remove-item-btn" data-index="' + i + '" aria-label="Remove ' + item.name + '">' + trashIcon + '</button></div>'
-            ).join('');
-        }
-        renderListItems();
-
-        listItemsEl.addEventListener('click', (e) => {
-            const btn = e.target.closest('.remove-item-btn');
-            if (!btn) return;
-            const index = Number(btn.dataset.index);
-            const row = btn.closest('.list-item');
-            row.classList.add('removing');
-            setTimeout(() => {
-                listItems.splice(index, 1);
-                renderListItems();
-            }, 200);
-        });
-
-        addToListBtn.addEventListener('click', () => {
-            listItems.unshift({ name: currentProduct.name, meta: currentProduct.materialsText });
-            renderListItems();
-            const original = addToListBtn.textContent;
-            addToListBtn.textContent = 'Added ✓';
-            setTimeout(() => { addToListBtn.textContent = original; }, 1200);
-            openDrawer();
-        });
-
-        function updateUrl() {
-            const p = new URLSearchParams();
-            p.set('category', currentCategory);
-            if (activeMaterials.size) p.set('materials', [...activeMaterials].join(','));
-            if (activeStyles.size) p.set('styles', [...activeStyles].join(','));
-            if (currentProduct) p.set('product', currentProduct.slug);
-            history.replaceState(null, '', '?' + p.toString());
-        }
-
-        const overlay = document.getElementById('drawer-overlay');
-        const modal = document.getElementById('list-modal');
-        const toggleListBtn = document.getElementById('toggle-list-btn');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-        function openDrawer() { modal.classList.remove('hidden'); overlay.classList.add('visible'); overlay.classList.remove('hidden'); }
-        function closeDrawer() { modal.classList.add('hidden'); overlay.classList.remove('visible'); }
-        function toggleDrawer() { modal.classList.contains('hidden') ? openDrawer() : closeDrawer(); }
-        toggleListBtn.addEventListener('click', toggleDrawer);
-        const toggleListBtnMobile = document.getElementById('toggle-list-btn-mobile');
-        if (toggleListBtnMobile) {
-            toggleListBtnMobile.addEventListener('click', () => {
-                if (window.__pactformCloseNav) window.__pactformCloseNav();
-                toggleDrawer();
-            });
-        }
-        closeModalBtn.addEventListener('click', closeDrawer);
-        overlay.addEventListener('click', closeDrawer);
-
-        const copyLinkBtn = document.getElementById('copy-link-btn');
-        copyLinkBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                const original = copyLinkBtn.textContent;
-                copyLinkBtn.textContent = 'Link copied';
-                setTimeout(() => { copyLinkBtn.textContent = original; }, 1500);
-            }).catch(() => {});
-        });
-
-        const initialFiltered = getFilteredProducts();
-        renderThumbnails(initialFiltered);
-        const urlProduct = params.get('product');
-        const startSlug = (urlProduct && initialFiltered.some(p => p.slug === urlProduct)) ? urlProduct : (initialFiltered[0] && initialFiltered[0].slug);
-        if (startSlug) {
-            selectProduct(startSlug);
-        } else {
-            productShowcase.classList.add('hidden');
-            productInfo.classList.add('hidden');
-            emptyState.classList.remove('hidden');
-        }
-        updateUrl();
-    });
     </script>
     <script src="scroll-reveal.js"></script>
-
-    <!-- Placeholder "Photo Coming Soon" untuk foto yang belum ada -->
-    <style>
-        .photo-missing { background: var(--grey-light, #f2f2f2); position: relative; }
-        .photo-missing > img { visibility: hidden; }
-        .photo-missing::before {
-            content: "Photo Coming Soon";
-            position: absolute; inset: 0; z-index: 1;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em;
-            text-transform: uppercase; color: var(--grey-dark, #777);
-            pointer-events: none;
-        }
-        .thumbnail-photo.photo-missing::before { font-size: 0.65rem; text-align: center; }
-    </style>
-    <script>
-        // error/load tidak bubble, jadi dipasang di fase capture (juga menangkap gambar yang dibuat dinamis)
-        document.addEventListener('error', (e) => {
-            const img = e.target;
-            if (!img || img.tagName !== 'IMG' || !img.getAttribute('src')) return;
-            const box = img.id === 'carousel-main-img' ? document.getElementById('big-carousel') : img.closest('.thumbnail-photo');
-            if (box) box.classList.add('photo-missing');
-        }, true);
-        document.addEventListener('load', (e) => {
-            const img = e.target;
-            if (!img || img.tagName !== 'IMG') return;
-            const box = img.id === 'carousel-main-img' ? document.getElementById('big-carousel') : img.closest('.thumbnail-photo');
-            if (box) box.classList.remove('photo-missing');
-        }, true);
-    </script>
-
-    <script>
-        // Tombol Back: balik ke collection di posisi scroll terakhir (bukan ke atas)
-        document.getElementById('back-btn').addEventListener('click', (e) => {
-            // Cek referrer lewat pathname, jadi tetap cocok walau hosting memakai
-            // "pretty URL" (/collection tanpa .html).
-            let fromCollection = false;
-            try {
-                fromCollection = !!document.referrer &&
-                    /\/collection(\.html)?\/?$/.test(new URL(document.referrer).pathname);
-            } catch (err) {}
-            if (fromCollection && history.length > 1) {
-                e.preventDefault();
-                history.back();
-            } else {
-                try { sessionStorage.setItem('pactform-restore-collection', '1'); } catch (err) {}
-            }
-        });
-    </script>
 </body>
 </html>

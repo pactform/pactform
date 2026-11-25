@@ -6,9 +6,7 @@
 (function () {
     'use strict';
 
-    // Exact 13 collection category cards — replace `src: null` with a filename
-    // (e.g. 'lounge.jpg') whenever dedicated category photography is added.
-    const COLLECTION_CATEGORIES = [
+    const FALLBACK_CATEGORIES = [
         {
             title: 'COMMERCIAL',
             category: 'commercial',
@@ -114,6 +112,26 @@
             ratio: 1.56
         }
     ];
+
+    function getCollectionCategories() {
+        if (window.PactformCatalog && typeof window.PactformCatalog.getCategories === 'function') {
+            const cats = window.PactformCatalog.getCategories().filter(c => c.showOnHome !== false);
+            if (cats.length) {
+                const depths = ['near', 'near', 'near', 'near', 'mid', 'mid', 'mid', 'mid', 'far', 'mid', 'far', 'far', 'far'];
+                return cats.map((c, idx) => ({
+                    title: c.homeTitle || c.name.toUpperCase(),
+                    category: c.slug,
+                    src: c.image || null,
+                    tone: c.image ? 'photo' : 'dark',
+                    depth: depths[idx % depths.length],
+                    ratio: c.slug === 'outdoor' ? 1.72 : (c.group === 'space' ? 1.48 : 1.56)
+                }));
+            }
+        }
+        return FALLBACK_CATEGORIES;
+    }
+
+    const COLLECTION_CATEGORIES = getCollectionCategories();
 
     const DEPTH_CONFIG = {
         far:  { speedMul: 0.62, parallax: 16, desktopW: [200, 232], mobileW: [148, 168] },
@@ -230,7 +248,7 @@
 
                 const link = document.createElement('a');
                 link.className = 'fc-item';
-                link.href = 'category.html?category=' + encodeURIComponent(item.category);
+                link.href = 'category.html?type=' + encodeURIComponent(item.category);
                 link.dataset.depth = item.depth;
                 link.setAttribute('draggable', 'false');
 

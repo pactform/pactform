@@ -117,9 +117,40 @@
         updateFabVisibility();
     }
 
+    function loadProductUpdates() {
+        if (window.__pactformUpdatesLoaded) return;
+        if (!document.querySelector('.updates-sticky')) return;
+        if (document.querySelector('script[src*="product-updates.js"]')) return;
+        var s = document.createElement('script');
+        s.src = 'product-updates.js';
+        s.defer = true;
+        document.body.appendChild(s);
+    }
+
+    function loadSiteContent() {
+        if (window.__pactformSiteLoaderRun) return;
+        function appendLoader() {
+            if (document.querySelector('script[src*="site-content-loader.js"]')) return;
+            var l = document.createElement('script');
+            l.src = 'site-content-loader.js';
+            document.body.appendChild(l);
+        }
+        if (window.PACTFORM_SITE_CONTENT || document.querySelector('script[src*="site-content.js"]')) {
+            appendLoader();
+        } else {
+            var sc = document.createElement('script');
+            sc.src = 'site-content.js';
+            sc.onload = appendLoader;
+            sc.onerror = appendLoader;
+            document.body.appendChild(sc);
+        }
+    }
+
     function boot() {
         init();
         initSmartFloatingActions();
+        loadProductUpdates();
+        loadSiteContent();
     }
 
     if (document.readyState === 'loading') {
