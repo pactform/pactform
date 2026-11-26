@@ -9,6 +9,8 @@
 </head>
 <body>
     <div class="adm-shell">
+        <div class="adm-sidebar-backdrop hidden" id="adm-sidebar-backdrop"></div>
+
         <!-- Sidebar Navigation -->
         <aside class="adm-sidebar" id="adm-sidebar" aria-label="Admin navigation">
             <div class="adm-brand">
@@ -21,42 +23,73 @@
             <nav class="adm-nav">
                 <div class="adm-nav-group-label">Catalogue</div>
                 <button type="button" class="adm-nav-btn is-active" data-tab="overview">
-                    <span>Overview</span>
+                    <span class="adm-nav-label">
+                        <svg class="adm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                        <span>Overview</span>
+                    </span>
                 </button>
                 <button type="button" class="adm-nav-btn" data-tab="products">
-                    <span>Products</span>
+                    <span class="adm-nav-label">
+                        <svg class="adm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                        <span>Products</span>
+                    </span>
                     <span class="adm-nav-count" id="nav-count-products">0</span>
                 </button>
                 <button type="button" class="adm-nav-btn" data-tab="categories">
-                    <span>Collections</span>
+                    <span class="adm-nav-label">
+                        <svg class="adm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                        <span>Collections</span>
+                    </span>
                     <span class="adm-nav-count" id="nav-count-categories">0</span>
                 </button>
                 <button type="button" class="adm-nav-btn" data-tab="filters">
-                    <span>Filters &amp; Tags</span>
+                    <span class="adm-nav-label">
+                        <svg class="adm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                        <span>Filters &amp; Tags</span>
+                    </span>
                     <span class="adm-nav-count" id="nav-count-filters">0</span>
                 </button>
 
                 <div class="adm-nav-group-label">Website Content</div>
                 <button type="button" class="adm-nav-btn" data-tab="slides">
-                    <span>Home Hero Slides</span>
+                    <span class="adm-nav-label">
+                        <svg class="adm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5L5 20"/></svg>
+                        <span>Hero Slides</span>
+                    </span>
                     <span class="adm-nav-count" id="nav-count-slides">5</span>
                 </button>
                 <button type="button" class="adm-nav-btn" data-tab="pages">
-                    <span>Pages &amp; Copywriting</span>
+                    <span class="adm-nav-label">
+                        <svg class="adm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        <span>Pages &amp; Copy</span>
+                    </span>
                 </button>
                 <button type="button" class="adm-nav-btn" data-tab="settings">
-                    <span>Site Settings</span>
+                    <span class="adm-nav-label">
+                        <svg class="adm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        <span>Site Settings</span>
+                    </span>
                 </button>
 
-                <div class="adm-nav-group-label">Deploy</div>
-                <button type="button" class="adm-nav-btn" data-tab="publish">
-                    <span>Publish &amp; Backup</span>
+                <div class="adm-nav-group-label">Go Live</div>
+                <button type="button" class="adm-nav-btn" data-tab="publish" id="nav-btn-publish">
+                    <span class="adm-nav-label">
+                        <svg class="adm-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <span>Publish &amp; Backup</span>
+                    </span>
+                    <span class="adm-nav-dot hidden" id="nav-publish-dot" title="Unpublished changes"></span>
                 </button>
             </nav>
 
             <div class="adm-sidebar-foot">
-                <a href="index.html" class="adm-sidebar-link" target="_blank" rel="noopener">View Homepage &rarr;</a>
-                <a href="collection.html" class="adm-sidebar-link" target="_blank" rel="noopener">View Collections &rarr;</a>
+                <a href="index.html" class="adm-sidebar-link" target="_blank" rel="noopener">
+                    <span>Open Homepage</span>
+                    <span aria-hidden="true">&nearr;</span>
+                </a>
+                <a href="collection.html" class="adm-sidebar-link" target="_blank" rel="noopener">
+                    <span>Open Collections</span>
+                    <span aria-hidden="true">&nearr;</span>
+                </a>
             </div>
         </aside>
 
@@ -65,35 +98,97 @@
             <header class="adm-topbar">
                 <div class="adm-topbar-left">
                     <button type="button" class="adm-menu-btn" id="adm-menu-btn" aria-label="Toggle sidebar">&#9776;</button>
-                    <h1 class="adm-page-title" id="adm-page-title">Overview</h1>
-                    <span class="adm-status-pill" id="adm-status-pill">Synced</span>
+                    <div>
+                        <div class="adm-topbar-title-row">
+                            <h1 class="adm-page-title" id="adm-page-title">Overview</h1>
+                            <span class="adm-status-pill" id="adm-status-pill">Synced</span>
+                        </div>
+                        <p class="adm-page-sub" id="adm-page-sub">Your catalogue and website content at a glance.</p>
+                    </div>
                 </div>
                 <div class="adm-topbar-actions">
-                    <button type="button" class="adm-btn adm-btn-ghost" id="btn-discard-draft" title="Reset local draft back to published files">Reset Draft</button>
+                    <button type="button" class="adm-btn adm-btn-ghost" id="btn-discard-draft" title="Discard unpublished edits and restore saved site files">Reset Draft</button>
                     <button type="button" class="adm-btn" id="btn-preview-site">Preview Site</button>
                     <button type="button" class="adm-btn adm-btn-primary" id="btn-go-publish">Publish Changes</button>
                 </div>
             </header>
 
+            <!-- Contextual Unpublished Changes Banner -->
+            <div class="adm-draft-banner hidden" id="adm-draft-banner" role="status">
+                <div class="adm-draft-banner-text">
+                    <span class="adm-pulse-dot" aria-hidden="true"></span>
+                    <span id="adm-draft-banner-msg">You have unpublished local edits. Preview your changes or publish to update the live website.</span>
+                </div>
+                <div class="adm-draft-banner-actions">
+                    <button type="button" class="adm-btn adm-btn-sm" id="banner-preview-btn">Preview</button>
+                    <button type="button" class="adm-btn adm-btn-primary adm-btn-sm" id="banner-publish-btn">Publish Now &rarr;</button>
+                </div>
+            </div>
+
             <main class="adm-content">
                 <!-- 1. OVERVIEW -->
                 <section class="adm-view" id="view-overview">
+                    <!-- Clear 3-Step Workflow Guide -->
+                    <div class="adm-workflow-strip">
+                        <div class="adm-wf-step">
+                            <span class="adm-wf-num">1</span>
+                            <div>
+                                <strong>Edit Safely</strong>
+                                <span>Add products, upload photos (auto-compressed), or edit page text in draft mode.</span>
+                            </div>
+                        </div>
+                        <div class="adm-wf-step">
+                            <span class="adm-wf-num">2</span>
+                            <div>
+                                <strong>Preview First</strong>
+                                <span>Click <em>Preview Site</em> anytime to see your edits live on this browser only.</span>
+                            </div>
+                        </div>
+                        <div class="adm-wf-step">
+                            <span class="adm-wf-num">3</span>
+                            <div>
+                                <strong>Publish to Live</strong>
+                                <span>Go to <em>Publish &amp; Backup</em> to push changes to GitHub Pages in one click.</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="adm-stats-grid" id="overview-stats"></div>
 
                     <div class="adm-panel">
                         <div class="adm-panel-head">
                             <div>
                                 <div class="adm-panel-title">Quick Actions</div>
-                                <div class="adm-panel-sub">Manage products, collections, filters, page copywriting and global settings from one place.</div>
+                                <div class="adm-panel-sub">Jump straight to the tasks you do most often.</div>
                             </div>
                         </div>
                         <div class="adm-panel-body">
-                            <div class="adm-toolbar-group">
-                                <button type="button" class="adm-btn adm-btn-primary" id="qa-add-product">+ Add Product</button>
-                                <button type="button" class="adm-btn" id="qa-add-category">+ Add Collection Category</button>
-                                <button type="button" class="adm-btn" id="qa-edit-home">Edit Homepage Copy</button>
-                                <button type="button" class="adm-btn" id="qa-edit-slides">Edit Hero Slides</button>
-                                <button type="button" class="adm-btn" id="qa-edit-settings">WhatsApp &amp; Email Settings</button>
+                            <div class="adm-qa-grid">
+                                <button type="button" class="adm-qa-card is-primary" id="qa-add-product">
+                                    <span class="adm-qa-ico">+</span>
+                                    <strong>Add New Product</strong>
+                                    <span>Create a furniture piece with auto-compressed photos</span>
+                                </button>
+                                <button type="button" class="adm-qa-card" id="qa-add-category">
+                                    <span class="adm-qa-ico">&#9783;</span>
+                                    <strong>Add Collection</strong>
+                                    <span>Create a new space or furniture category</span>
+                                </button>
+                                <button type="button" class="adm-qa-card" id="qa-edit-slides">
+                                    <span class="adm-qa-ico">&#9635;</span>
+                                    <strong>Edit Hero Slides</strong>
+                                    <span>Update homepage banner photos &amp; headlines</span>
+                                </button>
+                                <button type="button" class="adm-qa-card" id="qa-edit-home">
+                                    <span class="adm-qa-ico">&#9998;</span>
+                                    <strong>Edit Page Copy</strong>
+                                    <span>Update text on Home, About, Custom &amp; Shipping</span>
+                                </button>
+                                <button type="button" class="adm-qa-card" id="qa-edit-settings">
+                                    <span class="adm-qa-ico">&#9881;</span>
+                                    <strong>WhatsApp &amp; Email</strong>
+                                    <span>Update contact links &amp; product updates form</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -102,7 +197,7 @@
                         <div class="adm-panel-head">
                             <div>
                                 <div class="adm-panel-title">Catalogue Health Check</div>
-                                <div class="adm-panel-sub">Items that may need photography, categories, or updated specifications.</div>
+                                <div class="adm-panel-sub">Things to review so every page and enquiry link works smoothly.</div>
                             </div>
                         </div>
                         <div class="adm-panel-body" id="overview-health"></div>
@@ -112,16 +207,17 @@
                 <!-- 2. PRODUCTS -->
                 <section class="adm-view hidden" id="view-products">
                     <div class="adm-toolbar">
-                        <div class="adm-toolbar-group">
-                            <input type="search" class="adm-input" id="prod-search" placeholder="Search name, ID, material..." style="min-width:240px;">
+                        <div class="adm-toolbar-group" style="flex:1 1 auto;">
+                            <input type="search" class="adm-input" id="prod-search" placeholder="Search name, code, material, style..." style="min-width:240px;flex:1 1 240px;max-width:360px;">
                             <select class="adm-select" id="prod-filter-cat"><option value="">All Categories</option></select>
-                            <select class="adm-select" id="prod-filter-type"><option value="">All Product Types</option></select>
+                            <select class="adm-select" id="prod-filter-type"><option value="">All Types</option></select>
                             <select class="adm-select" id="prod-filter-status">
                                 <option value="">All Status</option>
                                 <option value="published">Published</option>
                                 <option value="hidden">Hidden</option>
                                 <option value="nophoto">Missing Photos</option>
                             </select>
+                            <button type="button" class="adm-btn adm-btn-ghost adm-btn-sm hidden" id="prod-clear-filters">Clear</button>
                         </div>
                         <button type="button" class="adm-btn adm-btn-primary" id="btn-add-product">+ Add Product</button>
                     </div>
@@ -130,12 +226,12 @@
                         <table class="adm-table">
                             <thead>
                                 <tr>
-                                    <th style="width:68px;">Photo</th>
+                                    <th style="width:72px;">Photo</th>
                                     <th>Product</th>
                                     <th>Type &amp; Use</th>
-                                    <th>Categories</th>
+                                    <th>Collections</th>
                                     <th>Status</th>
-                                    <th style="width:210px;">Actions</th>
+                                    <th style="width:200px;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="prod-table-body"></tbody>
@@ -148,9 +244,9 @@
                     <div class="adm-toolbar">
                         <div>
                             <div class="adm-panel-title">Collections &amp; Category Groups</div>
-                            <div class="adm-hint">Organised into Browse by Space, Chairs, Tables, and Storage. Changes automatically update collection.html, category.html, and the Homepage explorer.</div>
+                            <div class="adm-hint">Changes here automatically update Collections, Category listings, and the Homepage explorer.</div>
                         </div>
-                        <button type="button" class="adm-btn adm-btn-primary" id="btn-add-category">+ Add Category</button>
+                        <button type="button" class="adm-btn adm-btn-primary" id="btn-add-category">+ Add Collection</button>
                     </div>
                     <div id="cat-groups-container"></div>
                 </section>
@@ -160,8 +256,8 @@
                     <div class="adm-panel">
                         <div class="adm-panel-head">
                             <div>
-                                <div class="adm-panel-title">Category Listing Filter Groups</div>
-                                <div class="adm-panel-sub">Control which filters appear on category.html, rename their labels, or change their display order.</div>
+                                <div class="adm-panel-title">Category Page Filters</div>
+                                <div class="adm-panel-sub">Choose which filter sections visitors see on category pages, rename them, or adjust their order.</div>
                             </div>
                         </div>
                         <div id="filters-list"></div>
@@ -171,7 +267,7 @@
                         <div class="adm-panel-head">
                             <div>
                                 <div class="adm-panel-title">Global Tag Manager</div>
-                                <div class="adm-panel-sub">Rename or remove a Material, Design Character, or Project Setting across every product in one click.</div>
+                                <div class="adm-panel-sub">Rename or remove a Material, Design Character, or Project Setting across every product at once.</div>
                             </div>
                         </div>
                         <div class="adm-panel-body">
@@ -184,11 +280,11 @@
                 <section class="adm-view hidden" id="view-slides">
                     <div class="adm-toolbar">
                         <div>
-                            <div class="adm-panel-title">Homepage Hero Carousel Slides</div>
-                            <div class="adm-hint">Edit headlines, descriptions, buttons, and background photos for the top full-screen slider on index.html.</div>
+                            <div class="adm-panel-title">Homepage Hero Carousel</div>
+                            <div class="adm-hint">Edit headlines, descriptions, buttons, and background photos. Uploaded photos are automatically compressed for fast loading.</div>
                         </div>
                         <div class="adm-toolbar-group">
-                            <button type="button" class="adm-btn adm-btn-ghost" id="btn-reset-slides">Reset to Default Slides</button>
+                            <button type="button" class="adm-btn adm-btn-ghost" id="btn-reset-slides">Reset Defaults</button>
                             <button type="button" class="adm-btn adm-btn-primary" id="btn-add-slide">+ Add Slide</button>
                         </div>
                     </div>
@@ -202,7 +298,7 @@
                         <div class="adm-panel-head">
                             <div>
                                 <div class="adm-panel-title" id="pages-panel-title">Homepage</div>
-                                <div class="adm-panel-sub">Edit any headline, description, button label, or hero image. Leave blank or click Reset to keep the original text.</div>
+                                <div class="adm-panel-sub">Edit any headline, paragraph, button label, or photo. Click Reset on any field to restore its original text.</div>
                             </div>
                             <button type="button" class="adm-btn adm-btn-ghost adm-btn-sm" id="btn-reset-page">Reset This Page</button>
                         </div>
@@ -216,30 +312,30 @@
                         <div class="adm-panel-head">
                             <div>
                                 <div class="adm-panel-title">Contact &amp; Enquiry Channels</div>
-                                <div class="adm-panel-sub">Updates WhatsApp links, Contact Sales buttons, and the Get Product Updates modal across all 8 pages.</div>
+                                <div class="adm-panel-sub">Updates WhatsApp buttons, Contact Sales links, and the Get Product Updates modal across the entire website.</div>
                             </div>
                         </div>
                         <div class="adm-panel-body">
                             <div class="adm-form-grid">
                                 <div class="adm-field">
-                                    <label class="adm-label" for="set-wa">WhatsApp Number (digits with country code)</label>
+                                    <label class="adm-label" for="set-wa">WhatsApp Number (with country code)</label>
                                     <input type="text" class="adm-input" id="set-wa" placeholder="e.g. 6281234567890">
-                                    <span class="adm-hint">Used on floating WhatsApp button, Ask about this piece, and Your List drawer.</span>
+                                    <span class="adm-hint">Updates floating WhatsApp button, Ask about this piece, Your List, and Custom/Shipping CTAs.</span>
                                 </div>
                                 <div class="adm-field">
-                                    <label class="adm-label" for="set-sales">Contact Sales Link / Email</label>
+                                    <label class="adm-label" for="set-sales">Contact Sales Link or Email</label>
                                     <input type="text" class="adm-input" id="set-sales" placeholder="e.g. mailto:sales@pactform.com or projects.html">
                                     <span class="adm-hint">Destination for the Contact Sales button in the footer.</span>
                                 </div>
                                 <div class="adm-field">
-                                    <label class="adm-label" for="set-web3">Get Product Updates — Web3Forms Access Key</label>
+                                    <label class="adm-label" for="set-web3">Get Product Updates — Web3Forms Key</label>
                                     <input type="text" class="adm-input" id="set-web3" placeholder="Paste Web3Forms access key">
                                     <span class="adm-hint">Free at web3forms.com — forwards email subscribers straight to your inbox.</span>
                                 </div>
                                 <div class="adm-field">
-                                    <label class="adm-label" for="set-formspree">Get Product Updates — Formspree Endpoint URL</label>
+                                    <label class="adm-label" for="set-formspree">Get Product Updates — Formspree URL</label>
                                     <input type="text" class="adm-input" id="set-formspree" placeholder="https://formspree.io/f/xxxxxxxx">
-                                    <span class="adm-hint">Optional alternative to Web3Forms. If both are filled, Formspree takes priority.</span>
+                                    <span class="adm-hint">Optional alternative to Web3Forms. Takes priority if both are filled.</span>
                                 </div>
                             </div>
                         </div>
@@ -248,8 +344,8 @@
                     <div class="adm-panel">
                         <div class="adm-panel-head">
                             <div>
-                                <div class="adm-panel-title">Footer Copywriting (Optional Overrides)</div>
-                                <div class="adm-panel-sub">Leave any field blank to keep the original footer copy unchanged.</div>
+                                <div class="adm-panel-title">Footer Text (Optional Overrides)</div>
+                                <div class="adm-panel-sub">Leave any field blank to keep the default footer wording.</div>
                             </div>
                         </div>
                         <div class="adm-panel-body">
@@ -277,82 +373,100 @@
 
                 <!-- 8. PUBLISH & BACKUP -->
                 <section class="adm-view hidden" id="view-publish">
-                    <div class="adm-publish-grid">
-                        <!-- Mode 1: Publish Directly to GitHub -->
-                        <div class="adm-panel">
-                            <div class="adm-panel-head">
-                                <div>
-                                    <div class="adm-panel-title">1. Publish Directly to GitHub</div>
-                                    <div class="adm-panel-sub">Commits catalog-content.js, site-content.js, and any newly uploaded images straight to GitHub Pages.</div>
-                                </div>
-                            </div>
-                            <div class="adm-panel-body">
-                                <div class="adm-form-grid">
-                                    <div class="adm-field">
-                                        <label class="adm-label" for="gh-owner">Repository Owner</label>
-                                        <input type="text" class="adm-input" id="gh-owner" value="pactform">
-                                    </div>
-                                    <div class="adm-field">
-                                        <label class="adm-label" for="gh-repo">Repository Name</label>
-                                        <input type="text" class="adm-input" id="gh-repo" value="pactform">
-                                    </div>
-                                    <div class="adm-field">
-                                        <label class="adm-label" for="gh-branch">Branch</label>
-                                        <input type="text" class="adm-input" id="gh-branch" value="main">
-                                    </div>
-                                    <div class="adm-field">
-                                        <label class="adm-label" for="gh-msg">Commit Message</label>
-                                        <input type="text" class="adm-input" id="gh-msg" value="Update Pactform catalogue and site content via Admin Studio">
-                                    </div>
-                                    <div class="adm-field full">
-                                        <label class="adm-label" for="gh-token">GitHub Personal Access Token (Fine-grained: Contents Read/Write)</label>
-                                        <input type="password" class="adm-input" id="gh-token" placeholder="github_pat_... or ghp_..." autocomplete="off">
-                                        <span class="adm-hint">Stored only in this browser session (never written to repo files).</span>
-                                    </div>
-                                </div>
-                                <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
-                                    <button type="button" class="adm-btn adm-btn-primary" id="btn-publish-github">Publish to GitHub</button>
-                                    <button type="button" class="adm-btn adm-btn-ghost" id="btn-test-github">Test Connection</button>
-                                </div>
-                                <div class="adm-log hidden" id="gh-log"></div>
-                            </div>
-                        </div>
-
-                        <!-- Mode 2: Save to Local Project Folder -->
-                        <div class="adm-panel">
-                            <div class="adm-panel-head">
-                                <div>
-                                    <div class="adm-panel-title">2. Save to Local Project Folder</div>
-                                    <div class="adm-panel-sub">Writes updated files &amp; uploaded photos directly to your local pactform folder (Chrome / Edge).</div>
-                                </div>
-                            </div>
-                            <div class="adm-panel-body">
-                                <p class="adm-hint" style="margin-bottom:14px;">Click below and select your local <code>pactform</code> directory. Changes immediately become live on <code>localhost:3000</code> and ready for git commit.</p>
-                                <button type="button" class="adm-btn adm-btn-dark" id="btn-save-folder">Choose Folder &amp; Save Files</button>
-                                <div class="adm-log hidden" id="folder-log"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Mode 3: Download & JSON Backup -->
-                    <div class="adm-panel">
+                    <!-- Primary Action: Publish to Live Site (GitHub) -->
+                    <div class="adm-panel adm-panel-featured">
                         <div class="adm-panel-head">
                             <div>
-                                <div class="adm-panel-title">3. Download Files &amp; JSON Backup</div>
-                                <div class="adm-panel-sub">Download ready-to-replace JS files or export/import a complete backup snapshot.</div>
+                                <span class="adm-eyebrow-badge">Recommended</span>
+                                <div class="adm-panel-title">Publish to Live Website (GitHub)</div>
+                                <div class="adm-panel-sub">Pushes your updated catalogue, site copy, and auto-compressed photos directly to GitHub Pages.</div>
                             </div>
                         </div>
                         <div class="adm-panel-body">
-                            <div class="adm-toolbar-group">
-                                <button type="button" class="adm-btn" id="btn-dl-catalog">Download catalog-content.js</button>
-                                <button type="button" class="adm-btn" id="btn-dl-site">Download site-content.js</button>
-                                <button type="button" class="adm-btn adm-btn-ghost" id="btn-export-json">Export Full JSON Backup</button>
-                                <label class="adm-btn adm-btn-ghost" style="cursor:pointer;">
-                                    Import JSON Backup
-                                    <input type="file" id="input-import-json" accept="application/json,.json" style="display:none;">
-                                </label>
+                            <div class="adm-publish-summary" id="pending-uploads-note">No pending local image uploads.</div>
+
+                            <div class="adm-form-grid">
+                                <div class="adm-field full">
+                                    <label class="adm-label" for="gh-token">GitHub Personal Access Token *</label>
+                                    <input type="password" class="adm-input" id="gh-token" placeholder="Paste github_pat_... or ghp_..." autocomplete="off">
+                                    <span class="adm-hint">Kept only in this browser tab session — never saved into repository files.</span>
+                                </div>
+                                <div class="adm-field full">
+                                    <label class="adm-label" for="gh-msg">Update Summary (Commit Message)</label>
+                                    <input type="text" class="adm-input" id="gh-msg" value="Update Pactform catalogue and site content via Admin Studio">
+                                </div>
                             </div>
-                            <p class="adm-hint" id="pending-uploads-note" style="margin-top:12px;"></p>
+
+                            <details class="adm-details">
+                                <summary>Repository settings &amp; how to get a GitHub Token</summary>
+                                <div class="adm-details-body">
+                                    <div class="adm-form-grid" style="margin-bottom:14px;">
+                                        <div class="adm-field">
+                                            <label class="adm-label" for="gh-owner">Repository Owner</label>
+                                            <input type="text" class="adm-input" id="gh-owner" value="pactform">
+                                        </div>
+                                        <div class="adm-field">
+                                            <label class="adm-label" for="gh-repo">Repository Name</label>
+                                            <input type="text" class="adm-input" id="gh-repo" value="pactform">
+                                        </div>
+                                        <div class="adm-field">
+                                            <label class="adm-label" for="gh-branch">Branch</label>
+                                            <input type="text" class="adm-input" id="gh-branch" value="main">
+                                        </div>
+                                    </div>
+                                    <ol class="adm-help-steps">
+                                        <li>Open GitHub &rarr; <strong>Settings &rarr; Developer settings &rarr; Fine-grained tokens</strong>.</li>
+                                        <li>Click <strong>Generate new token</strong> and select only the <code>pactform/pactform</code> repository.</li>
+                                        <li>Under <strong>Repository permissions</strong>, set <strong>Contents</strong> to <strong>Read and write</strong>.</li>
+                                        <li>Copy the generated token and paste it into the field above, then click <strong>Test Connection</strong>.</li>
+                                    </ol>
+                                </div>
+                            </details>
+
+                            <div class="adm-publish-actions">
+                                <button type="button" class="adm-btn adm-btn-primary" id="btn-publish-github">Publish to Live Site</button>
+                                <button type="button" class="adm-btn adm-btn-ghost" id="btn-test-github">Test Connection</button>
+                            </div>
+                            <div class="adm-log hidden" id="gh-log"></div>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Options: Local Save & Backups -->
+                    <div class="adm-publish-grid">
+                        <div class="adm-panel">
+                            <div class="adm-panel-head">
+                                <div>
+                                    <div class="adm-panel-title">Save to Local Folder (Offline)</div>
+                                    <div class="adm-panel-sub">Write files &amp; compressed images straight to your local <code>pactform</code> folder (Chrome / Edge).</div>
+                                </div>
+                            </div>
+                            <div class="adm-panel-body">
+                                <p class="adm-hint" style="margin-bottom:14px;">Select your local <code>pactform</code> folder to immediately update <code>localhost:3000</code> before committing with Git.</p>
+                                <button type="button" class="adm-btn adm-btn-dark" id="btn-save-folder">Choose Folder &amp; Save</button>
+                                <div class="adm-log hidden" id="folder-log"></div>
+                            </div>
+                        </div>
+
+                        <div class="adm-panel">
+                            <div class="adm-panel-head">
+                                <div>
+                                    <div class="adm-panel-title">Backup &amp; Manual Export</div>
+                                    <div class="adm-panel-sub">Save a full JSON snapshot or download individual data files.</div>
+                                </div>
+                            </div>
+                            <div class="adm-panel-body">
+                                <div class="adm-toolbar-group" style="margin-bottom:10px;">
+                                    <button type="button" class="adm-btn" id="btn-export-json">Export JSON Backup</button>
+                                    <label class="adm-btn adm-btn-ghost" style="cursor:pointer;">
+                                        Import JSON Backup
+                                        <input type="file" id="input-import-json" accept="application/json,.json" style="display:none;">
+                                    </label>
+                                </div>
+                                <div class="adm-toolbar-group">
+                                    <button type="button" class="adm-btn adm-btn-ghost adm-btn-sm" id="btn-dl-catalog">Download catalog-content.js</button>
+                                    <button type="button" class="adm-btn adm-btn-ghost adm-btn-sm" id="btn-dl-site">Download site-content.js</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>

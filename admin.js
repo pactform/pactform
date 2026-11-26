@@ -170,7 +170,10 @@
                     stagedUploads.set(rec.path, {
                         dataUrl: rec.dataUrl || ('data:' + (rec.mime || 'image/jpeg') + ';base64,' + rec.base64),
                         base64: rec.base64,
-                        mime: rec.mime || 'image/jpeg'
+                        mime: rec.mime || 'image/jpeg',
+                        origBytes: rec.origBytes || 0,
+                        finalBytes: rec.finalBytes || 0,
+                        compressed: Boolean(rec.compressed)
                     });
                 }
             });
@@ -193,25 +196,172 @@
         } catch (e) {}
     }
 
-    async function stageUploadFile(subDir, file) {
-        const dataUrl = await readFileAsDataUrl(file);
+    const IMAGE_PRESETS = {
+        default: { maxDim: 1600, triggerBytes: 450 * 1024, targetBytes: 380 * 1024 },
+        hero:    { maxDim: 2000, triggerBytes: 700 * 1024, targetBytes: 600 * 1024 }
+    };
+
+    let _webpEncodeSupported = null;
+    function supportsWebPEncode() {
+        if (_webpEncodeSupported !== null) return _webpEncodeSupported;
+        try {
+            const c = document.createElement('canvas');
+            c.width = 2;
+            c.height = 2;
+            _webpEncodeSupported = c.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+        } catch (e) {
+            _webpEncodeSupported = false;
+        }
+        return _webpEncodeSupported;
+    }
+
+    function formatBytes(bytes) {
+        if (!bytes || bytes < 1024) return (bytes || 0) + ' B';
+        if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    function loadImageFromFile(file) {
+        return new Promise((resolve, reject) => {
+            const url = URL.createObjectURL(file);
+            const img = new Image();
+            img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+            img.onerror = (err) => { URL.revokeObjectURL(url); reject(err || new Error('Image decode failed')); };
+            img.src = url;
+        });
+    }
+
+    function estimateBase64Bytes(b64) {
+        if (!b64) return 0;
+        const pad = b64.endsWith('==') ? 2 : (b64.endsWith('=') ? 1 : 0);
+        return Math.max(0, Math.floor((b64.length * 3) / 4) - pad);
+    }
+
+    async function compressImageFile(file, presetKey) {
+        const preset = IMAGE_PRESETS[presetKey] || IMAGE_PRESETS.default;
+        const origDataUrl = await readFileAsDataUrl(file);
+        const origBase64 = origDataUrl.split(',')[1] || '';
+        const origBytes = file.size || estimateBase64Bytes(origBase64);
+        const origMime = file.type || 'image/jpeg';
+
+        // Keep vector SVG and animated GIF untouched
+        if (/svg|gif/i.test(origMime) || /\.(svg|gif)$/i.test(file.name || '')) {
+            return { dataUrl: origDataUrl, base64: origBase64, mime: origMime, ext: null, origBytes, finalBytes: origBytes, compressed: false };
+        }
+
+        try {
+            const img = await loadImageFromFile(file);
+            const natW = img.naturalWidth || img.width || 0;
+            const natH = img.naturalHeight || img.height || 0;
+            if (!natW || !natH) {
+                return { dataUrl: origDataUrl, base64: origBase64, mime: origMime, ext: null, origBytes, finalBytes: origBytes, compressed: false };
+            }
+
+            const needsResize = Math.max(natW, natH) > preset.maxDim;
+            const needsShrink = origBytes > preset.triggerBytes;
+            if (!needsResize && !needsShrink) {
+                return { dataUrl: origDataUrl, base64: origBase64, mime: origMime, ext: null, origBytes, finalBytes: origBytes, compressed: false };
+            }
+
+            const outMime = supportsWebPEncode() ? 'image/webp' : 'image/jpeg';
+            const outExt = outMime === 'image/webp' ? '.webp' : '.jpg';
+
+            function renderCanvas(scale) {
+                const w = Math.max(1, Math.round(natW * scale));
+                const h = Math.max(1, Math.round(natH * scale));
+                const canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                if (outMime === 'image/jpeg') {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, w, h);
+                }
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                ctx.drawImage(img, 0, 0, w, h);
+                return canvas;
+            }
+
+            let scale = needsResize ? (preset.maxDim / Math.max(natW, natH)) : 1;
+            let canvas = renderCanvas(scale);
+            const qualities = [0.84, 0.74, 0.64, 0.54];
+            let bestUrl = '';
+            let bestB64 = '';
+            let bestBytes = Infinity;
+
+            for (let qIdx = 0; qIdx < qualities.length; qIdx++) {
+                const candidate = canvas.toDataURL(outMime, qualities[qIdx]);
+                const b64 = candidate.split(',')[1] || '';
+                const bytes = estimateBase64Bytes(b64);
+                if (bytes < bestBytes) {
+                    bestUrl = candidate;
+                    bestB64 = b64;
+                    bestBytes = bytes;
+                }
+                if (bytes <= preset.targetBytes) break;
+            }
+
+            // Extra gentle downscale pass if still well above target (e.g. huge noisy photo)
+            if (bestBytes > preset.targetBytes * 1.45 && Math.max(canvas.width, canvas.height) > 1000) {
+                canvas = renderCanvas(scale * 0.75);
+                const candidate = canvas.toDataURL(outMime, 0.72);
+                const b64 = candidate.split(',')[1] || '';
+                const bytes = estimateBase64Bytes(b64);
+                if (bytes < bestBytes) {
+                    bestUrl = candidate;
+                    bestB64 = b64;
+                    bestBytes = bytes;
+                }
+            }
+
+            // Never inflate an already-small image
+            if (bestUrl && bestBytes < origBytes * 0.96) {
+                return {
+                    dataUrl: bestUrl,
+                    base64: bestB64,
+                    mime: outMime,
+                    ext: outExt,
+                    origBytes: origBytes,
+                    finalBytes: bestBytes,
+                    compressed: true
+                };
+            }
+        } catch (e) {
+            // Fall back cleanly to original file
+        }
+
+        return { dataUrl: origDataUrl, base64: origBase64, mime: origMime, ext: null, origBytes, finalBytes: origBytes, compressed: false };
+    }
+
+    async function stageUploadFile(subDir, file, presetKey) {
+        const result = await compressImageFile(file, presetKey || (subDir === 'slides' || subDir === 'pages' ? 'hero' : 'default'));
         const rawClean = file.name.replace(/[^a-zA-Z0-9._-]/g, '-');
         const dotIdx = rawClean.lastIndexOf('.');
         const base = dotIdx > 0 ? rawClean.slice(0, dotIdx) : rawClean;
-        const ext = dotIdx > 0 ? rawClean.slice(dotIdx).toLowerCase() : '.jpg';
+        const origExt = dotIdx > 0 ? rawClean.slice(dotIdx).toLowerCase() : '.jpg';
+        const ext = result.ext || origExt;
         const uniq = Date.now().toString(36).slice(-4) + Math.random().toString(36).slice(2, 4);
         const relPath = 'uploads/' + subDir + '/' + base + '-' + uniq + ext;
         const fileObj = {
-            dataUrl: dataUrl,
-            base64: dataUrl.split(',')[1] || '',
-            mime: file.type || 'image/jpeg'
+            dataUrl: result.dataUrl,
+            base64: result.base64,
+            mime: result.mime,
+            origBytes: result.origBytes,
+            finalBytes: result.finalBytes,
+            compressed: result.compressed
         };
         stagedUploads.set(relPath, fileObj);
         await persistStagedUpload(relPath, fileObj);
-        if (file.size > 5 * 1024 * 1024) {
-            toast('Note: "' + file.name + '" is ' + (file.size / (1024 * 1024)).toFixed(1) + ' MB. Consider compressing large images (< 2 MB) for faster loading.');
-        }
         return { relPath, fileObj };
+    }
+
+    function formatUploadToast(label, fileObj) {
+        if (fileObj && fileObj.compressed && fileObj.origBytes > fileObj.finalBytes) {
+            const pct = Math.max(1, Math.round((1 - fileObj.finalBytes / fileObj.origBytes) * 100));
+            return label + ' (auto-compressed ' + formatBytes(fileObj.origBytes) + ' -> ' + formatBytes(fileObj.finalBytes) + ', -' + pct + '%)';
+        }
+        return label;
     }
 
     function collectReferencedImagePaths() {
@@ -345,10 +495,21 @@
         products: 'Products',
         categories: 'Collections',
         filters: 'Filters & Tags',
-        slides: 'Home Hero Slides',
-        pages: 'Pages & Copywriting',
+        slides: 'Hero Slides',
+        pages: 'Pages & Copy',
         settings: 'Site Settings',
         publish: 'Publish & Backup'
+    };
+
+    const TAB_SUBTITLES = {
+        overview: 'Your catalogue and website content at a glance.',
+        products: 'Add, edit, hide, or upload auto-compressed photos for furniture pieces.',
+        categories: 'Organise how collections appear across the homepage and directory.',
+        filters: 'Control category filters and rename materials, styles, or settings globally.',
+        slides: 'Update homepage hero banners, headlines, and call-to-action buttons.',
+        pages: 'Edit text and hero photos on Home, About, Collections, Custom, Shipping & Projects.',
+        settings: 'Configure WhatsApp links, Contact Sales, footer text, and email updates.',
+        publish: 'Publish your draft edits directly to the live website or export a backup.'
     };
 
     function updateShellCounters() {
@@ -357,22 +518,51 @@
         const elF = document.getElementById('nav-count-filters');
         const elS = document.getElementById('nav-count-slides');
         const pill = document.getElementById('adm-status-pill');
+        const pubDot = document.getElementById('nav-publish-dot');
+        const banner = document.getElementById('adm-draft-banner');
+        const bannerMsg = document.getElementById('adm-draft-banner-msg');
+
+        const activeUploads = getActiveStagedUploads();
+        const activeCount = activeUploads.length;
+        const hasPending = isDirty || activeCount > 0;
 
         if (elP) elP.textContent = String(catalogState.products.length);
         if (elC) elC.textContent = String(catalogState.categories.length);
         if (elF) elF.textContent = String(catalogState.filters.filter(f => f.enabled).length);
         if (elS) elS.textContent = String((siteState.homeSlides || DEFAULT_HOME_SLIDES).length);
         if (pill) {
-            pill.textContent = isDirty ? 'Draft Modified' : 'Synced';
-            pill.classList.toggle('is-dirty', isDirty);
+            pill.textContent = hasPending ? 'Unpublished Draft' : 'Synced';
+            pill.classList.toggle('is-dirty', hasPending);
+        }
+        if (pubDot) {
+            pubDot.classList.toggle('hidden', !hasPending);
+        }
+        if (banner) {
+            banner.classList.toggle('hidden', !hasPending || activeTab === 'publish');
+            if (bannerMsg) {
+                bannerMsg.textContent = activeCount > 0
+                    ? 'You have unpublished changes and ' + activeCount + ' staged photo(s) ready to go live.'
+                    : 'You have unpublished local edits. Preview your changes or publish to update the live website.';
+            }
         }
         const upNote = document.getElementById('pending-uploads-note');
         if (upNote) {
-            const activeCount = getActiveStagedUploads().length;
-            upNote.textContent = activeCount > 0
-                ? 'Note: You have ' + activeCount + ' newly uploaded image file(s) staged' + (idbAvailable ? ' (saved across reloads)' : '') + '. Use "Publish to GitHub" or "Save to Local Project Folder" to write the image files automatically.'
-                : 'No pending local image uploads.';
+            if (activeCount > 0) {
+                const totalBytes = activeUploads.reduce((sum, [, obj]) => sum + (obj.finalBytes || estimateBase64Bytes(obj.base64)), 0);
+                upNote.textContent = 'Ready to publish: ' + activeCount + ' staged photo(s) (' + formatBytes(totalBytes) + ' total) + catalogue & site settings.';
+            } else if (isDirty) {
+                upNote.textContent = 'Ready to publish: unpublished catalogue or website copy changes (0 new photos).';
+            } else {
+                upNote.textContent = 'All published files are currently in sync. No pending image uploads.';
+            }
         }
+    }
+
+    function closeMobileSidebar() {
+        const sb = document.getElementById('adm-sidebar');
+        const bd = document.getElementById('adm-sidebar-backdrop');
+        if (sb) sb.classList.remove('is-open');
+        if (bd) bd.classList.add('hidden');
     }
 
     function switchTab(tab) {
@@ -380,7 +570,10 @@
         document.querySelectorAll('.adm-nav-btn').forEach(b => b.classList.toggle('is-active', b.dataset.tab === tab));
         document.querySelectorAll('.adm-view').forEach(v => v.classList.toggle('hidden', v.id !== 'view-' + tab));
         document.getElementById('adm-page-title').textContent = TAB_TITLES[tab] || 'Admin Studio';
-        document.getElementById('adm-sidebar').classList.remove('is-open');
+        const subEl = document.getElementById('adm-page-sub');
+        if (subEl) subEl.textContent = TAB_SUBTITLES[tab] || '';
+        closeMobileSidebar();
+        updateShellCounters();
 
         if (tab === 'overview') renderOverview();
         else if (tab === 'products') renderProductsTable();
@@ -389,7 +582,6 @@
         else if (tab === 'slides') renderSlidesView();
         else if (tab === 'pages') renderPagesView();
         else if (tab === 'settings') renderSettingsView();
-        else if (tab === 'publish') updateShellCounters();
     }
 
     /* ======================================================================
@@ -408,29 +600,33 @@
             Object.values(pg || {}).forEach(v => { if (typeof v === 'string' && v.trim()) copyOverrides++; });
         });
 
-        document.getElementById('overview-stats').innerHTML =
-            '<div class="adm-stat-card"><div class="adm-stat-label">Published Products</div><div class="adm-stat-value">' + pubProds + '</div><div class="adm-stat-sub">' + hiddenProds + ' hidden / ' + totalProds + ' total</div></div>' +
-            '<div class="adm-stat-card"><div class="adm-stat-label">Collections</div><div class="adm-stat-value">' + visibleCats + '</div><div class="adm-stat-sub">Across 4 groups (Space, Chairs, Tables, Storage)</div></div>' +
-            '<div class="adm-stat-card"><div class="adm-stat-label">Active Filters</div><div class="adm-stat-value">' + catalogState.filters.filter(f => f.enabled).length + '</div><div class="adm-stat-sub">Dynamic category-aware facets</div></div>' +
-            '<div class="adm-stat-card"><div class="adm-stat-label">Page Copy Edits</div><div class="adm-stat-value">' + copyOverrides + '</div><div class="adm-stat-sub">' + (siteState.homeSlides ? 'Custom hero slides active' : 'Default 5 hero slides') + '</div></div>';
+        const statsEl = document.getElementById('overview-stats');
+        statsEl.innerHTML =
+            '<button type="button" class="adm-stat-card" data-jump-tab="products"><div class="adm-stat-label">Published Products</div><div class="adm-stat-value">' + pubProds + '</div><div class="adm-stat-sub">' + hiddenProds + ' hidden · ' + totalProds + ' total</div></button>' +
+            '<button type="button" class="adm-stat-card" data-jump-tab="categories"><div class="adm-stat-label">Collections</div><div class="adm-stat-value">' + visibleCats + '</div><div class="adm-stat-sub">Space, Chairs, Tables &amp; Storage</div></button>' +
+            '<button type="button" class="adm-stat-card" data-jump-tab="filters"><div class="adm-stat-label">Active Filters</div><div class="adm-stat-value">' + catalogState.filters.filter(f => f.enabled).length + '</div><div class="adm-stat-sub">Shown on category listings</div></button>' +
+            '<button type="button" class="adm-stat-card" data-jump-tab="pages"><div class="adm-stat-label">Page Copy Edits</div><div class="adm-stat-value">' + copyOverrides + '</div><div class="adm-stat-sub">' + (siteState.homeSlides ? 'Custom hero slides active' : 'Default 5 hero slides') + '</div></button>';
+        statsEl.querySelectorAll('[data-jump-tab]').forEach(btn => {
+            btn.addEventListener('click', () => switchTab(btn.dataset.jumpTab));
+        });
 
         const healthEl = document.getElementById('overview-health');
         const items = [];
         if (noPhotos > 0) {
-            items.push('<div class="adm-tag-row"><span><strong>' + noPhotos + ' product(s)</strong> currently have no photos assigned.</span><button type="button" class="adm-btn adm-btn-sm" data-health-filter="nophoto">Review</button></div>');
+            items.push('<div class="adm-health-item"><span><strong>' + noPhotos + ' product(s)</strong> currently have no photos assigned.</span><button type="button" class="adm-btn adm-btn-sm" data-health-filter="nophoto">Review</button></div>');
         }
         if (noCats > 0) {
-            items.push('<div class="adm-tag-row"><span><strong>' + noCats + ' product(s)</strong> are not assigned to any collection category yet.</span><button type="button" class="adm-btn adm-btn-sm" data-health-filter="all">Open Products</button></div>');
+            items.push('<div class="adm-health-item"><span><strong>' + noCats + ' product(s)</strong> are not assigned to any collection yet.</span><button type="button" class="adm-btn adm-btn-sm" data-health-filter="all">Open Products</button></div>');
         }
         const wa = (siteState.settings && siteState.settings.whatsappNumber) || '';
         if (!wa || /x/i.test(wa)) {
-            items.push('<div class="adm-tag-row"><span>WhatsApp number is still a placeholder (<code>' + esc(wa || '62xxxxxxxxxx') + '</code>).</span><button type="button" class="adm-btn adm-btn-sm" data-jump-tab="settings">Set Number</button></div>');
+            items.push('<div class="adm-health-item"><span>WhatsApp number is still a placeholder (<code>' + esc(wa || '62xxxxxxxxxx') + '</code>).</span><button type="button" class="adm-btn adm-btn-sm" data-jump-tab="settings">Set Number</button></div>');
         }
         if (!siteState.settings.web3formsAccessKey && !siteState.settings.formspreeEndpoint) {
-            items.push('<div class="adm-tag-row"><span><strong>Get Product Updates</strong> email modal is in preview mode (no Web3Forms key / Formspree URL set yet).</span><button type="button" class="adm-btn adm-btn-sm" data-jump-tab="settings">Configure</button></div>');
+            items.push('<div class="adm-health-item"><span><strong>Get Product Updates</strong> email modal is in preview mode (no Web3Forms key / Formspree URL set yet).</span><button type="button" class="adm-btn adm-btn-sm" data-jump-tab="settings">Configure</button></div>');
         }
 
-        healthEl.innerHTML = items.length ? items.join('') : '<p class="adm-hint">Everything looks healthy and complete.</p>';
+        healthEl.innerHTML = items.length ? items.join('') : '<div class="adm-health-ok">All clear — products, collections, and contact settings look complete.</div>';
         healthEl.querySelectorAll('[data-health-filter]').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.getElementById('prod-filter-status').value = btn.dataset.healthFilter === 'nophoto' ? 'nophoto' : '';
@@ -467,6 +663,8 @@
         const catFilter = document.getElementById('prod-filter-cat').value;
         const typeFilter = document.getElementById('prod-filter-type').value;
         const statusFilter = document.getElementById('prod-filter-status').value;
+        const clearBtn = document.getElementById('prod-clear-filters');
+        if (clearBtn) clearBtn.classList.toggle('hidden', !(q || catFilter || typeFilter || statusFilter));
 
         const catNameMap = {};
         catalogState.categories.forEach(c => { catNameMap[c.slug] = c.name; });
@@ -620,10 +818,14 @@
 
             '<div class="adm-section-divider">Product Photos &amp; Angle Captions</div>' +
             '<div class="adm-gallery-list" id="pe-gallery-list"></div>' +
-            '<div class="adm-toolbar-group">' +
-                '<input type="text" class="adm-input" id="pe-add-img-path" placeholder="Add existing photo path (e.g. dining/foto1.webp)" style="flex:1 1 240px;">' +
+            '<label class="adm-dropzone" id="pe-dropzone">' +
+                '<strong>Drop photos here or click to upload</strong>' +
+                '<span>Supports JPG, PNG, WebP · Large photos auto-compress to WebP for fast loading</span>' +
+                '<input type="file" id="pe-upload-imgs" accept="image/*" multiple style="display:none;">' +
+            '</label>' +
+            '<div class="adm-toolbar-group" style="margin-top:10px;">' +
+                '<input type="text" class="adm-input" id="pe-add-img-path" placeholder="Or paste existing path (e.g. dining/foto1.webp)" style="flex:1 1 240px;">' +
                 '<button type="button" class="adm-btn adm-btn-sm" id="pe-btn-add-img-path">+ Add Path</button>' +
-                '<label class="adm-btn adm-btn-dark adm-btn-sm" style="cursor:pointer;">Upload Photo(s)<input type="file" id="pe-upload-imgs" accept="image/*" multiple style="display:none;"></label>' +
             '</div>';
 
         const footHtml =
@@ -675,20 +877,25 @@
                 galleryEl.innerHTML = '<p class="adm-hint">No photos yet. Add a path or upload images below.</p>';
                 return;
             }
-            galleryEl.innerHTML = gallery.map((g, i) =>
-                '<div class="adm-gallery-item" data-gi="' + i + '">' +
+            galleryEl.innerHTML = gallery.map((g, i) => {
+                const staged = stagedUploads.get(g.img);
+                const compBadge = (staged && staged.compressed && staged.origBytes > staged.finalBytes)
+                    ? '<span class="adm-compress-badge">Auto-compressed ' + esc(formatBytes(staged.origBytes)) + ' &rarr; ' + esc(formatBytes(staged.finalBytes)) + '</span>'
+                    : (staged && staged.finalBytes ? '<span class="adm-hint">Staged upload (' + esc(formatBytes(staged.finalBytes)) + ')</span>' : '');
+                return '<div class="adm-gallery-item" data-gi="' + i + '">' +
                     '<img src="' + esc(resolvePreviewImg(g.img)) + '" alt="">' +
                     '<div class="adm-gallery-inputs">' +
                         '<input type="text" class="adm-input" data-gfield="img" value="' + esc(g.img) + '" placeholder="Image path">' +
                         '<input type="text" class="adm-input" data-gfield="caption" value="' + esc(g.caption) + '" placeholder="Optional angle caption">' +
+                        compBadge +
                     '</div>' +
                     '<div class="adm-row-actions">' +
                         '<button type="button" class="adm-btn adm-btn-ghost adm-btn-sm" data-gact="up"' + (i === 0 ? ' disabled' : '') + '>&uarr;</button>' +
                         '<button type="button" class="adm-btn adm-btn-ghost adm-btn-sm" data-gact="down"' + (i === gallery.length - 1 ? ' disabled' : '') + '>&darr;</button>' +
                         '<button type="button" class="adm-btn adm-btn-danger adm-btn-sm" data-gact="rm">&times;</button>' +
                     '</div>' +
-                '</div>'
-            ).join('');
+                '</div>';
+            }).join('');
         }
         renderGallery();
 
@@ -724,19 +931,47 @@
             renderGallery();
         });
 
-        document.getElementById('pe-upload-imgs').addEventListener('change', async (e) => {
-            const files = Array.from(e.target.files || []);
+        async function handleProductPhotoFiles(fileList) {
+            const files = Array.from(fileList || []).filter(f => f && /^image\//i.test(f.type || 'image/'));
             if (!files.length) return;
             const folder = slugify(idInput.value || nameInput.value || 'new-piece');
+            let compressedCount = 0;
+            let savedBytes = 0;
+            toast('Processing ' + files.length + ' photo(s)...');
             for (const file of files) {
-                const { relPath } = await stageUploadFile(folder, file);
+                const { relPath, fileObj } = await stageUploadFile(folder, file, 'default');
+                if (fileObj.compressed) {
+                    compressedCount++;
+                    savedBytes += Math.max(0, (fileObj.origBytes || 0) - (fileObj.finalBytes || 0));
+                }
                 gallery.push({ img: relPath, caption: '' });
             }
-            e.target.value = '';
             renderGallery();
             updateShellCounters();
-            toast('Added ' + files.length + ' photo(s) to gallery');
+            if (compressedCount > 0) {
+                toast('Added ' + files.length + ' photo(s) — auto-compressed ' + compressedCount + ' (saved ' + formatBytes(savedBytes) + ')');
+            } else {
+                toast('Added ' + files.length + ' photo(s) to gallery');
+            }
+        }
+
+        document.getElementById('pe-upload-imgs').addEventListener('change', async (e) => {
+            await handleProductPhotoFiles(e.target.files);
+            e.target.value = '';
         });
+
+        const peDropzone = document.getElementById('pe-dropzone');
+        if (peDropzone) {
+            ['dragenter', 'dragover'].forEach(ev => {
+                peDropzone.addEventListener(ev, (e) => { e.preventDefault(); peDropzone.classList.add('is-dragover'); });
+            });
+            ['dragleave', 'drop'].forEach(ev => {
+                peDropzone.addEventListener(ev, (e) => { e.preventDefault(); peDropzone.classList.remove('is-dragover'); });
+            });
+            peDropzone.addEventListener('drop', (e) => {
+                if (e.dataTransfer && e.dataTransfer.files) handleProductPhotoFiles(e.dataTransfer.files);
+            });
+        }
 
         document.getElementById('pe-btn-cancel').addEventListener('click', closeDrawer);
 
@@ -894,13 +1129,14 @@
         document.getElementById('ce-upload').addEventListener('change', async (e) => {
             const file = e.target.files && e.target.files[0];
             if (!file) return;
-            const { relPath, fileObj } = await stageUploadFile('categories', file);
+            toast('Optimising cover photo...');
+            const { relPath, fileObj } = await stageUploadFile('categories', file, 'default');
             imgInp.value = relPath;
             prevImg.src = fileObj.dataUrl;
             prevImg.style.display = 'block';
             e.target.value = '';
             updateShellCounters();
-            toast('Cover photo staged');
+            toast(formatUploadToast('Cover photo staged', fileObj));
         });
 
         document.getElementById('ce-cancel').addEventListener('click', closeDrawer);
@@ -1510,18 +1746,28 @@
             btn.addEventListener('click', () => switchTab(btn.dataset.tab));
         });
         document.getElementById('adm-menu-btn').addEventListener('click', () => {
-            document.getElementById('adm-sidebar').classList.toggle('is-open');
+            const sb = document.getElementById('adm-sidebar');
+            const bd = document.getElementById('adm-sidebar-backdrop');
+            const open = sb.classList.toggle('is-open');
+            if (bd) bd.classList.toggle('hidden', !open);
         });
+        const sbBackdrop = document.getElementById('adm-sidebar-backdrop');
+        if (sbBackdrop) sbBackdrop.addEventListener('click', closeMobileSidebar);
 
-        // Topbar actions
-        document.getElementById('btn-preview-site').addEventListener('click', () => {
+        // Topbar & Draft Banner actions
+        function openSitePreview() {
             saveDraft(true);
             try { localStorage.setItem(PREVIEW_KEY, '1'); } catch (e) {}
             window.open('index.html', '_blank', 'noopener');
             toast('Draft preview enabled — opened Homepage in new tab');
-        });
+        }
+        document.getElementById('btn-preview-site').addEventListener('click', openSitePreview);
+        const bannerPreviewBtn = document.getElementById('banner-preview-btn');
+        if (bannerPreviewBtn) bannerPreviewBtn.addEventListener('click', openSitePreview);
 
         document.getElementById('btn-go-publish').addEventListener('click', () => switchTab('publish'));
+        const bannerPublishBtn = document.getElementById('banner-publish-btn');
+        if (bannerPublishBtn) bannerPublishBtn.addEventListener('click', () => switchTab('publish'));
 
         document.getElementById('btn-discard-draft').addEventListener('click', async () => {
             if (!confirm('Discard all unpublished local edits and reload from the current saved site files?')) return;
@@ -1553,6 +1799,16 @@
             document.getElementById(id).addEventListener('input', renderProductsTable);
             document.getElementById(id).addEventListener('change', renderProductsTable);
         });
+        const prodClearBtn = document.getElementById('prod-clear-filters');
+        if (prodClearBtn) {
+            prodClearBtn.addEventListener('click', () => {
+                document.getElementById('prod-search').value = '';
+                document.getElementById('prod-filter-cat').value = '';
+                document.getElementById('prod-filter-type').value = '';
+                document.getElementById('prod-filter-status').value = '';
+                renderProductsTable();
+            });
+        }
         document.getElementById('prod-table-body').addEventListener('click', (e) => {
             const btn = e.target.closest('[data-act]');
             if (!btn) return;
@@ -1710,11 +1966,13 @@
             const file = e.target.files && e.target.files[0];
             if (!file) return;
             ensureSlidesWritable();
-            const { relPath } = await stageUploadFile('slides', file);
+            toast('Optimising slide photo...');
+            const { relPath, fileObj } = await stageUploadFile('slides', file, 'hero');
             siteState.homeSlides[i].image = relPath;
             e.target.value = '';
-            saveDraft(false, 'site');
+            saveDraft(true, 'site');
             renderSlidesView();
+            toast(formatUploadToast('Slide photo updated', fileObj));
         });
         document.getElementById('slides-container').addEventListener('click', (e) => {
             const btn = e.target.closest('[data-sact]');
@@ -1763,12 +2021,14 @@
             if (!key) return;
             const file = e.target.files && e.target.files[0];
             if (!file) return;
-            const { relPath } = await stageUploadFile('pages', file);
+            toast('Optimising page photo...');
+            const { relPath, fileObj } = await stageUploadFile('pages', file, 'hero');
             if (!siteState.pages[activePageKey]) siteState.pages[activePageKey] = {};
             siteState.pages[activePageKey][key] = relPath;
             e.target.value = '';
-            saveDraft(false, 'site');
+            saveDraft(true, 'site');
             renderPagesView();
+            toast(formatUploadToast('Page image updated', fileObj));
         });
         document.getElementById('pages-fields-wrap').addEventListener('click', (e) => {
             const btn = e.target.closest('[data-preset]');
