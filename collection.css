@@ -1,17 +1,21 @@
 /* ==========================================================================
    collection.css
-   Main Collections Directory — Architectural Swiss-editorial layout.
-   Zero gradients, zero rounded cards, sharp edges, generous intentional space.
-   Sections: 01 Browse by Space | 02 Chairs | 03 Tables | 04 Storage
+   Main Collections Directory — Clean Architectural Editorial Grid.
+   Consistent 4:3 card proportions, aligned rows, balanced columns, and proper
+   sticky-header scroll offset across desktop, tablet, and mobile.
    ========================================================================== */
 
 :root {
     --col-surface-white: #ffffff;
     --col-surface-warm: #f5f3ef;
     --col-ink: #1a1a1a;
-    --col-ink-muted: #5a554f;
+    --col-ink-muted: #5f5a53;
     --col-hairline: #e2ddd5;
     --col-hairline-strong: #c8c2b8;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 html:has(body.collections-directory-page),
@@ -37,7 +41,7 @@ body.collections-directory-page .col-band .scroll-reveal {
 /* ---------- Editorial Page Header Band ---------- */
 .col-intro-band {
     background-color: var(--col-surface-white);
-    padding: clamp(44px, 6vw, 84px) 0 clamp(36px, 5vw, 60px);
+    padding: clamp(36px, 5vw, 68px) 0 clamp(28px, 4vw, 48px);
     border-bottom: 1px solid var(--col-hairline);
 }
 
@@ -45,12 +49,12 @@ body.collections-directory-page .col-band .scroll-reveal {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: end;
-    gap: 24px 48px;
+    gap: 20px 40px;
 }
 
 .col-intro-title {
-    font-size: clamp(2.25rem, 5vw, 4rem);
-    line-height: 1.02;
+    font-size: clamp(2.1rem, 4.4vw, 3.6rem);
+    line-height: 1.04;
     letter-spacing: -0.03em;
     font-weight: 700;
     color: var(--col-ink);
@@ -62,15 +66,15 @@ body.collections-directory-page .col-band .scroll-reveal {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 16px 26px;
-    padding-bottom: 6px;
+    gap: 14px 24px;
+    padding-bottom: 4px;
 }
 
 .col-jump-link {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -89,7 +93,7 @@ body.collections-directory-page .col-band .scroll-reveal {
 }
 
 .col-jump-arrow {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     transition: transform 0.25s ease;
 }
 
@@ -99,7 +103,9 @@ body.collections-directory-page .col-band .scroll-reveal {
 
 /* ---------- Shared Section Bands ---------- */
 .col-band {
-    padding: clamp(52px, 6.5vw, 96px) 0;
+    padding: clamp(44px, 5.5vw, 76px) 0;
+    /* Offset anchor scroll below the sticky header so headings never get cut off */
+    scroll-margin-top: 128px;
 }
 
 .col-band-warm {
@@ -115,10 +121,10 @@ body.collections-directory-page .col-band .scroll-reveal {
 .col-section-head {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: flex-end;
     gap: 20px;
-    padding-bottom: 22px;
-    margin-bottom: clamp(28px, 4vw, 48px);
+    padding-bottom: 18px;
+    margin-bottom: clamp(24px, 3.2vw, 36px);
     border-bottom: 1px solid var(--col-hairline);
 }
 
@@ -129,20 +135,20 @@ body.collections-directory-page .col-band .scroll-reveal {
     text-transform: uppercase;
     color: var(--accent);
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .col-section-heading {
-    font-size: clamp(1.5rem, 2.5vw, 2.15rem);
+    font-size: clamp(1.45rem, 2.3vw, 2rem);
     font-weight: 700;
     letter-spacing: -0.025em;
-    line-height: 1.12;
+    line-height: 1.15;
     color: var(--col-ink);
     margin: 0;
 }
 
 .col-section-count {
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -150,13 +156,30 @@ body.collections-directory-page .col-band .scroll-reveal {
     white-space: nowrap;
 }
 
-/* ---------- Category Tile Base ---------- */
+/* ---------- Clean Uniform Category Grids ---------- */
+.col-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(24px, 2.8vw, 36px) clamp(20px, 2.4vw, 30px);
+    align-items: stretch;
+}
+
+.col-cards-grid.is-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.col-cards-grid.is-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* ---------- Category Tile Card ---------- */
 .col-tile {
     display: flex;
     flex-direction: column;
     text-decoration: none;
     color: var(--col-ink);
     position: relative;
+    height: 100%;
 }
 
 .col-tile:focus-visible {
@@ -167,8 +190,14 @@ body.collections-directory-page .col-band .scroll-reveal {
 .col-tile-media {
     position: relative;
     width: 100%;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
-    background-color: #e9e5de;
+    background-color: #ebe6de;
+    flex-shrink: 0;
+}
+
+.col-cards-grid.is-cols-2 .col-tile-media {
+    aspect-ratio: 16 / 10;
 }
 
 .col-tile-media img {
@@ -176,23 +205,24 @@ body.collections-directory-page .col-band .scroll-reveal {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .col-tile:hover .col-tile-media img,
 .col-tile:focus-visible .col-tile-media img {
-    transform: scale(1.038);
+    transform: scale(1.035);
 }
 
 .col-tile-meta {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 16px;
-    padding-top: 16px;
-    padding-bottom: 12px;
+    gap: 14px;
+    padding: 15px 0 14px;
     border-bottom: 1px solid var(--col-hairline);
-    transition: border-color 0.25s ease;
+    flex: 1 1 auto;
+    transition: border-color 0.22s ease;
 }
 
 .col-tile:hover .col-tile-meta,
@@ -202,10 +232,13 @@ body.collections-directory-page .col-band .scroll-reveal {
 
 .col-tile-text {
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .col-tile-name {
-    font-size: clamp(1.02rem, 1.3vw, 1.2rem);
+    font-size: clamp(1rem, 1.25vw, 1.15rem);
     font-weight: 700;
     letter-spacing: -0.015em;
     line-height: 1.25;
@@ -220,21 +253,25 @@ body.collections-directory-page .col-band .scroll-reveal {
 }
 
 .col-tile-sub {
-    font-size: 0.85rem;
+    font-size: 0.84rem;
     line-height: 1.5;
     color: var(--col-ink-muted);
-    margin: 6px 0 0;
-    max-width: 44ch;
+    margin: 3px 0 2px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .col-tile-count {
     display: inline-block;
-    margin-top: 4px;
-    font-size: 0.74rem;
+    font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--col-ink-muted);
+    margin-top: auto;
+    padding-top: 2px;
 }
 
 .col-tile-arrow {
@@ -242,7 +279,7 @@ body.collections-directory-page .col-band .scroll-reveal {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     line-height: 1;
     color: var(--col-ink);
     padding-top: 2px;
@@ -255,71 +292,12 @@ body.collections-directory-page .col-band .scroll-reveal {
     color: var(--accent);
 }
 
-/* ---------- 01. Browse by Space (3 items: Asymmetric 12-Col Spread) ---------- */
-.space-grid {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: clamp(20px, 2.5vw, 36px);
-    row-gap: clamp(36px, 5vw, 60px);
-    align-items: start;
-}
-
-.space-tile-1 { grid-column: 1 / span 8; }
-.space-tile-1 .col-tile-media { aspect-ratio: 16 / 10; }
-
-.space-tile-2 { grid-column: 9 / span 4; }
-.space-tile-2 .col-tile-media { aspect-ratio: 4 / 5; }
-
-.space-index-note {
-    grid-column: 1 / span 3;
-    padding-top: 16px;
-    border-top: 1px solid var(--col-hairline-strong);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.space-index-num {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-}
-
-.space-index-caption {
-    font-size: 0.88rem;
-    line-height: 1.55;
-    color: var(--col-ink-muted);
-    margin: 0;
-}
-
-.space-tile-3 { grid-column: 4 / span 9; }
-.space-tile-3 .col-tile-media { aspect-ratio: 21 / 10; }
-
-/* ---------- Generic editorial grid (any number of categories) ---------- */
-.dir-grid {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: clamp(18px, 2.4vw, 34px);
-    row-gap: clamp(36px, 4.8vw, 60px);
-    align-items: start;
-}
-
-.dir-grid .dir-tile {
-    grid-column: span var(--span, 6);
-}
-
-.dir-grid .dir-tile .col-tile-media {
-    aspect-ratio: var(--ar, 4 / 3);
-    max-height: 640px;
-}
-/* ---------- 04. Storage (1 signature split feature) ---------- */
+/* ---------- 04. Single-Item Feature Split (e.g. Storage) ---------- */
 .storage-feature {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: clamp(20px, 2.5vw, 36px);
-    row-gap: 24px;
+    column-gap: clamp(20px, 2.8vw, 36px);
+    row-gap: 20px;
     align-items: stretch;
     text-decoration: none;
     color: var(--col-ink);
@@ -331,11 +309,11 @@ body.collections-directory-page .col-band .scroll-reveal {
 }
 
 .storage-feature-copy {
-    grid-column: 1 / span 4;
+    grid-column: 1 / span 5;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 20px 0 12px;
+    padding: 20px 0 14px;
     border-top: 1px solid var(--col-hairline-strong);
     border-bottom: 1px solid var(--col-hairline);
     transition: border-bottom-color 0.25s ease;
@@ -346,7 +324,7 @@ body.collections-directory-page .col-band .scroll-reveal {
 }
 
 .storage-feature-title {
-    font-size: clamp(1.3rem, 2vw, 1.75rem);
+    font-size: clamp(1.25rem, 1.9vw, 1.65rem);
     font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--col-ink);
@@ -363,7 +341,7 @@ body.collections-directory-page .col-band .scroll-reveal {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding-top: 24px;
+    padding-top: 20px;
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -377,10 +355,10 @@ body.collections-directory-page .col-band .scroll-reveal {
 }
 
 .storage-feature-media {
-    grid-column: 5 / span 8;
-    aspect-ratio: 16 / 9;
+    grid-column: 6 / span 7;
+    aspect-ratio: 16 / 10;
     overflow: hidden;
-    background-color: #e9e5de;
+    background-color: #ebe6de;
 }
 
 .storage-feature-media img {
@@ -388,31 +366,31 @@ body.collections-directory-page .col-band .scroll-reveal {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .storage-feature:hover .storage-feature-media img {
-    transform: scale(1.038);
+    transform: scale(1.035);
 }
 
 /* ---------- Custom Work CTA Band ---------- */
 .col-custom-band {
     background-color: var(--col-surface-warm);
-    padding: clamp(56px, 7vw, 96px) 0;
+    padding: clamp(52px, 6.5vw, 84px) 0;
 }
 
 .col-custom-grid {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
-    gap: 32px 64px;
+    gap: 28px 56px;
     align-items: start;
-    padding-top: 32px;
+    padding-top: 28px;
     border-top: 1px solid var(--col-hairline-strong);
 }
 
 .col-custom-heading {
-    font-size: clamp(1.6rem, 3vw, 2.4rem);
-    line-height: 1.14;
+    font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+    line-height: 1.15;
     letter-spacing: -0.025em;
     font-weight: 700;
     color: var(--col-ink);
@@ -420,10 +398,10 @@ body.collections-directory-page .col-band .scroll-reveal {
 }
 
 .col-custom-body {
-    font-size: 1rem;
+    font-size: 0.98rem;
     line-height: 1.65;
     color: var(--col-ink-muted);
-    margin: 0 0 28px;
+    margin: 0 0 24px;
     max-width: 52ch;
 }
 
@@ -435,44 +413,25 @@ body.collections-directory-page .col-band .scroll-reveal {
 
 /* ---------- Responsive: Tablet (<= 960px) ---------- */
 @media (max-width: 960px) {
+    .col-band {
+        scroll-margin-top: 104px;
+    }
+
     .col-intro-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 18px;
     }
 
-    .space-grid,
-    .dir-grid {
+    .col-cards-grid,
+    .col-cards-grid.is-cols-2,
+    .col-cards-grid.is-cols-3 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        row-gap: 36px;
+        gap: 28px 20px;
     }
 
-    .space-tile-1,
-    .dir-grid .dir-tile-lead {
-        grid-column: 1 / -1;
-    }
-
-    .space-tile-2,
-    .space-tile-3,
-    .dir-grid .dir-tile {
-        grid-column: auto;
-    }
-
-    .dir-grid .dir-tile.dir-tile-lead {
-        grid-column: 1 / -1;
-    }
-
-    .space-index-note {
-        display: none;
-    }
-
-    .space-grid .col-tile-media,
-    .dir-grid .dir-tile .col-tile-media {
+    .col-cards-grid.is-cols-2 .col-tile-media,
+    .col-tile-media {
         aspect-ratio: 4 / 3;
-    }
-
-    .space-tile-1 .col-tile-media,
-    .dir-grid .dir-tile-lead .col-tile-media {
-        aspect-ratio: 16 / 9;
     }
 
     .storage-feature {
@@ -482,7 +441,7 @@ body.collections-directory-page .col-band .scroll-reveal {
     .storage-feature-copy {
         grid-column: auto;
         order: 2;
-        padding-top: 0;
+        padding-top: 4px;
         border-top: none;
     }
 
@@ -494,53 +453,39 @@ body.collections-directory-page .col-band .scroll-reveal {
 
     .col-custom-grid {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 22px;
     }
 }
 
-/* ---------- Responsive: Mobile (<= 600px) ---------- */
-@media (max-width: 600px) {
+/* ---------- Responsive: Mobile (<= 580px) ---------- */
+@media (max-width: 580px) {
+    .col-band {
+        scroll-margin-top: 96px;
+    }
+
     .col-intro-nav {
-        gap: 12px 18px;
+        gap: 10px 16px;
     }
 
-    .space-grid {
+    .col-section-head {
+        align-items: flex-end;
+        padding-bottom: 14px;
+        margin-bottom: 22px;
+    }
+
+    .col-cards-grid,
+    .col-cards-grid.is-cols-2,
+    .col-cards-grid.is-cols-3 {
         grid-template-columns: 1fr;
-        row-gap: 30px;
+        gap: 26px;
     }
 
-    .space-tile-1 .col-tile-media,
-    .space-tile-2 .col-tile-media,
-    .space-tile-3 .col-tile-media {
+    .col-tile-media {
         aspect-ratio: 4 / 3;
     }
 
-    .dir-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        column-gap: 14px;
-        row-gap: 28px;
-    }
-
-    .dir-grid .dir-tile.dir-tile-lead {
-        grid-column: 1 / -1;
-    }
-
-    .dir-grid .dir-tile-lead .col-tile-media {
-        aspect-ratio: 16 / 10;
-    }
-
     .col-tile-meta {
-        padding-top: 12px;
-        padding-bottom: 10px;
-        gap: 8px;
-    }
-
-    .col-tile-name {
-        font-size: 0.94rem;
-    }
-
-    .col-tile-sub {
-        display: none;
+        padding: 13px 0 12px;
     }
 
     .col-custom-actions .btn {
@@ -549,6 +494,9 @@ body.collections-directory-page .col-band .scroll-reveal {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
     .col-tile-media img,
     .storage-feature-media img,
     .col-tile-arrow,

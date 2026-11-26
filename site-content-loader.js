@@ -150,23 +150,30 @@
         return null;
     }
 
-    const { content, previewing } = getActiveSiteContent();
-    global.PACTFORM_SITE_CONTENT = content;
-    global.PACTFORM_PAGE_SCHEMA = PAGE_SCHEMA;
+    const activeResult = getActiveSiteContent();
+    let content = activeResult.content;
+    const previewing = activeResult.previewing;
+    let settings = {};
 
-    // Expose global settings immediately so other scripts (your-list.js, product-updates.js, product.html) can read them
-    const settings = content.settings || {};
-    const rawWa = String(settings.whatsappNumber || '').trim();
-    const digitsWa = rawWa && !/x/i.test(rawWa) ? rawWa.replace(/[^\d]/g, '') : '';
-    if (digitsWa.length >= 7) {
-        global.PACTFORM_WA_NUMBER = digitsWa;
+    function syncGlobalSettings(nextContent) {
+        content = nextContent || { settings: {}, homeSlides: null, pages: {} };
+        global.PACTFORM_SITE_CONTENT = content;
+        global.PACTFORM_PAGE_SCHEMA = PAGE_SCHEMA;
+        settings = content.settings || {};
+        const rawWa = String(settings.whatsappNumber || '').trim();
+        const digitsWa = rawWa && !/x/i.test(rawWa) ? rawWa.replace(/[^\d]/g, '') : '';
+        if (digitsWa.length >= 7) {
+            global.PACTFORM_WA_NUMBER = digitsWa;
+        }
+        if (settings.formspreeEndpoint || settings.web3formsAccessKey) {
+            global.PACTFORM_UPDATES_CONFIG = {
+                FORMSPREE_ENDPOINT: settings.formspreeEndpoint || '',
+                WEB3FORMS_ACCESS_KEY: settings.web3formsAccessKey || ''
+            };
+        }
     }
-    if (settings.formspreeEndpoint || settings.web3formsAccessKey) {
-        global.PACTFORM_UPDATES_CONFIG = {
-            FORMSPREE_ENDPOINT: settings.formspreeEndpoint || '',
-            WEB3FORMS_ACCESS_KEY: settings.web3formsAccessKey || ''
-        };
-    }
+
+    syncGlobalSettings(content);
 
     function loadStagedUploadsFromIDB() {
         return new Promise((resolve) => {
@@ -336,5 +343,22 @@
         document.addEventListener('DOMContentLoaded', applyToDOM);
     } else {
         applyToDOM();
+    }
+
+    // Background freshness check for site-content.js (bypasses 10-min GitHub Pages JS cache)
+    if (!isAdminStudio && !previewing && typeof fetch === 'function' && global.location && /^https?:$/i.test(global.location.protocol || '')) {
+        fetch('site-content.js?_=' + Date.now(), { cache: 'no-store' })
+            .then(res => (res.ok ? res.text() : ''))
+            .then(text => {
+                const m = text && text.match(/\/\*\s*PACTFORM_SITE:BEGIN\s*\*\/([\s\S]*?)\/\*\s*PACTFORM_SITE:END\s*\*\//);
+                if (!m) return;
+                const body = m[1].trim().replace(/^window\.PACTFORM_SITE_CONTENT\s*=\s*/, '').replace(/;\s*$/, '');
+                const fresh = JSON.parse(body);
+                if (fresh && fresh.updatedAt && fresh.updatedAt !== content.updatedAt) {
+                    syncGlobalSettings(fresh);
+                    applyToDOM();
+                }
+            })
+            .catch(() => {});
     }
 })(window);

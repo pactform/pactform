@@ -125,30 +125,41 @@
         return out.length ? out : DEFAULT_FILTERS.map(f => Object.assign({}, f));
     }
 
-    const DATA = {
-        version: source.version || 1,
-        updatedAt: str(source.updatedAt),
-        categories: (Array.isArray(source.categories) ? source.categories : []).map(normalizeCategory).filter(c => c.slug),
-        products: (Array.isArray(source.products) ? source.products : []).map(normalizeProduct).filter(p => p.id),
-        filters: normalizeFilters(source.filters),
-        taxonomy: source.taxonomy && typeof source.taxonomy === 'object' ? source.taxonomy : {},
-        settings: source.settings && typeof source.settings === 'object' ? source.settings : {}
-    };
-    global.PACTFORM_DATA = DATA;
+    let DATA = { version: 1, updatedAt: '', categories: [], products: [], filters: [], taxonomy: {}, settings: {} };
+    let CATEGORY_MAP = {};
+    let ALIAS_MAP = {};
+    let PRODUCT_BY_ID = {};
+    let PRODUCT_BY_LEGACY_KEY = {};
 
-    /* ---------- Indexes ---------- */
-    const CATEGORY_MAP = {};
-    const ALIAS_MAP = {};
-    DATA.categories.forEach(c => {
-        CATEGORY_MAP[c.slug] = c;
-        c.aliases.forEach(a => { if (!ALIAS_MAP[a]) ALIAS_MAP[a] = c.slug; });
-    });
-    const PRODUCT_BY_ID = {};
-    const PRODUCT_BY_LEGACY_KEY = {};
-    DATA.products.forEach(p => {
-        PRODUCT_BY_ID[p.id] = p;
-        if (p.legacyKey && !PRODUCT_BY_LEGACY_KEY[p.legacyKey]) PRODUCT_BY_LEGACY_KEY[p.legacyKey] = p;
-    });
+    function applyCatalogSource(rawSource) {
+        const src = (rawSource && typeof rawSource === 'object') ? rawSource : { categories: [], products: [] };
+        DATA = {
+            version: src.version || 1,
+            updatedAt: str(src.updatedAt),
+            categories: (Array.isArray(src.categories) ? src.categories : []).map(normalizeCategory).filter(c => c.slug),
+            products: (Array.isArray(src.products) ? src.products : []).map(normalizeProduct).filter(p => p.id),
+            filters: normalizeFilters(src.filters),
+            taxonomy: src.taxonomy && typeof src.taxonomy === 'object' ? src.taxonomy : {},
+            settings: src.settings && typeof src.settings === 'object' ? src.settings : {}
+        };
+        CATEGORY_MAP = {};
+        ALIAS_MAP = {};
+        DATA.categories.forEach(c => {
+            CATEGORY_MAP[c.slug] = c;
+            c.aliases.forEach(a => { if (!ALIAS_MAP[a]) ALIAS_MAP[a] = c.slug; });
+        });
+        PRODUCT_BY_ID = {};
+        PRODUCT_BY_LEGACY_KEY = {};
+        DATA.products.forEach(p => {
+            PRODUCT_BY_ID[p.id] = p;
+            if (p.legacyKey && !PRODUCT_BY_LEGACY_KEY[p.legacyKey]) PRODUCT_BY_LEGACY_KEY[p.legacyKey] = p;
+        });
+        global.PACTFORM_DATA = DATA;
+        global.PACTFORM_CATEGORIES = DATA.categories;
+        global.PACTFORM_PRODUCTS = DATA.products;
+    }
+
+    applyCatalogSource(source);
 
     function visibleCategory(c) { return c && !c.hidden; }
 
@@ -305,8 +316,6 @@
         else showPreviewBanner();
     }
 
-    global.PACTFORM_CATEGORIES = DATA.categories;
-    global.PACTFORM_PRODUCTS = DATA.products;
     global.PactformCatalog = {
         getGroups,
         getCategories,
@@ -322,4 +331,28 @@
         buildProductSlides,
         isPreview: () => previewing
     };
+
+    /* ---------- Background freshness check (bypasses 10-min GitHub Pages JS cache) ---------- */
+    function extractCatalogJson(jsText) {
+        const m = jsText.match(/\/\*\s*PACTFORM_DATA:BEGIN\s*\*\/([\s\S]*?)\/\*\s*PACTFORM_DATA:END\s*\*\//);
+        if (!m) return null;
+        const body = m[1].trim().replace(/^window\.PACTFORM_DATA\s*=\s*/, '').replace(/;\s*$/, '');
+        return JSON.parse(body);
+    }
+
+    if (!isAdminStudio && !previewing && typeof fetch === 'function' && global.location && /^https?:$/i.test(global.location.protocol || '')) {
+        fetch('catalog-content.js?_=' + Date.now(), { cache: 'no-store' })
+            .then(res => (res.ok ? res.text() : ''))
+            .then(text => {
+                if (!text) return;
+                const fresh = extractCatalogJson(text);
+                if (fresh && fresh.updatedAt && fresh.updatedAt !== DATA.updatedAt) {
+                    applyCatalogSource(fresh);
+                    try {
+                        global.dispatchEvent(new CustomEvent('pactform:catalog-updated', { detail: DATA }));
+                    } catch (e) {}
+                }
+            })
+            .catch(() => {});
+    }
 })(window);

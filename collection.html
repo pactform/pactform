@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pactform - Collection</title>
     <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="collection.css">
+    <link rel="stylesheet" href="collection.css?v=2">
     <link rel="stylesheet" href="preloader.css?v=3.0">
     <link rel="stylesheet" href="scroll-reveal.css">
 </head>
@@ -256,12 +256,12 @@
                     : 'Catalogue in preparation';
             }
 
-            function buildTile(cat, tileClass, opts) {
+            function buildTile(cat, opts) {
                 const showSub = opts && opts.showSub && cat.subtext;
                 const eager = opts && opts.eager;
                 const a = document.createElement('a');
                 a.href = 'category.html?type=' + encodeURIComponent(cat.slug);
-                a.className = 'col-tile ' + tileClass;
+                a.className = 'col-tile';
                 a.innerHTML =
                     '<div class="col-tile-media">' +
                         '<img ' + (eager ? 'loading="eager"' : 'loading="lazy"') + ' decoding="async" src="' + escapeHtml(cat.image) + '" alt="' + escapeHtml(cat.name) + '">' +
@@ -284,60 +284,20 @@
                 storage: { section: 'storage',         grid: 'storage-category-wrap', count: 'storage-section-count', unit: ['category', 'categories'] }
             };
 
-            // Editorial row rhythm for any number of categories (12-column grid)
-            function rowTemplates(n) {
-                const rows = [];
-                let left = n;
-                while (left >= 6) { rows.push([7, 5], [4, 5, 3]); left -= 5; }
-                if (left === 5) rows.push([7, 5], [4, 5, 3]);
-                else if (left === 4) rows.push([8, 4], [5, 7]);
-                else if (left === 3) rows.push([4, 5, 3]);
-                else if (left === 2) rows.push([7, 5]);
-                else if (left === 1) rows.push([12]);
-                return rows;
-            }
-
-            function aspectFor(span, rowLen) {
-                if (span === 12) return '21 / 9';
-                if (rowLen === 2) return span >= 7 ? '16 / 10' : (span <= 4 ? '4 / 5' : '11 / 10');
-                if (span === 4) return '1 / 1';
-                if (span === 3) return '3 / 4';
-                return '5 / 4';
-            }
-
-            function renderGeneric(grid, cats, eager) {
-                grid.classList.add('dir-grid');
-                let i = 0;
-                rowTemplates(cats.length).forEach(row => {
-                    row.forEach(span => {
-                        const cat = cats[i];
-                        if (!cat) return;
-                        const tile = buildTile(cat, 'dir-tile' + (i === 0 ? ' dir-tile-lead' : ''), { showSub: false, eager: eager && i < 2 });
-                        tile.style.setProperty('--span', String(span));
-                        tile.style.setProperty('--ar', aspectFor(span, row.length));
-                        grid.appendChild(tile);
-                        i++;
-                    });
-                });
-            }
-
-            function renderSpace(grid, cats) {
-                grid.classList.add('space-grid');
+            function renderGrid(grid, cats, opts) {
+                grid.innerHTML = '';
+                grid.className = 'col-cards-grid ' + ((cats.length === 2 || cats.length === 4) ? 'is-cols-2' : 'is-cols-3');
                 cats.forEach((cat, idx) => {
-                    if (idx === 2) {
-                        const note = document.createElement('div');
-                        note.className = 'space-index-note';
-                        note.setAttribute('aria-hidden', 'true');
-                        note.innerHTML =
-                            '<span class="space-index-num">03 / ' + escapeHtml(cat.name) + '</span>' +
-                            (cat.subtext ? '<p class="space-index-caption">' + escapeHtml(cat.subtext) + '</p>' : '');
-                        grid.appendChild(note);
-                    }
-                    grid.appendChild(buildTile(cat, 'space-tile-' + (idx + 1), { showSub: idx === 0, eager: idx < 2 }));
+                    grid.appendChild(buildTile(cat, {
+                        showSub: Boolean(opts && opts.showSub),
+                        eager: Boolean(opts && opts.eager && idx < 3)
+                    }));
                 });
             }
 
             function renderStorageFeature(wrap, cat) {
+                wrap.innerHTML = '';
+                wrap.className = '';
                 const a = document.createElement('a');
                 a.href = 'category.html?type=' + encodeURIComponent(cat.slug);
                 a.className = 'storage-feature';
@@ -345,6 +305,7 @@
                     '<div class="storage-feature-copy">' +
                         '<div>' +
                             '<h3 class="storage-feature-title">' + escapeHtml(cat.name) + '</h3>' +
+                            (cat.subtext ? '<p class="col-tile-sub" style="margin-bottom:8px;">' + escapeHtml(cat.subtext) + '</p>' : '') +
                             '<span class="col-tile-count">' + escapeHtml(formatCount(cat)) + '</span>' +
                         '</div>' +
                         '<div class="storage-feature-cta">' +
@@ -358,35 +319,41 @@
                 wrap.appendChild(a);
             }
 
-            const visibleSections = [];
-            let firstRendered = true;
-            catalog.getGroups().forEach(g => {
-                const cfg = SECTIONS[g.key];
-                if (!cfg) return;
-                const section = document.getElementById(cfg.section);
-                const grid = document.getElementById(cfg.grid);
-                const countEl = document.getElementById(cfg.count);
-                const jump = document.querySelector('.col-jump-link[href="#' + cfg.section + '"]');
-                if (!section || !grid) return;
-                const cats = catalog.getCategories(g.key);
-                if (!cats.length) {
-                    section.classList.add('hidden');
-                    if (jump) jump.classList.add('hidden');
-                    return;
-                }
-                if (countEl) countEl.textContent = cats.length + ' ' + (cats.length === 1 ? cfg.unit[0] : cfg.unit[1]);
-                if (g.key === 'space' && cats.length === 3) renderSpace(grid, cats);
-                else if (g.key === 'storage' && cats.length === 1) renderStorageFeature(grid, cats[0]);
-                else renderGeneric(grid, cats, firstRendered);
-                firstRendered = false;
-                visibleSections.push(section);
-            });
+            function renderDirectory() {
+                const visibleSections = [];
+                let firstRendered = true;
+                catalog.getGroups().forEach(g => {
+                    const cfg = SECTIONS[g.key];
+                    if (!cfg) return;
+                    const section = document.getElementById(cfg.section);
+                    const grid = document.getElementById(cfg.grid);
+                    const countEl = document.getElementById(cfg.count);
+                    const jump = document.querySelector('.col-jump-link[href="#' + cfg.section + '"]');
+                    if (!section || !grid) return;
+                    const cats = catalog.getCategories(g.key);
+                    if (!cats.length) {
+                        section.classList.add('hidden');
+                        if (jump) jump.classList.add('hidden');
+                        return;
+                    }
+                    section.classList.remove('hidden');
+                    if (jump) jump.classList.remove('hidden');
+                    if (countEl) countEl.textContent = cats.length + ' ' + (cats.length === 1 ? cfg.unit[0] : cfg.unit[1]);
+                    if (cats.length === 1) renderStorageFeature(grid, cats[0]);
+                    else renderGrid(grid, cats, { showSub: g.key === 'space', eager: firstRendered });
+                    firstRendered = false;
+                    visibleSections.push(section);
+                });
 
-            // Keep the warm / white band rhythm even when a section is empty
-            visibleSections.forEach((s, i) => {
-                s.classList.toggle('col-band-warm', i % 2 === 0);
-                s.classList.toggle('col-band-white', i % 2 === 1);
-            });
+                // Keep the warm / white band rhythm even when a section is empty
+                visibleSections.forEach((s, i) => {
+                    s.classList.toggle('col-band-warm', i % 2 === 0);
+                    s.classList.toggle('col-band-white', i % 2 === 1);
+                });
+            }
+
+            renderDirectory();
+            window.addEventListener('pactform:catalog-updated', renderDirectory);
         });
     </script>
     <script src="scroll-reveal.js"></script>

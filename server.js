@@ -47,8 +47,15 @@ app.get(/^\/(?:|.*\.html)$/, (req, res, next) => {
   next();
 });
 
-// Serve primary static files from repository root
-app.use(express.static(rootDir, { index: 'index.html' }));
+// Serve primary static files from repository root (no-cache on editable JS/HTML so updates show immediately)
+app.use(express.static(rootDir, {
+  index: 'index.html',
+  setHeaders: (res, filePath) => {
+    if (/\.(html|js|css)$/i.test(filePath)) {
+      res.setHeader('Cache-Control', 'no-cache');
+    }
+  }
+}));
 
 // Fallback to /pactform directory for pages/assets present there (e.g. projects.html, shipping.html, scroll-reveal)
 if (fs.existsSync(pactformDir)) {
