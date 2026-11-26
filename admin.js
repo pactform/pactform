@@ -105,19 +105,142 @@
             .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || ('item-' + Date.now());
     }
 
-    // Read base published snapshot BEFORE draft override
-    const PUBLISHED_CATALOG = deepClone(global.PACTFORM_DATA || { version: 1, categories: [], products: [], filters: [] });
-    const PUBLISHED_SITE = deepClone(global.PACTFORM_SITE_CONTENT || { version: 1, settings: {}, homeSlides: null, pages: {} });
+    // Read base published snapshot (kept clean because __PACTFORM_ADMIN_STUDIO__ disables preview override on admin.html)
+    let publishedCatalog = deepClone(global.PACTFORM_DATA || { version: 1, categories: [], products: [], filters: [] });
+    let publishedSite = deepClone(global.PACTFORM_SITE_CONTENT || { version: 1, settings: {}, homeSlides: null, pages: {} });
 
-    let catalogState = loadInitialState(DRAFT_CATALOG_KEY, PUBLISHED_CATALOG);
-    let siteState = loadInitialState(DRAFT_SITE_KEY, PUBLISHED_SITE);
+    let catalogState = loadInitialState(DRAFT_CATALOG_KEY, publishedCatalog);
+    let siteState = loadInitialState(DRAFT_SITE_KEY, publishedSite);
     ensureStateShapes();
 
     // Map of newly uploaded images staged for folder save / GitHub publish: path -> { dataUrl, base64, mime }
+    // Persisted in IndexedDB so uploads survive page reloads and appear in Preview Site.
     const stagedUploads = new Map();
+    const IDB_NAME = 'pactform-admin-studio';
+    const IDB_STORE = 'uploads';
+    let idbAvailable = Boolean(global.indexedDB);
+
+    function openUploadsDB() {
+        return new Promise((resolve, reject) => {
+            if (!global.indexedDB) { idbAvailable = false; reject(new Error('IndexedDB unavailable')); return; }
+            try {
+                const req = global.indexedDB.open(IDB_NAME, 1);
+                req.onupgradeneeded = () => {
+                    const db = req.result;
+                    if (!db.objectStoreNames.contains(IDB_STORE)) {
+                        db.createObjectStore(IDB_STORE, { keyPath: 'path' });
+                    }
+                };
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => { idbAvailable = false; reject(req.error || new Error('IDB open failed')); };
+            } catch (e) {
+                idbAvailable = false;
+                reject(e);
+            }
+        });
+    }
+
+    async function persistStagedUpload(relPath, fileObj) {
+        try {
+            const db = await openUploadsDB();
+            await new Promise((resolve, reject) => {
+                const tx = db.transaction(IDB_STORE, 'readwrite');
+                tx.objectStore(IDB_STORE).put(Object.assign({ path: relPath }, fileObj));
+                tx.oncomplete = resolve;
+                tx.onerror = () => reject(tx.error);
+            });
+            db.close();
+        } catch (e) {
+            idbAvailable = false;
+        }
+    }
+
+    async function restoreStagedUploads() {
+        try {
+            const db = await openUploadsDB();
+            const rows = await new Promise((resolve, reject) => {
+                const tx = db.transaction(IDB_STORE, 'readonly');
+                const req = tx.objectStore(IDB_STORE).getAll();
+                req.onsuccess = () => resolve(req.result || []);
+                req.onerror = () => reject(req.error);
+            });
+            db.close();
+            rows.forEach(rec => {
+                if (rec && rec.path && rec.base64) {
+                    stagedUploads.set(rec.path, {
+                        dataUrl: rec.dataUrl || ('data:' + (rec.mime || 'image/jpeg') + ';base64,' + rec.base64),
+                        base64: rec.base64,
+                        mime: rec.mime || 'image/jpeg'
+                    });
+                }
+            });
+        } catch (e) {
+            idbAvailable = false;
+        }
+    }
+
+    async function clearStagedUploads() {
+        stagedUploads.clear();
+        try {
+            const db = await openUploadsDB();
+            await new Promise((resolve, reject) => {
+                const tx = db.transaction(IDB_STORE, 'readwrite');
+                tx.objectStore(IDB_STORE).clear();
+                tx.oncomplete = resolve;
+                tx.onerror = () => reject(tx.error);
+            });
+            db.close();
+        } catch (e) {}
+    }
+
+    async function stageUploadFile(subDir, file) {
+        const dataUrl = await readFileAsDataUrl(file);
+        const rawClean = file.name.replace(/[^a-zA-Z0-9._-]/g, '-');
+        const dotIdx = rawClean.lastIndexOf('.');
+        const base = dotIdx > 0 ? rawClean.slice(0, dotIdx) : rawClean;
+        const ext = dotIdx > 0 ? rawClean.slice(dotIdx).toLowerCase() : '.jpg';
+        const uniq = Date.now().toString(36).slice(-4) + Math.random().toString(36).slice(2, 4);
+        const relPath = 'uploads/' + subDir + '/' + base + '-' + uniq + ext;
+        const fileObj = {
+            dataUrl: dataUrl,
+            base64: dataUrl.split(',')[1] || '',
+            mime: file.type || 'image/jpeg'
+        };
+        stagedUploads.set(relPath, fileObj);
+        await persistStagedUpload(relPath, fileObj);
+        if (file.size > 5 * 1024 * 1024) {
+            toast('Note: "' + file.name + '" is ' + (file.size / (1024 * 1024)).toFixed(1) + ' MB. Consider compressing large images (< 2 MB) for faster loading.');
+        }
+        return { relPath, fileObj };
+    }
+
+    function collectReferencedImagePaths() {
+        const refs = new Set();
+        (catalogState.products || []).forEach(p => {
+            (p.images || []).forEach(img => { if (img) refs.add(String(img).trim()); });
+        });
+        (catalogState.categories || []).forEach(c => {
+            if (c.image) refs.add(String(c.image).trim());
+        });
+        (siteState.homeSlides || []).forEach(s => {
+            if (s && s.image) refs.add(String(s.image).trim());
+        });
+        Object.values(siteState.pages || {}).forEach(pg => {
+            Object.values(pg || {}).forEach(v => {
+                if (typeof v === 'string' && v.trim()) refs.add(v.trim());
+            });
+        });
+        return refs;
+    }
+
+    function getActiveStagedUploads() {
+        const refs = collectReferencedImagePaths();
+        return Array.from(stagedUploads.entries()).filter(([relPath]) => refs.has(relPath));
+    }
 
     // Cache of extracted original page copy from HTML files
     const pageDefaultsCache = {};
+    let pagesRenderSeq = 0;
     let activeTab = 'overview';
     let activePageKey = 'index';
     let isDirty = hasLocalDraft();
@@ -159,13 +282,19 @@
         });
     }
 
-    function saveDraft(silent) {
-        catalogState.updatedAt = new Date().toISOString();
-        siteState.updatedAt = new Date().toISOString();
+    function saveDraft(silent, scope) {
+        const mode = scope || 'both';
+        const now = new Date().toISOString();
         isDirty = true;
         try {
-            localStorage.setItem(DRAFT_CATALOG_KEY, JSON.stringify(catalogState));
-            localStorage.setItem(DRAFT_SITE_KEY, JSON.stringify(siteState));
+            if (mode === 'both' || mode === 'catalog') {
+                catalogState.updatedAt = now;
+                localStorage.setItem(DRAFT_CATALOG_KEY, JSON.stringify(catalogState));
+            }
+            if (mode === 'both' || mode === 'site') {
+                siteState.updatedAt = now;
+                localStorage.setItem(DRAFT_SITE_KEY, JSON.stringify(siteState));
+            }
         } catch (e) {
             toast('Warning: Browser localStorage is full. Download or publish your files now.');
         }
@@ -239,8 +368,9 @@
         }
         const upNote = document.getElementById('pending-uploads-note');
         if (upNote) {
-            upNote.textContent = stagedUploads.size > 0
-                ? 'Note: You have ' + stagedUploads.size + ' newly uploaded image file(s) staged. Use "Publish to GitHub" or "Save to Local Project Folder" to write the image files automatically.'
+            const activeCount = getActiveStagedUploads().length;
+            upNote.textContent = activeCount > 0
+                ? 'Note: You have ' + activeCount + ' newly uploaded image file(s) staged' + (idbAvailable ? ' (saved across reloads)' : '') + '. Use "Publish to GitHub" or "Save to Local Project Folder" to write the image files automatically.'
                 : 'No pending local image uploads.';
         }
     }
@@ -519,13 +649,6 @@
             nameInput.addEventListener('input', () => { if (!manualId) idInput.value = slugify(nameInput.value); });
         }
 
-        // Toggle chip highlight
-        bodyEl.addEventListener('change', (e) => {
-            if (e.target.type === 'checkbox' && e.target.closest('.adm-check-chip')) {
-                e.target.closest('.adm-check-chip').classList.toggle('is-checked', e.target.checked);
-            }
-        });
-
         // Add custom chip buttons
         bodyEl.querySelectorAll('[data-add-chip]').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -573,7 +696,12 @@
             const row = e.target.closest('.adm-gallery-item');
             if (!row) return;
             const i = Number(row.dataset.gi);
-            gallery[i][e.target.dataset.gfield] = e.target.value;
+            const field = e.target.dataset.gfield;
+            gallery[i][field] = e.target.value;
+            if (field === 'img') {
+                const preview = row.querySelector('img');
+                if (preview) preview.src = resolvePreviewImg(e.target.value.trim());
+            }
         });
 
         galleryEl.addEventListener('click', (e) => {
@@ -601,14 +729,7 @@
             if (!files.length) return;
             const folder = slugify(idInput.value || nameInput.value || 'new-piece');
             for (const file of files) {
-                const dataUrl = await readFileAsDataUrl(file);
-                const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-');
-                const relPath = 'uploads/' + folder + '/' + cleanName;
-                stagedUploads.set(relPath, {
-                    dataUrl: dataUrl,
-                    base64: dataUrl.split(',')[1] || '',
-                    mime: file.type || 'image/webp'
-                });
+                const { relPath } = await stageUploadFile(folder, file);
                 gallery.push({ img: relPath, caption: '' });
             }
             e.target.value = '';
@@ -668,7 +789,7 @@
                 captions: cleanGallery.map(g => g.caption.trim()),
                 published: document.getElementById('pe-published').checked,
                 hasPhotos: cleanGallery.length > 0,
-                flags: ['admin-edited']
+                flags: Array.from(new Set((draft.flags || []).concat(['admin-edited'])))
             };
 
             if (isNew) {
@@ -765,12 +886,6 @@
             nameInp.addEventListener('input', () => { if (!manual) slugInp.value = slugify(nameInp.value); });
         }
 
-        document.getElementById('adm-drawer-body').addEventListener('change', (e) => {
-            if (e.target.type === 'checkbox' && e.target.closest('.adm-check-chip')) {
-                e.target.closest('.adm-check-chip').classList.toggle('is-checked', e.target.checked);
-            }
-        });
-
         imgInp.addEventListener('input', () => {
             if (imgInp.value.trim()) { prevImg.src = resolvePreviewImg(imgInp.value.trim()); prevImg.style.display = 'block'; }
             else { prevImg.style.display = 'none'; }
@@ -779,13 +894,11 @@
         document.getElementById('ce-upload').addEventListener('change', async (e) => {
             const file = e.target.files && e.target.files[0];
             if (!file) return;
-            const dataUrl = await readFileAsDataUrl(file);
-            const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-');
-            const relPath = 'uploads/categories/' + cleanName;
-            stagedUploads.set(relPath, { dataUrl, base64: dataUrl.split(',')[1] || '', mime: file.type || 'image/jpeg' });
+            const { relPath, fileObj } = await stageUploadFile('categories', file);
             imgInp.value = relPath;
-            prevImg.src = dataUrl;
+            prevImg.src = fileObj.dataUrl;
             prevImg.style.display = 'block';
+            e.target.value = '';
             updateShellCounters();
             toast('Cover photo staged');
         });
@@ -954,14 +1067,17 @@
             '<button type="button" class="adm-page-tab' + (k === activePageKey ? ' is-active' : '') + '" data-pkey="' + esc(k) + '">' + esc(schemaMap[k].label) + '</button>'
         ).join('');
 
-        const schema = schemaMap[activePageKey];
+        const targetKey = activePageKey;
+        const seq = ++pagesRenderSeq;
+        const schema = schemaMap[targetKey];
         if (!schema) return;
         document.getElementById('pages-panel-title').textContent = schema.label + ' (' + schema.file + ')';
         const wrap = document.getElementById('pages-fields-wrap');
         wrap.innerHTML = '<p class="adm-hint">Loading current text from ' + esc(schema.file) + '...</p>';
 
-        const defaults = await loadPageDefaults(activePageKey);
-        const overrides = siteState.pages[activePageKey] || {};
+        const defaults = await loadPageDefaults(targetKey);
+        if (seq !== pagesRenderSeq || activePageKey !== targetKey) return;
+        const overrides = siteState.pages[targetKey] || {};
 
         wrap.innerHTML = schema.fields.map(f => {
             const origVal = defaults[f.key] || '';
@@ -975,7 +1091,8 @@
                 inputHtml = '<div class="adm-toolbar-group">' +
                     '<input type="text" class="adm-input" data-pfield="' + esc(f.key) + '" value="' + esc(curVal) + '" style="flex:1 1 260px;">' +
                     '<label class="adm-btn adm-btn-dark adm-btn-sm" style="cursor:pointer;">Upload Image<input type="file" data-pupload="' + esc(f.key) + '" accept="image/*" style="display:none;"></label>' +
-                '</div>';
+                '</div>' +
+                '<img class="adm-page-img-preview" data-ppreview="' + esc(f.key) + '" src="' + esc(resolvePreviewImg(curVal)) + '" alt="" style="margin-top:10px;max-height:110px;object-fit:cover;border:1px solid #e2ddd5;' + (curVal ? '' : 'display:none;') + '">';
             } else {
                 inputHtml = '<input type="text" class="adm-input" data-pfield="' + esc(f.key) + '" value="' + esc(curVal) + '" style="width:100%;">';
             }
@@ -1130,12 +1247,12 @@
         const repoUrl = 'https://api.github.com/repos/' + encodeURIComponent(cfg.owner) + '/' + encodeURIComponent(cfg.repo);
 
         // Stage 1: Simple unauthenticated GET (no CORS preflight) to verify Chrome can reach api.github.com
-        if (logEl) logEl.textContent += '  [1/2] Checking reachability of api.github.com...\n';
+        if (logEl) logEl.textContent += '  [1/3] Checking reachability of api.github.com...\n';
         const pingRes = await fetchWithRetry(repoUrl, { cache: 'no-store' }, logEl, 'api.github.com');
         if (logEl) logEl.textContent += '  [OK] api.github.com reachable (HTTP ' + pingRes.status + ')\n';
 
         // Stage 2: Authenticated GET to verify token & permissions
-        if (logEl) logEl.textContent += '  [2/2] Verifying token & repository permissions...\n';
+        if (logEl) logEl.textContent += '  [2/3] Verifying token & repository permissions...\n';
         const res = await fetchWithRetry(repoUrl, {
             cache: 'no-store',
             headers: {
@@ -1156,8 +1273,23 @@
         if (info.permissions && info.permissions.push === false) {
             throw new Error('Token only has read-only access to ' + cfg.owner + '/' + cfg.repo + '. Edit the token and set Contents to "Read and write".');
         }
+
+        // Stage 3: Verify target branch exists
+        if (logEl) logEl.textContent += '  [3/3] Verifying branch "' + cfg.branch + '"...\n';
+        const branchUrl = repoUrl + '/branches/' + encodeURIComponent(cfg.branch);
+        const brRes = await fetchWithRetry(branchUrl, {
+            cache: 'no-store',
+            headers: { 'Authorization': 'Bearer ' + cfg.token }
+        }, logEl, 'branch check');
+        if (brRes.status === 404) {
+            throw new Error('Branch "' + cfg.branch + '" does not exist in ' + cfg.owner + '/' + cfg.repo + '. Check the Branch field (usually "main").');
+        }
+        if (!brRes.ok) {
+            const errData = await brRes.json().catch(() => ({}));
+            throw new Error('Branch check failed (HTTP ' + brRes.status + '): ' + (errData.message || brRes.statusText));
+        }
         if (logEl) {
-            logEl.textContent += '  [OK] Token verified for ' + cfg.owner + '/' + cfg.repo + ' (branch: ' + cfg.branch + ')\n';
+            logEl.textContent += '  [OK] Token & branch verified for ' + cfg.owner + '/' + cfg.repo + ' (' + cfg.branch + ')\n';
         }
         return info;
     }
@@ -1202,20 +1334,42 @@
         const btn = document.getElementById('btn-publish-github');
         btn.disabled = true;
 
-        async function putFile(path, base64Content) {
-            const apiUrl = 'https://api.github.com/repos/' + encodeURIComponent(owner) + '/' + encodeURIComponent(repo) + '/contents/' + path.split('/').map(encodeURIComponent).join('/');
-            let sha = null;
-            const checkRes = await fetchWithRetry(apiUrl + '?ref=' + encodeURIComponent(branch), {
+        async function lookupExistingSha(path) {
+            const baseContents = 'https://api.github.com/repos/' + encodeURIComponent(owner) + '/' + encodeURIComponent(repo) + '/contents';
+            const encodedPath = path.split('/').map(encodeURIComponent).join('/');
+            const checkRes = await fetchWithRetry(baseContents + '/' + encodedPath + '?ref=' + encodeURIComponent(branch), {
                 cache: 'no-store',
                 headers: { 'Authorization': 'Bearer ' + token }
             }, logEl, 'check ' + path);
             if (checkRes.ok) {
                 const existing = await checkRes.json();
-                sha = existing.sha;
-            } else if (checkRes.status !== 404) {
-                const errData = await checkRes.json().catch(() => ({}));
-                throw new Error('Failed reading ' + path + ' (HTTP ' + checkRes.status + (errData.message ? ': ' + errData.message : '') + ')');
+                return existing.sha || null;
             }
+            if (checkRes.status === 404) return null;
+            const errData = await checkRes.json().catch(() => ({}));
+            // GitHub Contents API returns 403 too_large for existing files > 1 MB; list parent dir to get its sha instead
+            if (checkRes.status === 403 && (/too_large|larger than 1 MB|blobs up to 1 MB/i.test(errData.message || '') || (Array.isArray(errData.errors) && errData.errors.some(e => e.code === 'too_large')))) {
+                const parts = path.split('/');
+                const fileName = parts.pop();
+                const dirUrl = baseContents + (parts.length ? '/' + parts.map(encodeURIComponent).join('/') : '') + '?ref=' + encodeURIComponent(branch);
+                const dirRes = await fetchWithRetry(dirUrl, {
+                    cache: 'no-store',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                }, logEl, 'list dir for ' + path);
+                if (dirRes.ok) {
+                    const list = await dirRes.json();
+                    if (Array.isArray(list)) {
+                        const match = list.find(item => item && item.name === fileName);
+                        if (match && match.sha) return match.sha;
+                    }
+                }
+            }
+            throw new Error('Failed reading ' + path + ' (HTTP ' + checkRes.status + (errData.message ? ': ' + errData.message : '') + ')');
+        }
+
+        async function putFile(path, base64Content) {
+            const apiUrl = 'https://api.github.com/repos/' + encodeURIComponent(owner) + '/' + encodeURIComponent(repo) + '/contents/' + path.split('/').map(encodeURIComponent).join('/');
+            const sha = await lookupExistingSha(path);
             const putBody = { message: msg + ' (' + path + ')', content: base64Content, branch: branch };
             if (sha) putBody.sha = sha;
             const putRes = await fetchWithRetry(apiUrl, {
@@ -1229,17 +1383,21 @@
             }, logEl, 'upload ' + path);
             if (!putRes.ok) {
                 const errData = await putRes.json().catch(() => ({}));
+                if (putRes.status === 409) {
+                    throw new Error('Conflict updating ' + path + ' (HTTP 409) — repository was updated elsewhere. Please click Publish again.');
+                }
                 throw new Error('Failed committing ' + path + ': ' + (errData.message || ('HTTP ' + putRes.status)));
             }
             logEl.textContent += '  [OK] Committed ' + path + '\n';
         }
 
         try {
-            // 0. Verify connectivity & token access first
+            // 0. Verify connectivity, token & branch access first
             await verifyGitHubRepoAccess(cfg, logEl);
 
-            // 1. Upload staged images first
-            for (const [relPath, fileObj] of stagedUploads.entries()) {
+            // 1. Upload only staged images still referenced in catalog/site state
+            const uploadsToPublish = getActiveStagedUploads();
+            for (const [relPath, fileObj] of uploadsToPublish) {
                 const kb = Math.max(1, Math.round((fileObj.base64.length * 0.75) / 1024));
                 logEl.textContent += 'Uploading image ' + relPath + ' (~' + kb + ' KB)...\n';
                 await putFile(relPath, fileObj.base64);
@@ -1251,7 +1409,9 @@
             logEl.textContent += 'Committing site-content.js...\n';
             await putFile('site-content.js', utf8ToBase64(buildSiteContentJs()));
 
-            stagedUploads.clear();
+            await clearStagedUploads();
+            publishedCatalog = deepClone(catalogState);
+            publishedSite = deepClone(siteState);
             try {
                 localStorage.removeItem(DRAFT_CATALOG_KEY);
                 localStorage.removeItem(DRAFT_SITE_KEY);
@@ -1293,13 +1453,16 @@
                 logEl.textContent += '  [OK] Wrote ' + relPath + '\n';
             }
 
-            for (const [relPath, fileObj] of stagedUploads.entries()) {
+            const uploadsToSave = getActiveStagedUploads();
+            for (const [relPath, fileObj] of uploadsToSave) {
                 await writeRelFile(relPath, base64ToUint8Array(fileObj.base64));
             }
             await writeRelFile('catalog-content.js', buildCatalogContentJs());
             await writeRelFile('site-content.js', buildSiteContentJs());
 
-            stagedUploads.clear();
+            await clearStagedUploads();
+            publishedCatalog = deepClone(catalogState);
+            publishedSite = deepClone(siteState);
             try {
                 localStorage.removeItem(DRAFT_CATALOG_KEY);
                 localStorage.removeItem(DRAFT_SITE_KEY);
@@ -1360,16 +1523,16 @@
 
         document.getElementById('btn-go-publish').addEventListener('click', () => switchTab('publish'));
 
-        document.getElementById('btn-discard-draft').addEventListener('click', () => {
+        document.getElementById('btn-discard-draft').addEventListener('click', async () => {
             if (!confirm('Discard all unpublished local edits and reload from the current saved site files?')) return;
             try {
                 localStorage.removeItem(DRAFT_CATALOG_KEY);
                 localStorage.removeItem(DRAFT_SITE_KEY);
                 localStorage.removeItem(PREVIEW_KEY);
             } catch (e) {}
-            stagedUploads.clear();
-            catalogState = deepClone(PUBLISHED_CATALOG);
-            siteState = deepClone(PUBLISHED_SITE);
+            await clearStagedUploads();
+            catalogState = deepClone(publishedCatalog);
+            siteState = deepClone(publishedSite);
             ensureStateShapes();
             isDirty = false;
             updateShellCounters();
@@ -1539,7 +1702,7 @@
                 const img = e.target.closest('.adm-slide-card').querySelector('.adm-slide-preview');
                 if (img) img.src = resolvePreviewImg(e.target.value);
             }
-            saveDraft(true);
+            saveDraft(true, 'site');
         });
         document.getElementById('slides-container').addEventListener('change', async (e) => {
             if (e.target.dataset.supload === undefined) return;
@@ -1547,12 +1710,10 @@
             const file = e.target.files && e.target.files[0];
             if (!file) return;
             ensureSlidesWritable();
-            const dataUrl = await readFileAsDataUrl(file);
-            const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-');
-            const relPath = 'uploads/slides/' + cleanName;
-            stagedUploads.set(relPath, { dataUrl, base64: dataUrl.split(',')[1] || '', mime: file.type || 'image/jpeg' });
+            const { relPath } = await stageUploadFile('slides', file);
             siteState.homeSlides[i].image = relPath;
-            saveDraft();
+            e.target.value = '';
+            saveDraft(false, 'site');
             renderSlidesView();
         });
         document.getElementById('slides-container').addEventListener('click', (e) => {
@@ -1588,20 +1749,25 @@
             const orig = (pageDefaultsCache[activePageKey] || {})[key] || '';
             if (e.target.value.trim() === orig.trim()) delete siteState.pages[activePageKey][key];
             else siteState.pages[activePageKey][key] = e.target.value;
-            saveDraft(true);
+            const fieldWrap = e.target.closest('.adm-copy-field');
+            const prev = fieldWrap && fieldWrap.querySelector('.adm-page-img-preview');
+            if (prev) {
+                const val = e.target.value.trim();
+                if (val) { prev.src = resolvePreviewImg(val); prev.style.display = 'block'; }
+                else { prev.style.display = 'none'; }
+            }
+            saveDraft(true, 'site');
         });
         document.getElementById('pages-fields-wrap').addEventListener('change', async (e) => {
             const key = e.target.dataset.pupload;
             if (!key) return;
             const file = e.target.files && e.target.files[0];
             if (!file) return;
-            const dataUrl = await readFileAsDataUrl(file);
-            const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-');
-            const relPath = 'uploads/pages/' + cleanName;
-            stagedUploads.set(relPath, { dataUrl, base64: dataUrl.split(',')[1] || '', mime: file.type || 'image/jpeg' });
+            const { relPath } = await stageUploadFile('pages', file);
             if (!siteState.pages[activePageKey]) siteState.pages[activePageKey] = {};
             siteState.pages[activePageKey][key] = relPath;
-            saveDraft();
+            e.target.value = '';
+            saveDraft(false, 'site');
             renderPagesView();
         });
         document.getElementById('pages-fields-wrap').addEventListener('click', (e) => {
@@ -1609,7 +1775,7 @@
             if (!btn) return;
             const key = btn.dataset.preset;
             if (siteState.pages[activePageKey]) delete siteState.pages[activePageKey][key];
-            saveDraft();
+            saveDraft(false, 'site');
             renderPagesView();
         });
 
@@ -1627,7 +1793,7 @@
         settingBindings.forEach(([elId, key]) => {
             document.getElementById(elId).addEventListener('input', (e) => {
                 siteState.settings[key] = e.target.value.trim();
-                saveDraft(true);
+                saveDraft(true, 'site');
             });
         });
 
@@ -1667,6 +1833,21 @@
             e.target.value = '';
         });
 
+        // Single delegated chip highlight handler inside drawer (prevents listener leaks)
+        document.getElementById('adm-drawer-body').addEventListener('change', (e) => {
+            if (e.target.type === 'checkbox' && e.target.closest('.adm-check-chip')) {
+                e.target.closest('.adm-check-chip').classList.toggle('is-checked', e.target.checked);
+            }
+        });
+
+        // Warn before closing tab if uploads exist only in memory (e.g. private mode without IndexedDB)
+        window.addEventListener('beforeunload', (e) => {
+            if (!idbAvailable && getActiveStagedUploads().length > 0) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+
         // Drawer close
         document.getElementById('adm-drawer-close').addEventListener('click', closeDrawer);
         document.getElementById('adm-drawer-backdrop').addEventListener('click', closeDrawer);
@@ -1676,6 +1857,14 @@
 
         updateShellCounters();
         switchTab('overview');
+
+        // Restore persisted staged image uploads from IndexedDB and refresh UI if any exist
+        restoreStagedUploads().then(() => {
+            if (stagedUploads.size > 0) {
+                updateShellCounters();
+                switchTab(activeTab);
+            }
+        });
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

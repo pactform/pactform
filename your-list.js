@@ -236,6 +236,11 @@
                 notify();
             }
         });
+
+        // Re-sync WhatsApp link once site-content-loader.js finishes loading
+        global.addEventListener('pactform:site-content-ready', () => {
+            renderDrawerList();
+        });
     }
 
     if (document.readyState === 'loading') {

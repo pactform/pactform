@@ -56,8 +56,8 @@
                 { key: 'approach_eyebrow', label: 'Approach — Eyebrow', selector: '.approach-copy-col .eyebrow', type: 'text' },
                 { key: 'approach_h2', label: 'Approach — Heading', selector: '.approach-copy-col h2', type: 'text' },
                 { key: 'approach_desc', label: 'Approach — Description', selector: '.approach-copy-col .heading-desc', type: 'textarea' },
-                { key: 'col_h2', label: 'Collection Carousel — Heading', selector: '.about-categories-editorial h2', type: 'text' },
-                { key: 'col_desc', label: 'Collection Carousel — Subtitle', selector: '.about-categories-editorial .heading-desc', type: 'textarea' },
+                { key: 'col_h2', label: 'Collection Carousel — Heading', selector: '.about-category-carousel-section h2', type: 'text' },
+                { key: 'col_desc', label: 'Collection Carousel — Subtitle', selector: '.about-category-carousel-section .heading-desc', type: 'textarea' },
                 { key: 'partners_h2', label: 'Project Partners — Heading', selector: '.about-partners-editorial h2', type: 'text' },
                 { key: 'partners_desc', label: 'Project Partners — Description', selector: '.about-partners-editorial .prof-line', type: 'textarea' },
                 { key: 'cta_h2', label: 'Bottom CTA — Heading', selector: '.about-cta h2', type: 'text' },
@@ -119,18 +119,22 @@
         }
     };
 
+    const isAdminStudio = Boolean(global.__PACTFORM_ADMIN_STUDIO__);
+
     function getActiveSiteContent() {
         let content = global.PACTFORM_SITE_CONTENT || { settings: {}, homeSlides: null, pages: {} };
         let previewing = false;
-        try {
-            if (global.localStorage && localStorage.getItem(PREVIEW_KEY) === '1') {
-                const draft = JSON.parse(localStorage.getItem(SITE_DRAFT_KEY) || 'null');
-                if (draft && typeof draft === 'object') {
-                    content = draft;
-                    previewing = true;
+        if (!isAdminStudio) {
+            try {
+                if (global.localStorage && localStorage.getItem(PREVIEW_KEY) === '1') {
+                    const draft = JSON.parse(localStorage.getItem(SITE_DRAFT_KEY) || 'null');
+                    if (draft && typeof draft === 'object') {
+                        content = draft;
+                        previewing = true;
+                    }
                 }
-            }
-        } catch (e) {}
+            } catch (e) {}
+        }
         return { content, previewing };
     }
 
@@ -142,6 +146,7 @@
         if (path.endsWith('/shipping.html') || path.endsWith('/shipping')) return 'shipping';
         if (path.endsWith('/projects.html') || path.endsWith('/projects')) return 'projects';
         if (path.endsWith('/index.html') || path.endsWith('/') || path === '') return 'index';
+        if (document.getElementById('hero-carousel')) return 'index';
         return null;
     }
 
@@ -151,8 +156,10 @@
 
     // Expose global settings immediately so other scripts (your-list.js, product-updates.js, product.html) can read them
     const settings = content.settings || {};
-    if (settings.whatsappNumber) {
-        global.PACTFORM_WA_NUMBER = String(settings.whatsappNumber).replace(/[^\d]/g, '') || '62xxxxxxxxxx';
+    const rawWa = String(settings.whatsappNumber || '').trim();
+    const digitsWa = rawWa && !/x/i.test(rawWa) ? rawWa.replace(/[^\d]/g, '') : '';
+    if (digitsWa.length >= 7) {
+        global.PACTFORM_WA_NUMBER = digitsWa;
     }
     if (settings.formspreeEndpoint || settings.web3formsAccessKey) {
         global.PACTFORM_UPDATES_CONFIG = {
@@ -161,15 +168,93 @@
         };
     }
 
-    function applyToDOM() {
-        const waNum = global.PACTFORM_WA_NUMBER || '62xxxxxxxxxx';
+    function loadStagedUploadsFromIDB() {
+        return new Promise((resolve) => {
+            if (!global.indexedDB) { resolve(new Map()); return; }
+            try {
+                const req = global.indexedDB.open('pactform-admin-studio', 1);
+                req.onupgradeneeded = () => {
+                    const db = req.result;
+                    if (!db.objectStoreNames.contains('uploads')) {
+                        db.createObjectStore('uploads', { keyPath: 'path' });
+                    }
+                };
+                req.onsuccess = () => {
+                    try {
+                        const db = req.result;
+                        if (!db.objectStoreNames.contains('uploads')) { db.close(); resolve(new Map()); return; }
+                        const tx = db.transaction('uploads', 'readonly');
+                        const getAll = tx.objectStore('uploads').getAll();
+                        getAll.onsuccess = () => {
+                            const map = new Map();
+                            (getAll.result || []).forEach(rec => {
+                                if (rec && rec.path && rec.dataUrl) map.set(rec.path, rec.dataUrl);
+                            });
+                            db.close();
+                            resolve(map);
+                        };
+                        getAll.onerror = () => { db.close(); resolve(new Map()); };
+                    } catch (e) { resolve(new Map()); }
+                };
+                req.onerror = () => resolve(new Map());
+            } catch (e) { resolve(new Map()); }
+        });
+    }
 
-        // 1. Apply global WhatsApp number to sticky button & ask-piece link
-        document.querySelectorAll('a.whatsapp-sticky').forEach(a => {
-            if (waNum && waNum !== '62xxxxxxxxxx') {
-                a.href = 'https://wa.me/' + encodeURIComponent(waNum);
+    function enableStagedImagePreview() {
+        loadStagedUploadsFromIDB().then((stagedMap) => {
+            if (!stagedMap.size) return;
+            const applyImg = (img) => {
+                const rawSrc = img.getAttribute('src');
+                if (rawSrc && stagedMap.has(rawSrc)) {
+                    img.dataset.pfOrigSrc = rawSrc;
+                    img.src = stagedMap.get(rawSrc);
+                }
+            };
+            const scan = (root) => {
+                if (!root || !root.querySelectorAll) return;
+                if (root.tagName === 'IMG') applyImg(root);
+                root.querySelectorAll('img[src]').forEach(applyImg);
+            };
+            scan(document.body);
+            if (typeof MutationObserver !== 'undefined' && document.body) {
+                const obs = new MutationObserver((muts) => {
+                    muts.forEach(m => {
+                        if (m.type === 'attributes' && m.target.tagName === 'IMG') {
+                            applyImg(m.target);
+                        } else if (m.addedNodes && m.addedNodes.length) {
+                            m.addedNodes.forEach(n => { if (n.nodeType === 1) scan(n); });
+                        }
+                    });
+                });
+                obs.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
             }
         });
+    }
+
+    function applyToDOM() {
+        if (isAdminStudio) return;
+
+        const waNum = (global.PACTFORM_WA_NUMBER && /^\d{7,16}$/.test(String(global.PACTFORM_WA_NUMBER)))
+            ? String(global.PACTFORM_WA_NUMBER)
+            : '';
+
+        // 1. Apply global WhatsApp number to sticky button, ask-piece link, drawer & WhatsApp CTA links
+        if (waNum) {
+            const encodedWa = encodeURIComponent(waNum);
+            document.querySelectorAll('a[href]').forEach(a => {
+                const rawHref = (a.getAttribute('href') || '').trim();
+                if (/^https?:\/\/wa\.me\//i.test(rawHref)) {
+                    const qIdx = rawHref.indexOf('?');
+                    const query = qIdx >= 0 ? rawHref.slice(qIdx) : '';
+                    a.href = 'https://wa.me/' + encodedWa + query;
+                } else if (rawHref === '#' && /whatsapp/i.test(a.textContent || '')) {
+                    a.href = 'https://wa.me/' + encodedWa;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                }
+            });
+        }
 
         // 2. Apply Footer global settings
         if (settings.contactSalesHref) {
@@ -216,7 +301,16 @@
             });
         }
 
-        // 4. Show preview bar if previewing draft on a page that doesn't load catalog-data.js
+        // Notify other scripts (e.g. your-list.js, product.html) that site settings are ready
+        try {
+            global.dispatchEvent(new CustomEvent('pactform:site-content-ready', { detail: content }));
+        } catch (e) {}
+
+        // 4. Hydrate staged image uploads during preview mode & show preview bar
+        const isAnyPreview = previewing || Boolean(global.PactformCatalog && global.PactformCatalog.isPreview && global.PactformCatalog.isPreview());
+        if (isAnyPreview) {
+            enableStagedImagePreview();
+        }
         if (previewing && document.body && !document.getElementById('pf-preview-banner')) {
             const bar = document.createElement('div');
             bar.id = 'pf-preview-banner';

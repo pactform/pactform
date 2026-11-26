@@ -50,17 +50,20 @@
     }
 
     /* ---------- Load published data, or the admin draft when previewing ---------- */
+    const isAdminStudio = Boolean(global.__PACTFORM_ADMIN_STUDIO__);
     let source = global.PACTFORM_DATA || null;
     let previewing = false;
-    try {
-        if (global.localStorage && localStorage.getItem(PREVIEW_KEY) === '1') {
-            const draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null');
-            if (draft && Array.isArray(draft.products) && Array.isArray(draft.categories)) {
-                source = draft;
-                previewing = true;
+    if (!isAdminStudio) {
+        try {
+            if (global.localStorage && localStorage.getItem(PREVIEW_KEY) === '1') {
+                const draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null');
+                if (draft && Array.isArray(draft.products) && Array.isArray(draft.categories)) {
+                    source = draft;
+                    previewing = true;
+                }
             }
-        }
-    } catch (e) { /* storage unavailable */ }
+        } catch (e) { /* storage unavailable */ }
+    }
     if (!source || typeof source !== 'object') source = { categories: [], products: [] };
 
     function normalizeCategory(c) {

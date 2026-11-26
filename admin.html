@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>Pactform — Admin Studio</title>
     <link rel="stylesheet" href="admin.css">
 </head>
@@ -326,7 +327,7 @@
                                 </div>
                             </div>
                             <div class="adm-panel-body">
-                                <p class="adm-hint" style="margin-bottom:14px;">Click below and select your local <code>pactform</code> directory. Changes immediately become live on <code>localhost:8080</code> and ready for git commit.</p>
+                                <p class="adm-hint" style="margin-bottom:14px;">Click below and select your local <code>pactform</code> directory. Changes immediately become live on <code>localhost:3000</code> and ready for git commit.</p>
                                 <button type="button" class="adm-btn adm-btn-dark" id="btn-save-folder">Choose Folder &amp; Save Files</button>
                                 <div class="adm-log hidden" id="folder-log"></div>
                             </div>
@@ -372,6 +373,7 @@
 
     <div class="adm-toast hidden" id="adm-toast" role="status" aria-live="polite"></div>
 
+    <script>window.__PACTFORM_ADMIN_STUDIO__ = true;</script>
     <script src="catalog-content.js"></script>
     <script src="catalog-data.js"></script>
     <script src="site-content.js"></script>

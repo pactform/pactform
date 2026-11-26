@@ -413,6 +413,12 @@
                 dotsContainer.appendChild(dot);
             });
 
+            function escapeCarouselHtml(str) {
+                return String(str == null ? '' : str)
+                    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
+
             function updateCarousel() {
                 const slide = carouselData[currentSlide];
                 const isCompact = mobileTabletMq.matches;
@@ -422,10 +428,10 @@
                 bgImgEl.style.objectPosition = isCompact ? (slide.mobilePos || 'center center') : 'center center';
                 let buttonsHTML = '';
                 if (slide.btn1Text && slide.btn1Link) {
-                    buttonsHTML += `<a href="${slide.btn1Link}" class="btn btn-primary"><span class="hero-cta-label">${slide.btn1Text}</span>${ctaArrowSvg}</a>`;
+                    buttonsHTML += `<a href="${escapeCarouselHtml(slide.btn1Link)}" class="btn btn-primary"><span class="hero-cta-label">${escapeCarouselHtml(slide.btn1Text)}</span>${ctaArrowSvg}</a>`;
                 }
                 if (slide.btn2Text && slide.btn2Link && (isCompact || currentSlide === 0)) {
-                    buttonsHTML += `<a href="${slide.btn2Link}" class="btn btn-secondary">${slide.btn2Text}</a>`;
+                    buttonsHTML += `<a href="${escapeCarouselHtml(slide.btn2Link)}" class="btn btn-secondary">${escapeCarouselHtml(slide.btn2Text)}</a>`;
                 }
                 buttonsContainer.innerHTML = buttonsHTML;
                 document.querySelectorAll('.carousel-dots .dot').forEach((dot, index) => { dot.classList.toggle('active', index === currentSlide); });
