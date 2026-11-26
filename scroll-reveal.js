@@ -146,10 +146,20 @@
         }
     }
 
+    function loadProjectEnquiry() {
+        if (window.__pactformEnquiryLoaded) return;
+        if (document.querySelector('script[src*="project-enquiry.js"]')) return;
+        var s = document.createElement('script');
+        s.src = 'project-enquiry.js';
+        s.defer = true;
+        document.body.appendChild(s);
+    }
+
     function boot() {
         init();
         initSmartFloatingActions();
         loadProductUpdates();
+        loadProjectEnquiry();
         loadSiteContent();
     }
 

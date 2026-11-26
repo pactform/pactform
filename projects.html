@@ -259,65 +259,9 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const overlay = document.getElementById('drawer-overlay');
-            const modal = document.getElementById('list-modal');
-            const toggleListBtn = document.getElementById('toggle-list-btn');
-            const closeModalBtn = document.getElementById('close-modal-btn');
-
-            function openDrawer() { modal.classList.remove('hidden'); overlay.classList.add('visible'); overlay.classList.remove('hidden'); }
-            function closeDrawer() { modal.classList.add('hidden'); overlay.classList.remove('visible'); }
-
-            function toggleDrawer() { modal.classList.contains('hidden') ? openDrawer() : closeDrawer(); }
-            toggleListBtn.addEventListener('click', toggleDrawer);
-            const toggleListBtnMobile = document.getElementById('toggle-list-btn-mobile');
-            if (toggleListBtnMobile) {
-                toggleListBtnMobile.addEventListener('click', () => {
-                    if (window.__pactformCloseNav) window.__pactformCloseNav();
-                    toggleDrawer();
-                });
-            }
-            closeModalBtn.addEventListener('click', closeDrawer);
-            overlay.addEventListener('click', closeDrawer);
-
-            const listItems = [
-                { name: '[PRODUCT NAME] x24', meta: 'Rattan / natural — approx. W450 D520 H820' },
-                { name: '[PRODUCT NAME] x8', meta: 'Solid oak / black steel — approx. W1400 D700 H750' },
-                { name: '[PRODUCT NAME] x12', meta: 'Powder-coated steel — approx. W400 D400 H650' }
-            ];
-            const trashIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
-            const listItemsEl = document.getElementById('list-items');
-            function renderListItems() {
-                if (listItems.length === 0) {
-                    listItemsEl.innerHTML = '<p class="list-empty">Your list is empty.</p>';
-                    return;
-                }
-                listItemsEl.innerHTML = listItems.map((item, i) =>
-                    '<div class="list-item" data-index="' + i + '"><div class="list-item-main"><h4>' + item.name + '</h4><p>' + item.meta + '</p></div>' +
-                    '<button class="remove-item-btn" data-index="' + i + '" aria-label="Remove ' + item.name + '">' + trashIcon + '</button></div>'
-                ).join('');
-            }
-            renderListItems();
-            listItemsEl.addEventListener('click', (e) => {
-                const btn = e.target.closest('.remove-item-btn');
-                if (!btn) return;
-                const index = Number(btn.dataset.index);
-                const row = btn.closest('.list-item');
-                row.classList.add('removing');
-                setTimeout(() => { listItems.splice(index, 1); renderListItems(); }, 200);
-            });
-
-            const copyLinkBtn = document.getElementById('copy-link-btn');
-            copyLinkBtn.addEventListener('click', () => {
-                navigator.clipboard.writeText(window.location.href).then(() => {
-                    const original = copyLinkBtn.textContent;
-                    copyLinkBtn.textContent = 'Link copied';
-                    setTimeout(() => { copyLinkBtn.textContent = original; }, 1500);
-                }).catch(() => {});
-            });
-        });
-    </script>
+    <script src="catalog-content.js"></script>
+    <script src="catalog-data.js"></script>
+    <script src="your-list.js"></script>
     <script src="scroll-reveal.js"></script>
 </body>
 </html>

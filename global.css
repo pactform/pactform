@@ -635,3 +635,263 @@ body.updates-modal-open .updates-sticky {
         padding: 20px;
     }
 }
+
+/* ==========================================================================
+   Your List Drawer Enhancements (Thumbnails & Quantity Stepper)
+   ========================================================================== */
+.list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.list-item-thumb {
+    width: 52px;
+    height: 52px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #f5f3ef;
+    border: 1px solid #e2ddd5;
+}
+
+.list-item-main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.list-qty-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.list-qty-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #7c766e;
+}
+
+.list-qty-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #d5cfc6;
+    background: #ffffff;
+}
+
+.list-qty-stepper .qty-btn {
+    width: 26px;
+    height: 26px;
+    border: none;
+    background: #f5f3ef;
+    color: var(--black);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.list-qty-stepper .qty-btn:hover {
+    background: var(--black);
+    color: #ffffff;
+}
+
+.list-qty-stepper .qty-input {
+    width: 44px;
+    height: 26px;
+    border: none;
+    border-left: 1px solid #e2ddd5;
+    border-right: 1px solid #e2ddd5;
+    text-align: center;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--black);
+    outline: none;
+    -moz-appearance: textfield;
+}
+
+.list-qty-stepper .qty-input::-webkit-outer-spin-button,
+.list-qty-stepper .qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.list-empty-wrap {
+    text-align: center;
+    padding: 28px 12px;
+}
+
+.list-empty-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+}
+
+/* ==========================================================================
+   Project / BOQ & Custom Spec Sheet Enquiry Modal (project-enquiry.js)
+   ========================================================================== */
+.enquiry-modal {
+    width: min(600px, calc(100vw - 28px));
+}
+
+.enquiry-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 16px;
+}
+
+.enquiry-field {
+    margin-bottom: 14px;
+}
+
+.enquiry-field.full {
+    grid-column: 1 / -1;
+}
+
+.enquiry-field label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--black);
+    margin-bottom: 6px;
+}
+
+.enquiry-field input,
+.enquiry-field select,
+.enquiry-field textarea {
+    width: 100%;
+    padding: 11px 13px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--black);
+    background: var(--white);
+    border: 1px solid #c8c2b8;
+    outline: none;
+    transition: border-color 0.18s ease;
+}
+
+.enquiry-field textarea {
+    min-height: 86px;
+    resize: vertical;
+}
+
+.enquiry-field input:focus,
+.enquiry-field select:focus,
+.enquiry-field textarea:focus {
+    border-color: var(--black);
+}
+
+.enquiry-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 16px;
+    border: 1.5px dashed #c8c2b8;
+    background: #f5f3ef;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.enquiry-dropzone:hover,
+.enquiry-dropzone.is-dragover {
+    border-color: var(--accent);
+    background: #fff4ef;
+}
+
+.enquiry-dropzone strong {
+    font-size: 0.84rem;
+    color: var(--black);
+}
+
+.enquiry-dropzone span {
+    font-size: 0.75rem;
+    color: #6b655e;
+}
+
+.enquiry-files-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.enquiry-file-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 10px;
+    background: #f5f3ef;
+    border: 1px solid #e2ddd5;
+    font-size: 0.8rem;
+}
+
+.enquiry-file-chip button {
+    background: none;
+    border: none;
+    color: #c62828;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.enquiry-check-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 12px;
+    background: #f5f3ef;
+    border: 1px solid #e2ddd5;
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 14px;
+}
+
+.enquiry-check-row input {
+    width: auto;
+    accent-color: var(--accent);
+}
+
+.enquiry-actions-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.enquiry-actions-row .btn {
+    width: 100%;
+    text-align: center;
+}
+
+.boq-dropzone.is-dragover {
+    border-color: var(--accent) !important;
+    background-color: #fff4ef !important;
+}
+
+@media (max-width: 600px) {
+    .enquiry-grid,
+    .enquiry-actions-row {
+        grid-template-columns: 1fr;
+    }
+}

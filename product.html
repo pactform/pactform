@@ -371,6 +371,9 @@
                     listApi.addItem({
                         id: product.id,
                         name: product.name,
+                        code: product.code || '',
+                        dims: product.dims || '',
+                        image: (product.images && product.images[0]) || '',
                         meta: product.materialsText || product.goodFor || '',
                         href: 'product.html?id=' + encodeURIComponent(product.id) + (activeCategory ? '&from=' + encodeURIComponent(activeCategory.slug) : '')
                     }, { openDrawer: true });
